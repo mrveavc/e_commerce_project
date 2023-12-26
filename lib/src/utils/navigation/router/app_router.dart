@@ -1,6 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce_project/main.dart';
 import 'package:e_commerce_project/src/ui/layout/main_layout.dart';
+import 'package:e_commerce_project/src/ui/view/pages/cart_page.dart';
+import 'package:e_commerce_project/src/ui/view/pages/category_page.dart';
+import 'package:e_commerce_project/src/ui/view/pages/favories_page.dart';
 import 'package:e_commerce_project/src/ui/view/pages/home_page.dart';
 import 'package:e_commerce_project/src/ui/view/pages/login_page.dart';
 import 'package:e_commerce_project/src/ui/view/pages/sign_up_page.dart';
@@ -23,7 +26,10 @@ class AppRouter extends _$AppRouter {
               AutoRoute(page: LoginRoute.page, initial: true),
               AutoRoute(page: SignUpRoute.page),
               AutoRoute(page: HomeRoute.page),
-              AutoRoute(page: MyHomeRoute.page)
+              AutoRoute(page: MyHomeRoute.page),
+              AutoRoute(page: CartRoute.page),
+              AutoRoute(page: FavoriesRoute.page),
+              AutoRoute(page: CategoryRoute.page)
             ]),
       ];
 }

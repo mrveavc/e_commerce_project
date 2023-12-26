@@ -43,6 +43,7 @@ class _HomePageState extends State<HomePage> {
                 FirebaseAuth.instance.signOut();
                 context.router.replace(const LoginRoute());
                 // Navigator.pushNamed(context, "/login");
+
                 showToast(message: "Successfully signed out");
               },
               child: Container(

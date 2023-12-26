@@ -1,0 +1,82 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
+
+@RoutePage()
+class CategoryPage extends StatelessWidget {
+  const CategoryPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Kategoriler',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: GridView.count(
+              crossAxisCount: 2,
+              children: [
+                buildCategoryBox('Erkek', 'assets/images/foto1.jpg'),
+                buildCategoryBox('Kadın', 'assets/images/foto2.jpg'),
+                buildCategoryBox('Mont', 'assets/images/foto3.jpg'),
+                buildCategoryBox('Pantolon', 'assets/images/foto4.jpg'),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  //Kutucukların işlemleri için açıldı.(ad,arkaplan,renk)
+  Widget buildCategoryBox(String categoryName, String backgroundImage) {
+    return InkWell(
+      onTap: () {
+        // Yönlendirme işlemleri MERVE İÇİN EKLEDİM!!!!!!!
+      },
+      child: Container(
+        margin: const EdgeInsets.all(8),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.asset(
+                  backgroundImage,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(8),
+              color: Colors.transparent,
+              child: Text(
+                categoryName,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

@@ -17,10 +17,6 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     Future.delayed(const Duration(seconds: 1), () {
       context.router.replace(const LoginRoute());
-      // Navigator.pushAndRemoveUntil(
-      //     context,
-      //     MaterialPageRoute(builder: (context) => widget.child!),
-      //     (route) => false);
     });
     super.initState();
   }

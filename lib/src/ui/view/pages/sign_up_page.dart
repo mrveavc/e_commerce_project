@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce_project/src/services/firebase_auth_services.dart';
-import 'package:e_commerce_project/src/ui/view/pages/login_page.dart';
 import 'package:e_commerce_project/src/ui/widgets/form_container_widget.dart';
 import 'package:e_commerce_project/src/common/toast.dart';
 import 'package:e_commerce_project/src/utils/navigation/router/app_router.dart';
@@ -38,14 +37,10 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text("SignUp"),
-      ),
       body: SingleChildScrollView(
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 50),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -62,7 +57,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   isPasswordField: false,
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
                 FormContainerWidget(
                   controller: _emailController,
@@ -70,7 +65,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   isPasswordField: false,
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
                 FormContainerWidget(
                   controller: _passwordController,
@@ -78,7 +73,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   isPasswordField: true,
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 40,
                 ),
                 GestureDetector(
                   onTap: () {
@@ -86,9 +81,9 @@ class _SignUpPageState extends State<SignUpPage> {
                   },
                   child: Container(
                     width: double.infinity,
-                    height: 45,
+                    height: 50,
                     decoration: BoxDecoration(
-                      color: Colors.blue,
+                      color: Colors.black,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Center(
@@ -99,6 +94,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             : const Text(
                                 "Sign Up",
                                 style: TextStyle(
+                                    fontSize: 18,
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold),
                               )),
@@ -117,17 +113,11 @@ class _SignUpPageState extends State<SignUpPage> {
                     GestureDetector(
                         onTap: () {
                           context.router.replace(const LoginRoute());
-                          // Navigator.pushAndRemoveUntil(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //       builder: (context) => LoginPage(),
-                          //     ),
-                          //     (route) => false);
                         },
                         child: const Text(
                           "Login",
                           style: TextStyle(
-                              color: Colors.blue, fontWeight: FontWeight.bold),
+                              color: Colors.black, fontWeight: FontWeight.bold),
                         ))
                   ],
                 )
