@@ -47,8 +47,8 @@ class _CartPageState extends State<CartPage> {
             ],
           ),
           Container(
-            height: 75,
-            width: 300,
+            height: 50,
+            width: 250,
             margin: const EdgeInsets.only(top: 100),
             child: ElevatedButton(
               onPressed: () {},

@@ -15,7 +15,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 2), () {
       context.router.replace(const LoginRoute());
     });
     super.initState();
@@ -25,13 +25,16 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-        child: Text(
-          "Welcome To Flutter Firebase",
-          style: TextStyle(
-            color: Colors.blue,
-            fontWeight: FontWeight.bold,
-          ),
+        child: Image(
+          image: AssetImage('assets/images/logo.png'),
         ),
+        // child: Text(
+        //   "Welcome To Flutter Firebase",
+        //   style: TextStyle(
+        //     color: Colors.blue,
+        //     fontWeight: FontWeight.bold,
+        //   ),
+        // ),
       ),
     );
   }

@@ -25,7 +25,20 @@ class _MainLayoutPageState extends State<MainLayoutPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Main Layout AppBar"),
+        centerTitle: true,
+        title: Image.asset('assets/images/logo.png', width: 110),
+
+        actions: const [
+          Icon(Icons.search),
+          SizedBox(
+            width: 10,
+          ),
+          Icon(Icons.person_2_outlined),
+          SizedBox(
+            width: 10,
+          ),
+        ],
+        // title: const Text("KASVA"),
       ),
       body: const AutoRouter(),
       bottomNavigationBar: BottomNavigationBar(

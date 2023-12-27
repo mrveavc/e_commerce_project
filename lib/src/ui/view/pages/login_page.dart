@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce_project/src/di/injection.dart';
-import 'package:e_commerce_project/src/provider/user_provider.dart';
 import 'package:e_commerce_project/src/services/add_user.dart';
 import 'package:e_commerce_project/src/services/firebase_auth_services.dart';
 import 'package:e_commerce_project/src/store/auth_store.dart';
@@ -9,7 +8,6 @@ import 'package:e_commerce_project/src/common/toast.dart';
 import 'package:e_commerce_project/src/utils/navigation/router/app_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 @RoutePage()
@@ -173,44 +171,21 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _signIn() async {
-    // setState(() {
-    //   _isSigning = true;
-    // });
-
-    // print(" giirş yapıldı mı ?   $_isSigning ");
     String email = _emailController.text;
     String password = _passwordController.text;
 
     User? user = await _auth.signInWithEmailAndPassword(email, password);
-    // print("login_page");
-    // print("user : $user");
-    // print("user : ${user?.email}");
+
     AddUser addUser = AddUser();
 
     await addUser.addUserData(currentUser: user, userEmail: user?.email);
 
-    // userProvider?.addUserData(currentUser: user, userEmail: user?.email);
-    // userProvider.addUserData(
-    //   // currentUser: user!.email,
-    //   // userName: user.email,
-    //   userEmail: user.email,
-    //   // userImage: user.photoURL,
-    //   currentUser: user,
-    // );
-
-    // setState(() {
-    //   _isSigning = false;
-    // });
-
     if (user != null) {
       showToast(message: "User is successfully signed in");
       context.router.replace(const HomeRoute());
-      // Navigator.pushNamed(context, "/home", arguments: {'email': email});
     } else {
       showToast(message: "some error occured");
     }
-    // print(" giirş yapildi mi ?   $_isSigning ");
-    // print("kullanici :  ${user?.email}");
   }
 
   _signInWithGoogle() async {
