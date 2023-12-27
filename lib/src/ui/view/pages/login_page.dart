@@ -182,7 +182,8 @@ class _LoginPageState extends State<LoginPage> {
 
     if (user != null) {
       showToast(message: "User is successfully signed in");
-      context.router.replace(const HomeRoute());
+      // context.router.replace(const HomeRoute());
+      context.router.replace(const ProfilRoute());
     } else {
       showToast(message: "some error occured");
     }

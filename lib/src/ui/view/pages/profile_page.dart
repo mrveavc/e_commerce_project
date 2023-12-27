@@ -1,6 +1,9 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:e_commerce_project/src/common/toast.dart';
 import 'package:e_commerce_project/src/di/injection.dart';
 import 'package:e_commerce_project/src/store/auth_store.dart';
+import 'package:e_commerce_project/src/utils/navigation/router/app_router.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
@@ -12,6 +15,8 @@ class ProfilPage extends StatefulWidget {
 }
 
 class _ProfilPageState extends State<ProfilPage> {
+  final authStore = getIt.get<AuthStore>();
+
   final autoStore = getIt.get<AuthStore>();
   @override
   Widget build(BuildContext context) {
@@ -170,6 +175,37 @@ class _ProfilPageState extends State<ProfilPage> {
                   trailing: Icon(Icons.chevron_right_outlined),
                 )
               ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            GestureDetector(
+              onTap: () {
+                FirebaseAuth.instance.signOut();
+                context.router.replace(const LoginRoute());
+                authStore.isUserLoggedIn = false;
+
+                showToast(message: "Successfully signed out");
+              },
+              child: Container(
+                width: double.infinity,
+                height: 45,
+                // width: 200,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Colors.black, width: 1),
+                    borderRadius: BorderRadius.circular(10)),
+                child: const Center(
+                  child: Text(
+                    "Sign out",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+              ),
             ),
             const SizedBox(
               height: 20,
