@@ -1,4 +1,6 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:e_commerce_project/src/di/injection.dart';
+import 'package:e_commerce_project/src/store/auth_store.dart';
 import 'package:e_commerce_project/src/utils/navigation/router/app_router.dart';
 
 import 'package:flutter/material.dart';
@@ -17,6 +19,8 @@ class MainLayoutPage extends StatefulWidget {
 }
 
 class _MainLayoutPageState extends State<MainLayoutPage> {
+  final authStore = getIt.get<AuthStore>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +44,9 @@ class _MainLayoutPageState extends State<MainLayoutPage> {
               context.router.push(const CartRoute());
               break;
             case 4:
-              context.router.push(const LoginRoute());
+              context.router.push(authStore.isUserLoggedIn
+                  ? const ProfilRoute()
+                  : const LoginRoute());
               break;
             default:
           }

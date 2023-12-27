@@ -28,10 +28,10 @@ class CategoryPage extends StatelessWidget {
             child: GridView.count(
               crossAxisCount: 2,
               children: [
-                buildCategoryBox('Erkek', 'assets/images/foto1.jpg'),
-                buildCategoryBox('Kadın', 'assets/images/foto2.jpg'),
-                buildCategoryBox('Mont', 'assets/images/foto3.jpg'),
-                buildCategoryBox('Pantolon', 'assets/images/foto4.jpg'),
+                buildCategoryBox('Erkek', 'assets/images/erkek-giyim.webp'),
+                buildCategoryBox('Kadın', 'assets/images/kadin-giyim.jpg'),
+                buildCategoryBox('Çocuk', 'assets/images/cocuk-giyim.webp'),
+                buildCategoryBox('Aksesuar', 'assets/images/aksesuar.jpg'),
               ],
             ),
           ),
@@ -57,7 +57,7 @@ class CategoryPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
                 child: Image.asset(
                   backgroundImage,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.contain,
                 ),
               ),
             ),
