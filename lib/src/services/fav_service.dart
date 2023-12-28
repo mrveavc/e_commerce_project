@@ -6,7 +6,7 @@ import 'package:e_commerce_project/src/store/auth_store.dart';
 class FavService {
   final authStore = getIt.get<AuthStore>();
 
-  Future<void> addFavData({name, code}) {
+  Future<void> addFavData({name, code, images}) {
     CollectionReference users =
         FirebaseFirestore.instance.collection('usersData');
 
@@ -16,7 +16,12 @@ class FavService {
         .update(
           {
             'fav': FieldValue.arrayUnion([
-              {'name': name, 'code': code},
+              {
+                'name': name,
+                'code': code,
+                'images': images
+                // 'images':,
+              },
             ])
           },
         )
@@ -24,7 +29,7 @@ class FavService {
         .catchError((error) => print("Failed to add fav: $error"));
   }
 
-  Future<void> removeFavData({name, code}) {
+  Future<void> removeFavData({name, code, images}) {
     CollectionReference users =
         FirebaseFirestore.instance.collection('usersData');
 
@@ -34,11 +39,11 @@ class FavService {
         .update(
           {
             'fav': FieldValue.arrayRemove([
-              {'name': name, 'code': code},
+              {'name': name, 'code': code, 'images': images},
             ])
           },
         )
-        .then((value) => print("Fav Added"))
-        .catchError((error) => print("Failed to add fav: $error"));
+        .then((value) => print("Fav remove"))
+        .catchError((error) => print("Failed to remove fav: $error"));
   }
 }

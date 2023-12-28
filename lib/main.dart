@@ -124,7 +124,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     // addCart.addCartData(
                     //     name: productList[index].name,
                     //     code: productList[index].code),
-                    print("product-code: ${productList[index].code}")
+                    print("product-code: ${productList[index].code}"),
+                    print(
+                        "product-images ${productList[index].images.first.url}")
                   },
                 ),
                 authStore
@@ -136,8 +138,9 @@ class _MyHomePageState extends State<MyHomePage> {
                             child: ElevatedButton(
                               onPressed: () {
                                 cart.addCartData(
-                                    name: productList[index].name,
-                                    code: productList[index].code);
+                                  name: productList[index].name,
+                                  code: productList[index].code,
+                                );
                               },
                               child: const Text('Add Cart'),
                             ),
@@ -147,23 +150,29 @@ class _MyHomePageState extends State<MyHomePage> {
                             child: ElevatedButton(
                               onPressed: () {
                                 fav.addFavData(
-                                    name: productList[index].name,
-                                    code: productList[index].code);
+                                  name: productList[index].name,
+                                  code: productList[index].code,
+                                  images:
+                                      "${productList[index].images.first.url}",
+                                );
                               },
                               child: const Text('Add Fav'),
                             ),
                           ),
-                          Expanded(
-                            flex: 1,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                fav.removeFavData(
-                                    name: productList[index].name,
-                                    code: productList[index].code);
-                              },
-                              child: const Text('Remove Fav'),
-                            ),
-                          ),
+                          // Expanded(
+                          //   flex: 1,
+                          //   child: ElevatedButton(
+                          //     onPressed: () {
+                          //       fav.removeFavData(
+                          //         name: productList[index].name,
+                          //         code: productList[index].code,
+                          //         images:
+                          //             "${productList[index].images.first.url}",
+                          //       );
+                          //     },
+                          //     child: const Text('Remove Fav'),
+                          //   ),
+                          // ),
                         ],
                       )
                     : const SizedBox(

@@ -6,7 +6,7 @@ import 'package:e_commerce_project/src/store/auth_store.dart';
 class CartService {
   final authStore = getIt.get<AuthStore>();
 
-  Future<void> addCartData({name, code}) {
+  Future<void> addCartData({name, code, images}) {
     CollectionReference users =
         FirebaseFirestore.instance.collection('usersData');
 
@@ -17,7 +17,7 @@ class CartService {
           {
             // 'cart': FieldValue.arrayUnion([name, code]),
             'cart': FieldValue.arrayUnion([
-              {'name': name, 'code': code},
+              {'name': name, 'code': code, 'images': images},
             ])
           },
         )
