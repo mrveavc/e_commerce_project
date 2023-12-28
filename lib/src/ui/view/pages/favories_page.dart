@@ -81,19 +81,19 @@ class _FavoriesPageState extends State<FavoriesPage> {
           }
 
           if (snapshot.hasData) {
-            print('hasdata girdi');
             final DocumentSnapshot<dynamic>? document = snapshot.data;
 
             final Map<String, dynamic> documentData = document?.data();
 
-            if (documentData['fav'] == null) {
-              print('No item now');
-            }
+            // if (documentData['fav'] == null) {
+            //   print('No item now');
+            // }
 
             final List<Map<String, dynamic>> favList =
                 (documentData['fav'] as List)
                     .map((favDetail) => favDetail as Map<String, dynamic>)
                     .toList();
+            print("favList : $favList");
 
             return ListView.builder(
               itemCount: favList.length,

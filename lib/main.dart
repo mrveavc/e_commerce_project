@@ -140,6 +140,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                 cart.addCartData(
                                   name: productList[index].name,
                                   code: productList[index].code,
+                                  images:
+                                      "${productList[index].images.first.url}",
                                 );
                               },
                               child: const Text('Add Cart'),
