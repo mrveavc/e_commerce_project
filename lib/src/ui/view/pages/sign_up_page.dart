@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:e_commerce_project/src/services/user_service.dart';
 import 'package:e_commerce_project/src/services/firebase_auth_services.dart';
 import 'package:e_commerce_project/src/ui/widgets/form_container_widget.dart';
 import 'package:e_commerce_project/src/common/toast.dart';
@@ -140,6 +141,9 @@ class _SignUpPageState extends State<SignUpPage> {
     // print(username);
 
     User? user = await _auth.signUpWithEmailAndPassword(email, password);
+    UserService addUser = UserService();
+
+    await addUser.addUserData(currentUser: user, userEmail: user?.email);
 
     setState(() {
       isSigningUp = false;

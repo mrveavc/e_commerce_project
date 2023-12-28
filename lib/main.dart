@@ -1,7 +1,11 @@
 import 'dart:convert';
 import 'package:auto_route/auto_route.dart';
+import 'package:e_commerce_project/src/common/toast.dart';
 import 'package:e_commerce_project/src/di/injection.dart';
 import 'package:e_commerce_project/src/models/product_model.dart';
+import 'package:e_commerce_project/src/services/cart_service.dart';
+import 'package:e_commerce_project/src/services/fav_service.dart';
+import 'package:e_commerce_project/src/store/auth_store.dart';
 import 'package:e_commerce_project/src/utils/navigation/router/app_router.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -12,16 +16,17 @@ Future main() async {
   configureDeps();
   WidgetsFlutterBinding.ensureInitialized();
   if (kIsWeb) {
+    //web
     await Firebase.initializeApp(
       options: const FirebaseOptions(
         apiKey: "AIzaSyAAyLaJ3tbB1NynmYyKZKPDEnS5y2XUkgs",
         appId: "1:259113100780:android:3bd18e7265e2ec817c4cc9",
         messagingSenderId: "",
         projectId: "e-commerce-dc3cb",
-        // Your web Firebase config options
       ),
     );
   } else {
+    //android
     await Firebase.initializeApp();
   }
 
@@ -55,6 +60,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final authStore = getIt.get<AuthStore>();
+
+  CartService cart = CartService();
+  FavService fav = FavService();
   List<Product> productList = [];
   @override
   void initState() {
@@ -104,16 +113,64 @@ class _MyHomePageState extends State<MyHomePage> {
       body: ListView.builder(
         itemCount: productList.length,
         itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(productList[index].name),
-            subtitle: Text('Price: \$${productList[index].price.value}'),
-            trailing: Image.network(productList[index].images.first.url),
-            onTap: () => {
-              // {productList[index].code},
-              print("product-code: ${productList[index].code}")
-            },
-
-            // Diğer ürün özellikleri burada gösterilebilir
+          return Card(
+            child: Column(
+              children: [
+                ListTile(
+                  title: Text(productList[index].name),
+                  subtitle: Text('Price: \$${productList[index].price.value}'),
+                  trailing: Image.network(productList[index].images.first.url),
+                  onTap: () => {
+                    // addCart.addCartData(
+                    //     name: productList[index].name,
+                    //     code: productList[index].code),
+                    print("product-code: ${productList[index].code}")
+                  },
+                ),
+                authStore
+                        .isUserLoggedIn // üye giriş yapmış ise sepete ve fava ekleme butonu görünürlüğü
+                    ? Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                cart.addCartData(
+                                    name: productList[index].name,
+                                    code: productList[index].code);
+                              },
+                              child: const Text('Add Cart'),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                fav.addFavData(
+                                    name: productList[index].name,
+                                    code: productList[index].code);
+                              },
+                              child: const Text('Add Fav'),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                fav.removeFavData(
+                                    name: productList[index].name,
+                                    code: productList[index].code);
+                              },
+                              child: const Text('Remove Fav'),
+                            ),
+                          ),
+                        ],
+                      )
+                    : const SizedBox(
+                        height: 10,
+                      ),
+              ],
+            ),
           );
         },
       ),

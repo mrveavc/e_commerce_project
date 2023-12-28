@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce_project/src/di/injection.dart';
-import 'package:e_commerce_project/src/services/add_user.dart';
+import 'package:e_commerce_project/src/services/user_service.dart';
 import 'package:e_commerce_project/src/services/firebase_auth_services.dart';
 import 'package:e_commerce_project/src/store/auth_store.dart';
 import 'package:e_commerce_project/src/ui/widgets/form_container_widget.dart';
@@ -176,9 +176,9 @@ class _LoginPageState extends State<LoginPage> {
 
     User? user = await _auth.signInWithEmailAndPassword(email, password);
 
-    AddUser addUser = AddUser();
+    // AddUser addUser = AddUser();
 
-    await addUser.addUserData(currentUser: user, userEmail: user?.email);
+    // await addUser.addUserData(currentUser: user, userEmail: user?.email);
 
     if (user != null) {
       showToast(message: "User is successfully signed in");
