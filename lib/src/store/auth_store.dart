@@ -1,3 +1,4 @@
+import 'package:e_commerce_project/src/models/price_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
@@ -13,6 +14,13 @@ abstract class _AuthStore with Store {
 
   @observable
   bool isUserLoggedIn = false;
+  @observable
+  double totalPrice = 0;
+
+  @action
+  void setTotalPrice(double price) {
+    totalPrice = totalPrice + price;
+  }
 
   @action
   void setCurrentUser(User? cUser, bool isLoggedIn) {

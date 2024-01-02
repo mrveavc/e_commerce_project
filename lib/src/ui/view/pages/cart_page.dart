@@ -1,9 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_project/src/di/injection.dart';
+import 'package:e_commerce_project/src/models/price_model.dart';
 import 'package:e_commerce_project/src/services/cart_service.dart';
 // import 'package:e_commerce_project/src/services/fav_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../../store/auth_store.dart';
 
@@ -40,15 +42,16 @@ class _CartPageState extends State<CartPage> {
                 const Column(
                   children: [
                     Center(
-                        child: CircleAvatar(
-                      radius: 50,
-                      backgroundColor: Color.fromRGBO(211, 211, 211, 1),
-                      child: Icon(
-                        Icons.shopping_bag,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                        size: 50,
+                      child: CircleAvatar(
+                        radius: 50,
+                        backgroundColor: Color.fromRGBO(211, 211, 211, 1),
+                        child: Icon(
+                          Icons.shopping_bag,
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          size: 50,
+                        ),
                       ),
-                    )),
+                    ),
                     SizedBox(
                       height: 30,
                     ),
@@ -94,84 +97,111 @@ class _CartPageState extends State<CartPage> {
                 (documentData['cart'] as List)
                     .map((cartDetail) => cartDetail as Map<String, dynamic>)
                     .toList();
+            double totalPrice = 0;
+            authStore.totalPrice = 0;
+            return Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: cartList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final Map<String, dynamic> cartDetail = cartList[index];
+                      // final Map<String, dynamic> favImage = favList[index];
+                      final String code = cartDetail['code'];
+                      final String name = cartDetail['name'];
+                      final String images = cartDetail['images'];
+                      final String price = cartDetail['price'];
 
-            return ListView.builder(
-              itemCount: cartList.length,
-              itemBuilder: (BuildContext context, int index) {
-                final Map<String, dynamic> cartDetail = cartList[index];
-                // final Map<String, dynamic> favImage = favList[index];
+                      authStore.setTotalPrice(double.parse(price));
 
-                final String code = cartDetail['code'];
-                final String name = cartDetail['name'];
-                final String images = cartDetail['images'];
+                      print("girdi ${authStore.totalPrice}");
 
-                // final String price = cartDetail['price'];
-                // final DateTime date = (cartDetail['date'] as Timestamp).toDate();
+                      // final String price = cartDetail['price'];
+                      // final DateTime date = (cartDetail['date'] as Timestamp).toDate();
 
-                return Card(
-                  child: Row(
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.all(16.0),
-                      ),
-                      Expanded(
+                      return Card(
                         child: Row(
-                          // crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Expanded(
-                              flex: 1,
-                              child: Image(
-                                image: NetworkImage(images),
-                                width: 50,
-                              ),
+                            const Padding(
+                              padding: EdgeInsets.all(16.0),
                             ),
                             Expanded(
-                              flex: 5,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              child: Row(
+                                // crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  Text(
-                                    'Name : ${name.toUpperCase()}',
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 13),
-                                  ),
-                                  Text(
-                                    'Code: $code',
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
+                                  Expanded(
+                                    flex: 1,
+                                    child: Image(
+                                      image: NetworkImage(images),
+                                      width: 50,
                                     ),
                                   ),
-                                  const SizedBox(
-                                    height: 4.0,
+                                  Expanded(
+                                    flex: 5,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        Text(
+                                          'Name : ${name.toUpperCase()}',
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 13),
+                                        ),
+                                        Text(
+                                          'Code: $code',
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                        Text(
+                                          'Price: ${price}',
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 4.0,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: IconButton(
+                                      icon: const Icon(
+                                        Icons.delete,
+                                        color: Colors.red,
+                                      ),
+                                      onPressed: () {
+                                        cart.removeCartData(
+                                            name: name,
+                                            code: code,
+                                            images: images,
+                                            price: price);
+                                      },
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
-                            Expanded(
-                              flex: 1,
-                              child: IconButton(
-                                icon: const Icon(
-                                  Icons.delete,
-                                  color: Colors.red,
-                                ),
-                                onPressed: () {
-                                  cart.removeCartData(
-                                      name: name, code: code, images: images);
-                                },
-                              ),
-                            ),
                           ],
                         ),
-                      ),
-                    ],
+                      );
+                    },
                   ),
-                );
-              },
+                ),
+                Observer(
+                  builder: (context) {
+                    return Text('Sepet Tutar : ${authStore.totalPrice}');
+                  },
+                ),
+              ],
             );
           } else {
             return Column(
@@ -226,5 +256,9 @@ class _CartPageState extends State<CartPage> {
         }, // builder:
       ),
     );
+  }
+
+  topla(double totalPrice) {
+    print("girdi $totalPrice");
   }
 }

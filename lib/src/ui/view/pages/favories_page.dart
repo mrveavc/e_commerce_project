@@ -93,7 +93,7 @@ class _FavoriesPageState extends State<FavoriesPage> {
                 (documentData['fav'] as List)
                     .map((favDetail) => favDetail as Map<String, dynamic>)
                     .toList();
-            print("favList : $favList");
+            // print("favList : $favList");
 
             return ListView.builder(
               itemCount: favList.length,

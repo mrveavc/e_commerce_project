@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_project/src/di/injection.dart';
+// import 'package:e_commerce_project/src/models/price_model.dart';
 import 'package:e_commerce_project/src/store/auth_store.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 
 class CartService {
   final authStore = getIt.get<AuthStore>();
 
-  Future<void> addCartData({name, code, images}) {
+  Future<void> addCartData({name, code, images, price}) {
     CollectionReference users =
         FirebaseFirestore.instance.collection('usersData');
 
@@ -17,7 +18,7 @@ class CartService {
           {
             // 'cart': FieldValue.arrayUnion([name, code]),
             'cart': FieldValue.arrayUnion([
-              {'name': name, 'code': code, 'images': images},
+              {'name': name, 'code': code, 'images': images, 'price': price},
             ])
           },
         )
@@ -25,7 +26,7 @@ class CartService {
         .catchError((error) => print("Failed to add cart: $error"));
   }
 
-  Future<void> removeCartData({name, code, images}) {
+  Future<void> removeCartData({name, code, images, price}) {
     CollectionReference users =
         FirebaseFirestore.instance.collection('usersData');
 
@@ -35,7 +36,7 @@ class CartService {
         .update(
           {
             'cart': FieldValue.arrayRemove([
-              {'name': name, 'code': code, 'images': images},
+              {'name': name, 'code': code, 'images': images, 'price': price},
             ])
           },
         )

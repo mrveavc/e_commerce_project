@@ -35,10 +35,37 @@ class $AssetsIconsGen {
       [icFav, icHome, icMenu, icSearch, icShoppingBag, icUser];
 }
 
+class $AssetsImagesGen {
+  const $AssetsImagesGen();
+
+  /// File path: assets/images/avatar.jpg
+  AssetGenImage get avatar => const AssetGenImage('assets/images/avatar.jpg');
+
+  /// File path: assets/images/cocuk-giyim.webp
+  AssetGenImage get cocukGiyim =>
+      const AssetGenImage('assets/images/cocuk-giyim.webp');
+
+  /// File path: assets/images/erkek-giyim.webp
+  AssetGenImage get erkekGiyim =>
+      const AssetGenImage('assets/images/erkek-giyim.webp');
+
+  /// File path: assets/images/kadin-giyim.jpg
+  AssetGenImage get kadinGiyim =>
+      const AssetGenImage('assets/images/kadin-giyim.jpg');
+
+  /// File path: assets/images/logo.png
+  AssetGenImage get logo => const AssetGenImage('assets/images/logo.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values =>
+      [avatar, cocukGiyim, erkekGiyim, kadinGiyim, logo];
+}
+
 class Assets {
   Assets._();
 
   static const $AssetsIconsGen icons = $AssetsIconsGen();
+  static const $AssetsImagesGen images = $AssetsImagesGen();
 }
 
 class AssetGenImage {

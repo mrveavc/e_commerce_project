@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:auto_route/auto_route.dart';
-import 'package:e_commerce_project/src/common/toast.dart';
+// import 'package:e_commerce_project/src/common/toast.dart';
 import 'package:e_commerce_project/src/di/injection.dart';
 import 'package:e_commerce_project/src/models/product_model.dart';
 import 'package:e_commerce_project/src/services/cart_service.dart';
@@ -124,9 +124,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     // addCart.addCartData(
                     //     name: productList[index].name,
                     //     code: productList[index].code),
-                    print("product-code: ${productList[index].code}"),
-                    print(
-                        "product-images ${productList[index].images.first.url}")
+                    // print("product-code: ${productList[index].code}"),
+                    // print(
+                    //     "product-images ${productList[index].images.first.url}")
                   },
                 ),
                 authStore
@@ -142,6 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   code: productList[index].code,
                                   images:
                                       "${productList[index].images.first.url}",
+                                  price: "${productList[index].price.value}",
                                 );
                               },
                               child: const Text('Add Cart'),
