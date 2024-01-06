@@ -24,6 +24,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    // ProductViewModel viewModel = Provider.of<ProductViewModel>(
+    //   context,
+    //   listen: false,
+    // );
     return Scaffold(
         body: Consumer<ProductViewModel>(
       builder: (context, viewModel, child) => ListView.builder(

@@ -1,4 +1,6 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:e_commerce_project/src/services/firebase_auth_services.dart';
+import 'package:e_commerce_project/src/view_model/login_view_model.dart';
 import 'package:e_commerce_project/src/view_model/product_view_model.dart';
 import 'package:e_commerce_project/firebase_options.dart';
 import 'package:e_commerce_project/src/di/injection.dart';
@@ -51,10 +53,41 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       // body: HomePage(),
 
+      // body: ChangeNotifierProvider(
+      //   create: (BuildContext context) => ProductViewModel(),
+      //   child: HomePage(),
+      // ),
       body: ChangeNotifierProvider(
         create: (BuildContext context) => ProductViewModel(),
         child: HomePage(),
       ),
     );
+    // return MultiProvider(
+    //   providers: [
+    //     Provider<FirebaseAuthService>(
+    //       create: (_) => FirebaseAuthService(),
+    //     ),
+    //     ChangeNotifierProvider(
+    //       create: (_) => ProductViewModel(),
+    //     ),
+    //     ChangeNotifierProvider(
+    //       create: (_) => LoginViewModel(),
+    //     ),
+    //   ],
+    //   child: HomePage(),
+    // );
+    // return MultiProvider(
+    //   providers: [
+    //     Provider<FirebaseAuthService>(
+    //       create: (_) => FirebaseAuthService(),
+    //     ),
+    //     Provider<LoginViewModel>(
+    //       create: (_) => LoginViewModel(),
+    //     ),
+    //     Provider<ProductViewModel>(
+    //       create: (_) => ProductViewModel(),
+    //     ),
+    //   ],
+    // );
   }
 }

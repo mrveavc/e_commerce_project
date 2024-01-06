@@ -5,9 +5,11 @@ import 'package:e_commerce_project/src/store/auth_store.dart';
 import 'package:e_commerce_project/src/ui/widgets/form_container_widget.dart';
 import 'package:e_commerce_project/src/common/toast.dart';
 import 'package:e_commerce_project/src/utils/navigation/router/app_router.dart';
+// import 'package:e_commerce_project/src/view_model/login_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+// import 'package:provider/provider.dart';
 
 @RoutePage()
 class LoginPage extends StatefulWidget {
@@ -56,6 +58,7 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(
                 height: 50,
               ),
+              // _buildLoginButton(context),
               GestureDetector(
                 onTap: () {
                   _signIn();
@@ -153,6 +156,23 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
+  // Widget _buildLoginButton(BuildContext context) {
+  //   LoginViewModel viewModel = Provider.of(
+  //     context,
+  //     listen: false,
+  //   );
+  //   return ElevatedButton(
+  //     child: Text("Giriş Yap"),
+  //     onPressed: () {
+  //       viewModel.signIn(
+  //         context,
+  //         _emailController.text.trim(),
+  //         _passwordController.text.trim(),
+  //       );
+  //     },
+  //   );
+  // }
 
   void _signIn() async {
     String email = _emailController.text;
