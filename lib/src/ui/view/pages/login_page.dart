@@ -5,23 +5,33 @@ import 'package:e_commerce_project/src/store/auth_store.dart';
 import 'package:e_commerce_project/src/ui/widgets/form_container_widget.dart';
 import 'package:e_commerce_project/src/common/toast.dart';
 import 'package:e_commerce_project/src/utils/navigation/router/app_router.dart';
+import 'package:e_commerce_project/src/view_model/login_view_model.dart';
 // import 'package:e_commerce_project/src/view_model/login_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 // import 'package:provider/provider.dart';
 
 @RoutePage()
-class LoginPage extends StatefulWidget {
+class LoginPage extends StatefulWidget implements AutoRouteWrapper {
   const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
+
+  @override
+  Widget wrappedRoute(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (ad) => LoginViewModel(),
+      child: this,
+    );
+  }
 }
 
 class _LoginPageState extends State<LoginPage> {
   final authStore = getIt.get<AuthStore>();
-  final FirebaseAuthService _auth = FirebaseAuthService();
+  // final FirebaseAuthService _auth = FirebaseAuthService();
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
@@ -58,35 +68,35 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(
                 height: 50,
               ),
-              // _buildLoginButton(context),
-              GestureDetector(
-                onTap: () {
-                  _signIn();
-                },
-                child: Container(
-                  width: double.infinity,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Center(
-                    child: authStore.isUserLoggedIn
-                        // _isSigning
-                        ? const CircularProgressIndicator(
-                            color: Colors.white,
-                          )
-                        : const Text(
-                            "Login",
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                  ),
-                ),
-              ),
+              _buildLoginButton(context),
+              // GestureDetector(
+              //   onTap: () {
+              //     _signIn();
+              //   },
+              //   child: Container(
+              //     width: double.infinity,
+              //     height: 50,
+              //     decoration: BoxDecoration(
+              //       color: Colors.black,
+              //       borderRadius: BorderRadius.circular(20),
+              //     ),
+              //     child: Center(
+              //       child: authStore.isUserLoggedIn
+              //           // _isSigning
+              //           ? const CircularProgressIndicator(
+              //               color: Colors.white,
+              //             )
+              //           : const Text(
+              //               "Login",
+              //               style: TextStyle(
+              //                 fontSize: 18,
+              //                 color: Colors.white,
+              //                 fontWeight: FontWeight.bold,
+              //               ),
+              //             ),
+              //     ),
+              //   ),
+              // ),
               const SizedBox(
                 height: 20,
               ),
@@ -157,36 +167,36 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  // Widget _buildLoginButton(BuildContext context) {
-  //   LoginViewModel viewModel = Provider.of(
-  //     context,
-  //     listen: false,
-  //   );
-  //   return ElevatedButton(
-  //     child: Text("Giriş Yap"),
-  //     onPressed: () {
-  //       viewModel.signIn(
-  //         context,
-  //         _emailController.text.trim(),
-  //         _passwordController.text.trim(),
-  //       );
-  //     },
-  //   );
-  // }
-
-  void _signIn() async {
-    String email = _emailController.text;
-    String password = _passwordController.text;
-
-    User? user = await _auth.signInWithEmailAndPassword(email, password);
-
-    if (user != null) {
-      showToast(message: "User is successfully signed in");
-      context.router.replace(const ProfilRoute());
-    } else {
-      showToast(message: "some error occured");
-    }
+  Widget _buildLoginButton(BuildContext context) {
+    LoginViewModel viewModel = Provider.of(
+      context,
+      listen: false,
+    );
+    return ElevatedButton(
+      child: Text("Giriş Yap"),
+      onPressed: () {
+        viewModel.signIn(
+          context,
+          _emailController.text.trim(),
+          _passwordController.text.trim(),
+        );
+      },
+    );
   }
+
+  // void _signIn() async {
+  //   String email = _emailController.text;
+  //   String password = _passwordController.text;
+
+  //   User? user = await _auth.signInWithEmailAndPassword(email, password);
+
+  //   if (user != null) {
+  //     showToast(message: "User is successfully signed in");
+  //     context.router.replace(const ProfilRoute());
+  //   } else {
+  //     showToast(message: "some error occured");
+  //   }
+  // }
 
   _signInWithGoogle() async {
     final GoogleSignIn _googleSignIn = GoogleSignIn();
