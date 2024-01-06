@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce_project/src/di/injection.dart';
 import 'package:e_commerce_project/src/store/auth_store.dart';
 import 'package:e_commerce_project/src/utils/navigation/router/app_router.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:e_commerce_project/gen/assets.gen.dart';
@@ -26,7 +25,7 @@ class _MainLayoutPageState extends State<MainLayoutPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Image.asset('assets/images/logo.png', width: 110),
+        title: Image.asset('assets/images/logo.jpg', width: 110),
 
         actions: const [
           Icon(Icons.search),

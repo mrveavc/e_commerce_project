@@ -5,15 +5,11 @@ class UserService {
   Future<void> addUserData({String? userEmail, User? currentUser}) {
     CollectionReference users =
         FirebaseFirestore.instance.collection('usersData');
-
-    // Call the user's CollectionReference to add a new user
     return users
         .doc(currentUser!.uid)
         .set(
           {
-            // "userName": userName,
             "userEmail": userEmail,
-            // "userImage": userImage,
             "userUid": currentUser.uid,
           },
         )

@@ -29,7 +29,7 @@ class CategoryPage extends StatelessWidget {
               crossAxisCount: 2,
               children: [
                 buildCategoryBox('Erkek', 'assets/images/erkek-giyim.webp'),
-                buildCategoryBox('Kadın', 'assets/images/kadin-giyim.jpg'),
+                buildCategoryBox('Kadin', 'assets/images/kadin-giyim.jpg'),
                 buildCategoryBox('Çocuk', 'assets/images/cocuk-giyim.webp'),
                 buildCategoryBox('Aksesuar', 'assets/images/aksesuar.jpg'),
               ],

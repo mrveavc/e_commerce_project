@@ -1,9 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_project/src/di/injection.dart';
-import 'package:e_commerce_project/src/models/price_model.dart';
 import 'package:e_commerce_project/src/services/cart_service.dart';
-// import 'package:e_commerce_project/src/services/fav_service.dart';
+import 'package:e_commerce_project/src/store/cart_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
@@ -23,6 +22,12 @@ class _CartPageState extends State<CartPage> {
   CollectionReference users =
       FirebaseFirestore.instance.collection('usersData');
   final authStore = getIt.get<AuthStore>();
+  final cartStore = getIt.get<CartStore>();
+
+  @override
+  void initState() {
+    cartStore.totalPrice = 0;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,8 +102,8 @@ class _CartPageState extends State<CartPage> {
                 (documentData['cart'] as List)
                     .map((cartDetail) => cartDetail as Map<String, dynamic>)
                     .toList();
-            double totalPrice = 0;
-            authStore.totalPrice = 0;
+
+            cartStore.setTotalPrice(cartList);
             return Column(
               children: [
                 Expanded(
@@ -107,14 +112,10 @@ class _CartPageState extends State<CartPage> {
                     itemBuilder: (BuildContext context, int index) {
                       final Map<String, dynamic> cartDetail = cartList[index];
                       // final Map<String, dynamic> favImage = favList[index];
-                      final String code = cartDetail['code'];
-                      final String name = cartDetail['name'];
-                      final String images = cartDetail['images'];
-                      final String price = cartDetail['price'];
-
-                      authStore.setTotalPrice(double.parse(price));
-
-                      print("girdi ${authStore.totalPrice}");
+                      final int id = cartDetail['id'];
+                      final String title = cartDetail['title'];
+                      final String imageOne = cartDetail['imageOne'];
+                      final double price = cartDetail['price'];
 
                       // final String price = cartDetail['price'];
                       // final DateTime date = (cartDetail['date'] as Timestamp).toDate();
@@ -132,7 +133,7 @@ class _CartPageState extends State<CartPage> {
                                   Expanded(
                                     flex: 1,
                                     child: Image(
-                                      image: NetworkImage(images),
+                                      image: NetworkImage(imageOne),
                                       width: 50,
                                     ),
                                   ),
@@ -146,20 +147,20 @@ class _CartPageState extends State<CartPage> {
                                           height: 20,
                                         ),
                                         Text(
-                                          'Name : ${name.toUpperCase()}',
+                                          'title : ${title.toUpperCase()}',
                                           style: const TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 13),
                                         ),
                                         Text(
-                                          'Code: $code',
+                                          'id: $id',
                                           style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 15,
                                           ),
                                         ),
                                         Text(
-                                          'Price: ${price}',
+                                          'Price: $price',
                                           style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 15,
@@ -180,9 +181,9 @@ class _CartPageState extends State<CartPage> {
                                       ),
                                       onPressed: () {
                                         cart.removeCartData(
-                                            name: name,
-                                            code: code,
-                                            images: images,
+                                            id: id,
+                                            title: title,
+                                            imageOne: imageOne,
                                             price: price);
                                       },
                                     ),
@@ -198,7 +199,7 @@ class _CartPageState extends State<CartPage> {
                 ),
                 Observer(
                   builder: (context) {
-                    return Text('Sepet Tutar : ${authStore.totalPrice}');
+                    return Text('Sepet Tutar : ${cartStore.totalPrice}');
                   },
                 ),
               ],
@@ -256,9 +257,5 @@ class _CartPageState extends State<CartPage> {
         }, // builder:
       ),
     );
-  }
-
-  topla(double totalPrice) {
-    print("girdi $totalPrice");
   }
 }

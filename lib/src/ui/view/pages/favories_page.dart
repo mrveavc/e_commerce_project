@@ -101,9 +101,10 @@ class _FavoriesPageState extends State<FavoriesPage> {
                 final Map<String, dynamic> favDetail = favList[index];
                 // final Map<String, dynamic> favImage = favList[index];
 
-                final String code = favDetail['code'];
-                final String name = favDetail['name'];
-                final String images = favDetail['images'];
+                final int id = favDetail['id'];
+                final String title = favDetail['title'];
+                final String imageOne = favDetail['imageOne'];
+                final double price = favDetail['price'];
 
                 // final String price = favDetail['price'];
                 // final DateTime date = (favDetail['date'] as Timestamp).toDate();
@@ -121,7 +122,7 @@ class _FavoriesPageState extends State<FavoriesPage> {
                             Expanded(
                               flex: 1,
                               child: Image(
-                                image: NetworkImage(images),
+                                image: NetworkImage(imageOne),
                                 width: 50,
                               ),
                             ),
@@ -134,13 +135,20 @@ class _FavoriesPageState extends State<FavoriesPage> {
                                     height: 20,
                                   ),
                                   Text(
-                                    'Name : ${name.toUpperCase()}',
+                                    'title : ${title.toUpperCase()}',
                                     style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 13),
                                   ),
                                   Text(
-                                    'Code: $code',
+                                    'id: $id',
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Price: $price',
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15,
@@ -161,7 +169,10 @@ class _FavoriesPageState extends State<FavoriesPage> {
                                 ),
                                 onPressed: () {
                                   fav.removeFavData(
-                                      name: name, code: code, images: images);
+                                      id: id,
+                                      title: title,
+                                      imageOne: imageOne,
+                                      price: price);
                                 },
                               ),
                             ),

@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:e_commerce_project/src/ui/view/pages/login_page.dart';
 import 'package:e_commerce_project/src/utils/navigation/router/app_router.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return const Scaffold(
       body: Center(
         child: Image(
-          image: AssetImage('assets/images/logo.png'),
+          image: AssetImage('assets/images/logo.jpg'),
         ),
         // child: Text(
         //   "Welcome To Flutter Firebase",

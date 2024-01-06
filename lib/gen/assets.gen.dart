@@ -38,6 +38,10 @@ class $AssetsIconsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/aksesuar.jpg
+  AssetGenImage get aksesuar =>
+      const AssetGenImage('assets/images/aksesuar.jpg');
+
   /// File path: assets/images/avatar.jpg
   AssetGenImage get avatar => const AssetGenImage('assets/images/avatar.jpg');
 
@@ -53,12 +57,12 @@ class $AssetsImagesGen {
   AssetGenImage get kadinGiyim =>
       const AssetGenImage('assets/images/kadin-giyim.jpg');
 
-  /// File path: assets/images/logo.png
-  AssetGenImage get logo => const AssetGenImage('assets/images/logo.png');
+  /// File path: assets/images/logo.jpg
+  AssetGenImage get logo => const AssetGenImage('assets/images/logo.jpg');
 
   /// List of all assets
   List<AssetGenImage> get values =>
-      [avatar, cocukGiyim, erkekGiyim, kadinGiyim, logo];
+      [aksesuar, avatar, cocukGiyim, erkekGiyim, kadinGiyim, logo];
 }
 
 class Assets {

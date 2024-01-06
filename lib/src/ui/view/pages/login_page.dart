@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce_project/src/di/injection.dart';
-import 'package:e_commerce_project/src/services/user_service.dart';
 import 'package:e_commerce_project/src/services/firebase_auth_services.dart';
 import 'package:e_commerce_project/src/store/auth_store.dart';
 import 'package:e_commerce_project/src/ui/widgets/form_container_widget.dart';
@@ -19,20 +18,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  // bool _isSigning = false;
   final authStore = getIt.get<AuthStore>();
-  // final _auth = getIt.get<FirebaseAuthService>();
   final FirebaseAuthService _auth = FirebaseAuthService();
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-
-  // @override
-  // void dispose() {
-  //   _emailController.dispose();
-  //   _passwordController.dispose();
-  //   super.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +32,6 @@ class _LoginPageState extends State<LoginPage> {
             child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 50),
           child: Column(
-            // mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
                 "Login",
@@ -147,11 +136,6 @@ class _LoginPageState extends State<LoginPage> {
                   GestureDetector(
                     onTap: () {
                       context.router.replace(const SignUpRoute());
-                      // Navigator.pushAndRemoveUntil(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => SignUpPage()),
-                      //   (route) => false,
-                      // );
                     },
                     child: const Text(
                       "Sign Up",
@@ -176,13 +160,8 @@ class _LoginPageState extends State<LoginPage> {
 
     User? user = await _auth.signInWithEmailAndPassword(email, password);
 
-    // AddUser addUser = AddUser();
-
-    // await addUser.addUserData(currentUser: user, userEmail: user?.email);
-
     if (user != null) {
       showToast(message: "User is successfully signed in");
-      // context.router.replace(const HomeRoute());
       context.router.replace(const ProfilRoute());
     } else {
       showToast(message: "some error occured");
@@ -206,7 +185,6 @@ class _LoginPageState extends State<LoginPage> {
         );
 
         await _firebaseAuth.signInWithCredential(credential);
-        // Navigator.pushNamed(context, "/home");
         context.router.replace(const HomeRoute());
       }
     } catch (e) {
