@@ -1,21 +1,19 @@
-import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_project/src/models/product.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 class ProductViewModel with ChangeNotifier {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  bool? _isChecked = false;
-  bool? get isChecked => _isChecked;
+  // bool? _isChecked = false;
+  // bool? get isChecked => _isChecked;
 
-  // List<bool>? _isChecked;
+  // List<bool>? _isChecked = [];
   // List<bool>? get isChecked => _isChecked;
 
-  void set isChecked(bool? value) {
-    _isChecked = value;
-    notifyListeners();
-  }
+  // void set isChecked(List<bool>? value) {
+  //   _isChecked = value;
+  //   notifyListeners();
+  // }
 
   List<Product> _products = [];
 
@@ -37,6 +35,12 @@ class ProductViewModel with ChangeNotifier {
         documentSnapshot.id,
         documentSnapshot.data(),
       );
+      Map<String, dynamic> productSize = product.size;
+      Map<String, dynamic> productSizeUpdated = {};
+      productSizeUpdated["S"] = productSize["S"];
+      productSizeUpdated["M"] = productSize["M"];
+      productSizeUpdated["L"] = productSize["L"];
+      product.size = productSizeUpdated;
       _products.add(product);
     }
     notifyListeners();

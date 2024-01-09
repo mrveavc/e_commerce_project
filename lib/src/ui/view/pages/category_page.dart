@@ -1,13 +1,17 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:e_commerce_project/src/utils/navigation/router/app_router.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
 class CategoryPage extends StatelessWidget {
   const CategoryPage({Key? key}) : super(key: key);
 
-  Widget buildCategoryBox(String title, String imagePath) {
+  Widget buildCategoryBox(
+      String title, String imagePath, BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        context.router.push(CategoryDetailRoute(title: title));
+      },
       child: Container(
         margin: const EdgeInsets.all(8),
         child: Column(
@@ -67,10 +71,12 @@ class CategoryPage extends StatelessWidget {
               crossAxisCount: 1,
               childAspectRatio: 2,
               children: [
-                buildCategoryBox('Erkek', 'assets/images/erkek-giyim.webp'),
-                buildCategoryBox('Kadin', 'assets/images/kadin-giyim.jpg'),
-                buildCategoryBox('Çocuk', 'assets/images/cocuk-giyim.webp'),
-                buildCategoryBox('Aksesuar', 'assets/images/aksesuar.jpg'),
+                buildCategoryBox(
+                    'Erkek', 'assets/images/erkek-giyim.webp', context),
+                buildCategoryBox(
+                    'Kadın', 'assets/images/kadin-giyim.jpg', context),
+                buildCategoryBox(
+                    'Çocuk', 'assets/images/cocuk-giyim.webp', context),
               ],
             ),
           ),

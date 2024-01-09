@@ -21,6 +21,17 @@ abstract class _$AppRouter extends RootStackRouter {
         child: WrappedRoute(child: const CartPage()),
       );
     },
+    CategoryDetailRoute.name: (routeData) {
+      final args = routeData.argsAs<CategoryDetailRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: WrappedRoute(
+            child: CategoryDetailPage(
+          key: args.key,
+          title: args.title,
+        )),
+      );
+    },
     CategoryRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -89,6 +100,44 @@ class CartRoute extends PageRouteInfo<void> {
   static const String name = 'CartRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [CategoryDetailPage]
+class CategoryDetailRoute extends PageRouteInfo<CategoryDetailRouteArgs> {
+  CategoryDetailRoute({
+    Key? key,
+    required String title,
+    List<PageRouteInfo>? children,
+  }) : super(
+          CategoryDetailRoute.name,
+          args: CategoryDetailRouteArgs(
+            key: key,
+            title: title,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'CategoryDetailRoute';
+
+  static const PageInfo<CategoryDetailRouteArgs> page =
+      PageInfo<CategoryDetailRouteArgs>(name);
+}
+
+class CategoryDetailRouteArgs {
+  const CategoryDetailRouteArgs({
+    this.key,
+    required this.title,
+  });
+
+  final Key? key;
+
+  final String title;
+
+  @override
+  String toString() {
+    return 'CategoryDetailRouteArgs{key: $key, title: $title}';
+  }
 }
 
 /// generated route for

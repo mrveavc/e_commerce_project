@@ -109,9 +109,11 @@ class _CartPageState extends State<CartPage> {
             // }
 
             final List<Map<String, dynamic>> cartList =
-                (documentData['cart'] as List)
-                    .map((cartDetail) => cartDetail as Map<String, dynamic>)
-                    .toList();
+                documentData['cart'] != null
+                    ? (documentData['cart'] as List)
+                        .map((cartDetail) => cartDetail as Map<String, dynamic>)
+                        .toList()
+                    : [];
 
             cartViewModel.setTotalPrice(cartList);
             return Column(
@@ -128,6 +130,8 @@ class _CartPageState extends State<CartPage> {
                       final double price = cartDetail['price'];
                       final double rate = cartDetail['rate'];
                       final String color = cartDetail['color'];
+                      final String size = cartDetail['size'];
+                      final int? quantityInCart = cartDetail['quantityInCart'];
 
                       // final String size = cartDetail['size '];
                       // final String color = cartDetail['color '];
@@ -178,6 +182,23 @@ class _CartPageState extends State<CartPage> {
                                             fontSize: 15,
                                           ),
                                         ),
+                                        Text(
+                                          'Size: $size',
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                        Text(
+                                          // quantityInCart == null
+                                          //     ? "Adet : 0"
+                                          //     : 'Adet: $quantityInCart',
+                                          quantityInCart.toString(),
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15,
+                                          ),
+                                        ),
                                         const SizedBox(
                                           height: 4.0,
                                         ),
@@ -193,13 +214,14 @@ class _CartPageState extends State<CartPage> {
                                       ),
                                       onPressed: () {
                                         cart.removeCartData(
-                                          name: name,
-                                          price: price,
-                                          category: category,
-                                          image: image,
-                                          rate: rate,
-                                          color: color,
-                                        );
+                                            name: name,
+                                            price: price,
+                                            category: category,
+                                            image: image,
+                                            rate: rate,
+                                            color: color,
+                                            size: size,
+                                            quantityInCart: quantityInCart);
                                       },
                                     ),
                                   ),
@@ -214,7 +236,8 @@ class _CartPageState extends State<CartPage> {
                 ),
                 Consumer<CartViewModel>(
                     builder: (context, viewModel, child) =>
-                        Text('Sepet Tutar : ${viewModel.totalPrice}'))
+                        Text('Sepet Tutar : ${viewModel.totalPrice}')),
+
                 // Observer(
                 //   builder: (context) {
                 //     return Text('Sepet Tutar : ${viewModel.totalPrice}');

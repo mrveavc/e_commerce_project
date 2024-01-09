@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class FavService {
   // final authStore = getIt.get<AuthStore>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
   Future<void> addFavData({name, category, price, image, rate, color}) {
     CollectionReference users =
         FirebaseFirestore.instance.collection('usersData');

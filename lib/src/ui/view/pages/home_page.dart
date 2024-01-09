@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:e_commerce_project/src/common/toast.dart';
 import 'package:e_commerce_project/src/models/product.dart';
 import 'package:e_commerce_project/src/utils/navigation/router/app_router.dart';
 import 'package:e_commerce_project/src/view_model/product_view_model.dart';
@@ -77,119 +78,161 @@ class _HomePageState extends State<HomePage> {
           List<Map<String, dynamic>> dataList = [];
 
           Product product = viewModel.products[index];
-          return Card(
-            child: Column(
-              children: [
-                Column(
+          return ChangeNotifierProvider.value(
+              value: viewModel.products[index],
+              child: Card(
+                child: Column(
                   children: [
-                    Image.network(
-                      viewModel.products[index].image,
-                      width: 50,
-                    ),
-                    Text(viewModel.products[index].name),
-                    Text(viewModel.products[index].category),
-                    Text(viewModel.products[index].price.toString()),
-                    // Container(
-                    //   color: viewModel.products[index].color ==,
-                    //   child: Text(viewModel.products[index].color),
-                    // ),
-                    Text(viewModel.products[index].color),
-                    Text(viewModel.products[index].rate.toString()),
-                    // Row(
-                    //   children: [
-                    //     DropdownButton<String>(
-                    //       value: dropdownValue,
-                    //       icon: const Icon(Icons.arrow_downward),
-                    //       elevation: 16,
-                    //       style: const TextStyle(color: Colors.deepPurple),
-                    //       underline: Container(
-                    //         height: 2,
-                    //         color: Colors.deepPurpleAccent,
-                    //       ),
-                    //       onChanged: (String? value) {
-                    //         // This is called when the user selects an item.
-                    //         setState(() {
-                    //           dropdownValue = value!;
-                    //         });
-                    //       },
-                    //       items: list.map<DropdownMenuItem<String>>(
-                    //         (String value) {
-                    //           return DropdownMenuItem<String>(
-                    //             value: value,
-                    //             child: Text(value),
-                    //           );
-                    //         },
-                    //       ).toList(),
-                    //     ),
-                    //   ],
-                    // ),
-                    // Row(
-                    //   children: [
-                    //     DropdownButton(
-                    //         items: Map.fromEntries(
-                    //           viewModel.products[index].size.entries
-                    //               .where((element) => element > 0),
-                    //         ).entries.map((e) => e.value)
-                    //         onChanged: onChanged)
-                    //   ],
-                    // ),
+                    Column(
+                      children: [
+                        Image.network(
+                          viewModel.products[index].image,
+                          width: 50,
+                        ),
+                        Text(viewModel.products[index].name),
+                        Text(viewModel.products[index].category),
+                        Text(viewModel.products[index].price.toString()),
+                        // Container(
+                        //   color: viewModel.products[index].color ==,
+                        //   child: Text(viewModel.products[index].color),
+                        // ),
+                        Text(viewModel.products[index].color),
+                        Text(viewModel.products[index].rate.toString()),
+                        // Row(
+                        //   children: [
+                        //     DropdownButton<String>(
+                        //       value: dropdownValue,
+                        //       icon: const Icon(Icons.arrow_downward),
+                        //       elevation: 16,
+                        //       style: const TextStyle(color: Colors.deepPurple),
+                        //       underline: Container(
+                        //         height: 2,
+                        //         color: Colors.deepPurpleAccent,
+                        //       ),
+                        //       onChanged: (String? value) {
+                        //         // This is called when the user selects an item.
+                        //         setState(() {
+                        //           dropdownValue = value!;
+                        //         });
+                        //       },
+                        //       items: list.map<DropdownMenuItem<String>>(
+                        //         (String value) {
+                        //           return DropdownMenuItem<String>(
+                        //             value: value,
+                        //             child: Text(value),
+                        //           );
+                        //         },
+                        //       ).toList(),
+                        //     ),
+                        //   ],
+                        // ),
+                        // Row(
+                        //   children: [
+                        //     DropdownButton(
+                        //         items: Map.fromEntries(
+                        //           viewModel.products[index].size.entries
+                        //               .where((element) => element > 0),
+                        //         ).entries.map((e) => e.value)
+                        //         onChanged: onChanged)
+                        //   ],
+                        // ),
 
-                    Row(
-                      children: Map.fromEntries(
-                        viewModel.products[index].size.entries
-                            .where((element) => element.value > 0),
-                      )
-                          .entries
-                          .map(
-                            (e) => Expanded(
-                              child: CheckboxListTile(
-                                  title: Text(e.key),
-                                  // value: viewModel.isChecked[index],
-                                  value: viewModel.isChecked,
-                                  onChanged: (
-                                    bool? value,
-                                  ) {
-                                    viewModel.isChecked = value!;
-                                    print(e.key);
-                                  }),
-                            ),
-                          )
-                          .toList(),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        _auth.currentUser == null
-                            ? context.router.push(LoginRoute())
-                            : cart.addCartData(
-                                name: product.name,
-                                price: product.price,
-                                category: product.category,
-                                image: product.image,
-                                rate: product.rate,
-                                color: product.color);
-                        ;
-                      },
-                      child: Text("Add Cart"),
-                    ),
-                    ElevatedButton(
-                        onPressed: () {
-                          _auth.currentUser == null
-                              ? context.router.push(LoginRoute())
-                              : fav.addFavData(
-                                  name: product.name,
-                                  price: product.price,
-                                  category: product.category,
-                                  image: product.image,
-                                  rate: product.rate,
-                                  color: product.color);
-                          ;
-                        },
-                        child: Text("Add Fav"))
+                        Row(
+                            children: Map.fromEntries(
+                          viewModel.products[index].size.entries
+                              .where((element) => element.value > 0),
+                        )
+                                .entries
+                                .map((e) => Consumer<Product>(
+                                          builder: (context, product, child) {
+                                            return Row(
+                                              children: [
+                                                Text(e.key),
+                                                Radio(
+                                                  value: e.key,
+                                                  groupValue:
+                                                      product.selectedSize,
+                                                  onChanged: (value) {
+                                                    product.selectedSize =
+                                                        value as String;
+                                                    cart.selectedSize(value);
+                                                    print(value);
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        )
+
+                                    // (e) => Flexible(
+                                    //   child: ListView.builder(
+                                    //     shrinkWrap: true,
+                                    //     itemCount: e.key.length,
+                                    //     itemBuilder: (context, index) {
+                                    //       return Radio(
+                                    //         value: index,
+                                    //         groupValue: viewModel.selectedIndex,
+                                    //         onChanged: (value) {
+                                    //           viewModel.selectedIndex = value!;
+                                    //         },
+                                    //       );
+                                    //     },
+
+                                    //     // CheckboxListTile(
+                                    //     //     title: Text(e.key),
+                                    //     //     // value: viewModel.isChecked[index],
+                                    //     //     value: viewModel.isChecked.indexOf(e.key),
+                                    //     //     onChanged: (
+                                    //     //       bool? value,
+                                    //     //     ) {
+                                    //     //       viewModel.isChecked = value!;
+                                    //     //       print(e.key);
+                                    //     //     }),
+                                    //   ),
+                                    // ),
+                                    )
+                                .toList()),
+                        ElevatedButton(
+                          onPressed: () async {
+                            // cart.name == product.name
+                            //     ? print('eşit')
+                            //     : print('eşit değil');
+                            product.selectedSize == ""
+                                ? showToast(message: "Lütfen Beden Seçiniz.")
+                                : _auth.currentUser == null
+                                    ? context.router.push(LoginRoute())
+                                    : await cart.addCartData(
+                                        name: product.name,
+                                        price: product.price,
+                                        category: product.category,
+                                        image: product.image,
+                                        rate: product.rate,
+                                        color: product.color,
+                                        size: product.size,
+                                        quantityInCart: product.quantityInCart);
+                          },
+                          child: Text("Add Cart"),
+                        ),
+                        ElevatedButton(
+                            onPressed: () {
+                              _auth.currentUser == null
+                                  ? context.router.push(LoginRoute())
+                                  : fav.addFavData(
+                                      name: product.name,
+                                      price: product.price,
+                                      category: product.category,
+                                      image: product.image,
+                                      rate: product.rate,
+                                      color: product.color,
+                                    );
+                              ;
+                            },
+                            child: Text("Add Fav"))
+                      ],
+                    )
                   ],
-                )
-              ],
-            ),
-          );
+                ),
+              ));
         },
       ),
     );

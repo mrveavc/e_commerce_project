@@ -89,9 +89,11 @@ class _FavoriesPageState extends State<FavoriesPage> {
             // }
 
             final List<Map<String, dynamic>> favList =
-                (documentData['fav'] as List)
-                    .map((favDetail) => favDetail as Map<String, dynamic>)
-                    .toList();
+                documentData['fav'] != null
+                    ? (documentData['fav'] as List)
+                        .map((favDetail) => favDetail as Map<String, dynamic>)
+                        .toList()
+                    : [];
             // print("favList : $favList");
 
             return ListView.builder(
