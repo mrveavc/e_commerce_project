@@ -1,7 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce_project/src/common/toast.dart';
-import 'package:e_commerce_project/src/di/injection.dart';
-import 'package:e_commerce_project/src/store/auth_store.dart';
 import 'package:e_commerce_project/src/utils/navigation/router/app_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -15,9 +13,10 @@ class ProfilPage extends StatefulWidget {
 }
 
 class _ProfilPageState extends State<ProfilPage> {
-  final authStore = getIt.get<AuthStore>();
+  // final authStore = getIt.get<AuthStore>();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  final autoStore = getIt.get<AuthStore>();
+  // final autoStore = getIt.get<AuthStore>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +43,7 @@ class _ProfilPageState extends State<ProfilPage> {
             // const SizedBox(
             //   height: 10,
             // ),
-            Text(autoStore.currentUSer?.email ?? 'Avatar'),
+            Text(_auth.currentUser?.email ?? 'Avatar'),
             const SizedBox(
               height: 50,
             ),
@@ -183,7 +182,8 @@ class _ProfilPageState extends State<ProfilPage> {
               onTap: () {
                 FirebaseAuth.instance.signOut();
                 context.router.replace(const LoginRoute());
-                authStore.isUserLoggedIn = false;
+                // _auth.currentUser != null;
+                // authStore.isUserLoggedIn = false;
 
                 showToast(message: "Successfully signed out");
               },

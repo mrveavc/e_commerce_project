@@ -1,16 +1,7 @@
-import 'package:injectable/injectable.dart';
-import 'package:mobx/mobx.dart';
+import 'package:flutter/material.dart';
 
-part 'cart_store.g.dart';
-
-@singleton
-class CartStore extends _CartStore with _$CartStore {}
-
-abstract class _CartStore with Store {
-  @observable
+class CartViewModel with ChangeNotifier {
   double totalPrice = 0;
-
-  @action
   void setTotalPrice(List<Map<String, dynamic>> carts) {
     totalPrice = 0;
 

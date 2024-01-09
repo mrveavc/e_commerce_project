@@ -1,12 +1,8 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:e_commerce_project/src/di/injection.dart';
-import 'package:e_commerce_project/src/services/firebase_auth_services.dart';
-import 'package:e_commerce_project/src/store/auth_store.dart';
 import 'package:e_commerce_project/src/ui/widgets/form_container_widget.dart';
 import 'package:e_commerce_project/src/common/toast.dart';
 import 'package:e_commerce_project/src/utils/navigation/router/app_router.dart';
 import 'package:e_commerce_project/src/view_model/login_view_model.dart';
-// import 'package:e_commerce_project/src/view_model/login_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -23,14 +19,14 @@ class LoginPage extends StatefulWidget implements AutoRouteWrapper {
   @override
   Widget wrappedRoute(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (ad) => LoginViewModel(),
+      create: (_) => LoginViewModel(),
       child: this,
     );
   }
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final authStore = getIt.get<AuthStore>();
+  // final authStore = getIt.get<AuthStore>();
   // final FirebaseAuthService _auth = FirebaseAuthService();
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   TextEditingController _emailController = TextEditingController();
@@ -168,6 +164,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _buildLoginButton(BuildContext context) {
+    print("auth : ${_firebaseAuth.currentUser}");
     LoginViewModel viewModel = Provider.of(
       context,
       listen: false,

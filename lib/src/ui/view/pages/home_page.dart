@@ -1,184 +1,353 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:e_commerce_project/src/ui/view/pages/product.dart';
+import 'package:e_commerce_project/src/models/product.dart';
+import 'package:e_commerce_project/src/utils/navigation/router/app_router.dart';
 import 'package:e_commerce_project/src/view_model/product_view_model.dart';
 import 'package:e_commerce_project/src/services/cart_service.dart';
 import 'package:e_commerce_project/src/services/fav_service.dart';
-import 'package:e_commerce_project/src/store/auth_store.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../di/injection.dart';
 
 @RoutePage()
-class HomePage extends StatefulWidget {
+class HomePage extends StatefulWidget implements AutoRouteWrapper {
   const HomePage({super.key});
+  @override
+  Widget wrappedRoute(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => ProductViewModel(),
+      child: this,
+    );
+  }
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  final authStore = getIt.get<AuthStore>();
+  // final authStore = getIt.get<AuthStore>();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   CartService cart = CartService();
   FavService fav = FavService();
-
   @override
   Widget build(BuildContext context) {
-    // ProductViewModel viewModel = Provider.of<ProductViewModel>(
-    //   context,
-    //   listen: false,
-    // );
     return Scaffold(
-        body: Consumer<ProductViewModel>(
-      builder: (context, viewModel, child) => ListView.builder(
-        itemCount: viewModel.listProduct.length,
-        itemBuilder: (context, index) {
-          Product product = viewModel.listProduct[index];
-          return _buildCard(product);
-        },
-      ),
-    ));
+      body: _buildProductCard(),
+    );
   }
 
-  Widget _buildCard(Product product) {
-    return Card(
-      color: const Color.fromARGB(255, 82, 81, 81),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(flex: 2, child: Image.network(product.imageOne)),
-              Expanded(
-                flex: 3,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        product.id.toString(),
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 20),
-                      ),
-                      Text(
-                        product.title,
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 16),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              authStore
-                      .isUserLoggedIn // üye giriş yapmış ise sepete ve fava ekleme butonu görünürlüğü
-                  ? Row(
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            cart.addCartData(
-                              id: product.id,
-                              title: product.title,
-                              price: product.price,
-                              imageOne: product.imageOne,
-                              // images:
-                              //     "${productList[index].images.first.url}",
-                              // price: "${productList[index].price.value}",
-                            );
-                          },
-                          child: const Text('Add Cart'),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            fav.addFavData(
-                              id: product.id,
-                              title: product.title,
-                              price: product.price,
-                              imageOne: product.imageOne,
-                            );
-                          },
-                          child: const Text('Add Fav'),
-                        ),
-                      ],
-                    )
-                  : const SizedBox(
-                      height: 10,
+  // List<String> list = <String>['One', 'Two', 'Three', 'Four'];
+
+  // Widget _buildDropdown() {
+  //   String dropdownValue = list.first;
+
+  //   return DropdownButton<String>(
+  //     value: dropdownValue,
+  //     icon: const Icon(Icons.arrow_downward),
+  //     elevation: 16,
+  //     style: const TextStyle(color: Colors.deepPurple),
+  //     underline: Container(
+  //       height: 2,
+  //       color: Colors.deepPurpleAccent,
+  //     ),
+  //     onChanged: (String? value) {
+  //       // This is called when the user selects an item.
+  //       setState(() {
+  //         dropdownValue = value!;
+  //       });
+  //     },
+  //     items: list.map<DropdownMenuItem<String>>((String value) {
+  //       return DropdownMenuItem<String>(
+  //         value: value,
+  //         child: Text(value),
+  //       );
+  //     }).toList(),
+  //   );
+  // }
+
+  Widget _buildProductCard() {
+    // List<String> list = <String>['One', 'Two', 'Three', 'Four'];
+
+    // String dropdownValue = list.first;
+
+    return Consumer<ProductViewModel>(
+      builder: (context, viewModel, child) => ListView.builder(
+        itemCount: viewModel.products.length,
+        itemBuilder: (BuildContext context, int index) {
+          List<Map<String, dynamic>> dataList = [];
+
+          Product product = viewModel.products[index];
+          return Card(
+            child: Column(
+              children: [
+                Column(
+                  children: [
+                    Image.network(
+                      viewModel.products[index].image,
+                      width: 50,
                     ),
-            ],
-          ),
-        ],
+                    Text(viewModel.products[index].name),
+                    Text(viewModel.products[index].category),
+                    Text(viewModel.products[index].price.toString()),
+                    // Container(
+                    //   color: viewModel.products[index].color ==,
+                    //   child: Text(viewModel.products[index].color),
+                    // ),
+                    Text(viewModel.products[index].color),
+                    Text(viewModel.products[index].rate.toString()),
+                    // Row(
+                    //   children: [
+                    //     DropdownButton<String>(
+                    //       value: dropdownValue,
+                    //       icon: const Icon(Icons.arrow_downward),
+                    //       elevation: 16,
+                    //       style: const TextStyle(color: Colors.deepPurple),
+                    //       underline: Container(
+                    //         height: 2,
+                    //         color: Colors.deepPurpleAccent,
+                    //       ),
+                    //       onChanged: (String? value) {
+                    //         // This is called when the user selects an item.
+                    //         setState(() {
+                    //           dropdownValue = value!;
+                    //         });
+                    //       },
+                    //       items: list.map<DropdownMenuItem<String>>(
+                    //         (String value) {
+                    //           return DropdownMenuItem<String>(
+                    //             value: value,
+                    //             child: Text(value),
+                    //           );
+                    //         },
+                    //       ).toList(),
+                    //     ),
+                    //   ],
+                    // ),
+                    // Row(
+                    //   children: [
+                    //     DropdownButton(
+                    //         items: Map.fromEntries(
+                    //           viewModel.products[index].size.entries
+                    //               .where((element) => element > 0),
+                    //         ).entries.map((e) => e.value)
+                    //         onChanged: onChanged)
+                    //   ],
+                    // ),
+
+                    Row(
+                      children: Map.fromEntries(
+                        viewModel.products[index].size.entries
+                            .where((element) => element.value > 0),
+                      )
+                          .entries
+                          .map(
+                            (e) => Expanded(
+                              child: CheckboxListTile(
+                                  title: Text(e.key),
+                                  // value: viewModel.isChecked[index],
+                                  value: viewModel.isChecked,
+                                  onChanged: (
+                                    bool? value,
+                                  ) {
+                                    viewModel.isChecked = value!;
+                                    print(e.key);
+                                  }),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        _auth.currentUser == null
+                            ? context.router.push(LoginRoute())
+                            : cart.addCartData(
+                                name: product.name,
+                                price: product.price,
+                                category: product.category,
+                                image: product.image,
+                                rate: product.rate,
+                                color: product.color);
+                        ;
+                      },
+                      child: Text("Add Cart"),
+                    ),
+                    ElevatedButton(
+                        onPressed: () {
+                          _auth.currentUser == null
+                              ? context.router.push(LoginRoute())
+                              : fav.addFavData(
+                                  name: product.name,
+                                  price: product.price,
+                                  category: product.category,
+                                  image: product.image,
+                                  rate: product.rate,
+                                  color: product.color);
+                          ;
+                        },
+                        child: Text("Add Fav"))
+                  ],
+                )
+              ],
+            ),
+          );
+        },
       ),
     );
-    // return Container(
-    //   child: Card(
-    //     color: const Color.fromARGB(255, 82, 81, 81),
-    //     child: Row(
-    //       children: [
-    //         Expanded(flex: 2, child: Image.network(product.imageOne)),
-    //         Expanded(
-    //           flex: 3,
-    //           child: Padding(
-    //             padding: const EdgeInsets.all(8.0),
-    //             child: Column(
-    //               crossAxisAlignment: CrossAxisAlignment.start,
-    //               children: [
-    //                 Text(
-    //                   product.id.toString(),
-    //                   style: const TextStyle(color: Colors.white, fontSize: 20),
-    //                 ),
-    //                 Text(
-    //                   product.title,
-    //                   style: const TextStyle(color: Colors.white, fontSize: 16),
-    //                 ),
-    //               ],
-    //             ),
-    //           ),
-    //         ),
-    //         authStore
-    //                 .isUserLoggedIn // üye giriş yapmış ise sepete ve fava ekleme butonu görünürlüğü
-    //             ? Row(
-    //                 children: [
-    //                   Expanded(
-    //                     flex: 1,
-    //                     child: ElevatedButton(
-    //                       onPressed: () {
-    //                         cart.addCartData(
-    //                           id: product.id,
-    //                           title: product.title,
-    //                           price: product.price,
-    //                           imageOne: "${product.imageOne}",
-    //                           // images:
-    //                           //     "${productList[index].images.first.url}",
-    //                           // price: "${productList[index].price.value}",
-    //                         );
-    //                       },
-    //                       child: const Text('Add Cart'),
-    //                     ),
-    //                   ),
-    //                   // Expanded(
-    //                   //   flex: 1,
-    //                   //   child: ElevatedButton(
-    //                   //     onPressed: () {
-    //                   //       fav.addFavData(
-    //                   //         name: productList[index].name,
-    //                   //         code: productList[index].code,
-    //                   //         images:
-    //                   //             "${productList[index].images.first.url}",
-    //                   //       );
-    //                   //     },
-    //                   //     child: const Text('Add Fav'),
-    //                   //   ),
-    //                   // ),
-    //                 ],
-    //               )
-    //             : const SizedBox(
-    //                 height: 10,
-    //               ),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //       body: Consumer<ProductViewModel>(
+  //     builder: (context, viewModel, child) => ListView.builder(
+  //       itemCount: viewModel.listProduct.length,
+  //       itemBuilder: (context, index) {
+  //         Product product = viewModel.listProduct[index];
+  //         return _buildCard(product);
+  //       },
+  //     ),
+  //   ));
+  // }
+
+  // Widget _buildCard(Product product) {
+  //   return Card(
+  //     color: const Color.fromARGB(255, 82, 81, 81),
+  //     child: Column(
+  //       children: [
+  //         Row(
+  //           children: [
+  //             Expanded(flex: 2, child: Image.network(product.imageOne)),
+  //             Expanded(
+  //               flex: 3,
+  //               child: Padding(
+  //                 padding: const EdgeInsets.all(8.0),
+  //                 child: Column(
+  //                   crossAxisAlignment: CrossAxisAlignment.start,
+  //                   children: [
+  //                     Text(
+  //                       product.id.toString(),
+  //                       style:
+  //                           const TextStyle(color: Colors.white, fontSize: 20),
+  //                     ),
+  //                     Text(
+  //                       product.title,
+  //                       style:
+  //                           const TextStyle(color: Colors.white, fontSize: 16),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //             ),
+  //             _auth.currentUser != null
+  //                 // .isUserLoggedIn // üye giriş yapmış ise sepete ve fava ekleme butonu görünürlüğü
+  //                 ? Row(
+  //                     children: [
+  //                       ElevatedButton(
+  //                         onPressed: () {
+  //                           cart.addCartData(
+  //                             id: product.id,
+  //                             title: product.title,
+  //                             price: product.price,
+  //                             imageOne: product.imageOne,
+  //                             // images:
+  //                             //     "${productList[index].images.first.url}",
+  //                             // price: "${productList[index].price.value}",
+  //                           );
+  //                         },
+  //                         child: const Text('Add Cart'),
+  //                       ),
+  //                       ElevatedButton(
+  //                         onPressed: () {
+  //                           fav.addFavData(
+  //                             id: product.id,
+  //                             title: product.title,
+  //                             price: product.price,
+  //                             imageOne: product.imageOne,
+  //                           );
+  //                         },
+  //                         child: const Text('Add Fav'),
+  //                       ),
+  //                     ],
+  //                   )
+  //                 : const SizedBox(
+  //                     height: 10,
+  //                   ),
+  //           ],
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  //   // return Container(
+  //   //   child: Card(
+  //   //     color: const Color.fromARGB(255, 82, 81, 81),
+  //   //     child: Row(
+  //   //       children: [
+  //   //         Expanded(flex: 2, child: Image.network(product.imageOne)),
+  //   //         Expanded(
+  //   //           flex: 3,
+  //   //           child: Padding(
+  //   //             padding: const EdgeInsets.all(8.0),
+  //   //             child: Column(
+  //   //               crossAxisAlignment: CrossAxisAlignment.start,
+  //   //               children: [
+  //   //                 Text(
+  //   //                   product.id.toString(),
+  //   //                   style: const TextStyle(color: Colors.white, fontSize: 20),
+  //   //                 ),
+  //   //                 Text(
+  //   //                   product.title,
+  //   //                   style: const TextStyle(color: Colors.white, fontSize: 16),
+  //   //                 ),
+  //   //               ],
+  //   //             ),
+  //   //           ),
+  //   //         ),
+  //   //         authStore
+  //   //                 .isUserLoggedIn // üye giriş yapmış ise sepete ve fava ekleme butonu görünürlüğü
+  //   //             ? Row(
+  //   //                 children: [
+  //   //                   Expanded(
+  //   //                     flex: 1,
+  //   //                     child: ElevatedButton(
+  //   //                       onPressed: () {
+  //   //                         cart.addCartData(
+  //   //                           id: product.id,
+  //   //                           title: product.title,
+  //   //                           price: product.price,
+  //   //                           imageOne: "${product.imageOne}",
+  //   //                           // images:
+  //   //                           //     "${productList[index].images.first.url}",
+  //   //                           // price: "${productList[index].price.value}",
+  //   //                         );
+  //   //                       },
+  //   //                       child: const Text('Add Cart'),
+  //   //                     ),
+  //   //                   ),
+  //   //                   // Expanded(
+  //   //                   //   flex: 1,
+  //   //                   //   child: ElevatedButton(
+  //   //                   //     onPressed: () {
+  //   //                   //       fav.addFavData(
+  //   //                   //         name: productList[index].name,
+  //   //                   //         code: productList[index].code,
+  //   //                   //         images:
+  //   //                   //             "${productList[index].images.first.url}",
+  //   //                   //       );
+  //   //                   //     },
+  //   //                   //     child: const Text('Add Fav'),
+  //   //                   //   ),
+  //   //                   // ),
+  //   //                 ],
+  //   //               )
+  //   //             : const SizedBox(
+  //   //                 height: 10,
+  //   //               ),
+  //   //       ],
+  //   //     ),
+  //   //   ),
+  //   // );
+  // }
 }
+
 
 
 

@@ -1,12 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce_project/src/common/toast.dart';
 import 'package:e_commerce_project/src/services/firebase_auth_services.dart';
-import 'package:e_commerce_project/src/ui/view/pages/home_page.dart';
 import 'package:e_commerce_project/src/utils/navigation/router/app_router.dart';
-import 'package:e_commerce_project/src/view_model/product_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class LoginViewModel with ChangeNotifier {
   final FirebaseAuthService _auth = FirebaseAuthService();

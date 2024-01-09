@@ -1,5 +1,3 @@
-import 'package:e_commerce_project/src/di/injection.dart';
-import 'package:e_commerce_project/src/store/auth_store.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 
@@ -12,7 +10,7 @@ abstract class IAuthService {}
 class FirebaseAuthService implements IAuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  final AuthStore _authStore = getIt.get<AuthStore>();
+  // final AuthStore _authStore = getIt.get<AuthStore>();
 
   Future<User?> signUpWithEmailAndPassword(
       String email, String password) async {
@@ -38,7 +36,7 @@ class FirebaseAuthService implements IAuthService {
           email: email, password: password);
 
       // Kullanıcı login olduktan sonra currentUser ve isUserLoggedIn değişkenleri doldurulacaktır.
-      _authStore.setCurrentUser(credential.user, true);
+      // _authStore.setCurrentUser(credential.user, true);
 
       return credential.user;
     } on FirebaseAuthException catch (e) {

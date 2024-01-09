@@ -1,10 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:e_commerce_project/src/di/injection.dart';
 import 'package:e_commerce_project/src/services/fav_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import '../../../store/auth_store.dart';
 
 @RoutePage()
 class FavoriesPage extends StatefulWidget {
@@ -16,20 +14,21 @@ class FavoriesPage extends StatefulWidget {
 
 class _FavoriesPageState extends State<FavoriesPage> {
   FavService fav = FavService();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   CollectionReference users =
       FirebaseFirestore.instance.collection('usersData');
-  final authStore = getIt.get<AuthStore>();
+  // final authStore = getIt.get<AuthStore>();
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
       child: StreamBuilder<DocumentSnapshot>(
-        stream: users.doc(authStore.currentUSer?.uid).snapshots(),
+        stream: users.doc(_auth.currentUser?.uid).snapshots(),
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-          if (authStore.isUserLoggedIn == false) {
+          if (_auth.currentUser == null) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -101,10 +100,12 @@ class _FavoriesPageState extends State<FavoriesPage> {
                 final Map<String, dynamic> favDetail = favList[index];
                 // final Map<String, dynamic> favImage = favList[index];
 
-                final int id = favDetail['id'];
-                final String title = favDetail['title'];
-                final String imageOne = favDetail['imageOne'];
+                final String name = favDetail['name'];
+                final String category = favDetail['category'];
+                final String image = favDetail['image'];
                 final double price = favDetail['price'];
+                final double rate = favDetail['rate'];
+                final String color = favDetail['color'];
 
                 // final String price = favDetail['price'];
                 // final DateTime date = (favDetail['date'] as Timestamp).toDate();
@@ -122,7 +123,7 @@ class _FavoriesPageState extends State<FavoriesPage> {
                             Expanded(
                               flex: 1,
                               child: Image(
-                                image: NetworkImage(imageOne),
+                                image: NetworkImage(image),
                                 width: 50,
                               ),
                             ),
@@ -135,13 +136,13 @@ class _FavoriesPageState extends State<FavoriesPage> {
                                     height: 20,
                                   ),
                                   Text(
-                                    'title : ${title.toUpperCase()}',
+                                    name.toUpperCase(),
                                     style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 13),
                                   ),
                                   Text(
-                                    'id: $id',
+                                    'Category: $category',
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15,
@@ -169,10 +170,13 @@ class _FavoriesPageState extends State<FavoriesPage> {
                                 ),
                                 onPressed: () {
                                   fav.removeFavData(
-                                      id: id,
-                                      title: title,
-                                      imageOne: imageOne,
-                                      price: price);
+                                    name: name,
+                                    price: price,
+                                    category: category,
+                                    image: image,
+                                    rate: rate,
+                                    color: color,
+                                  );
                                 },
                               ),
                             ),

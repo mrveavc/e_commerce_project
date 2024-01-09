@@ -18,7 +18,7 @@ abstract class _$AppRouter extends RootStackRouter {
     CartRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const CartPage(),
+        child: WrappedRoute(child: const CartPage()),
       );
     },
     CategoryRoute.name: (routeData) {
@@ -36,7 +36,7 @@ abstract class _$AppRouter extends RootStackRouter {
     HomeRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const HomePage(),
+        child: WrappedRoute(child: const HomePage()),
       );
     },
     LoginRoute.name: (routeData) {
@@ -49,12 +49,6 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const MainLayoutPage(),
-      );
-    },
-    MyHomeRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const MyHomePage(),
       );
     },
     ProfilRoute.name: (routeData) {
@@ -163,20 +157,6 @@ class MainLayoutRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'MainLayoutRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [MyHomePage]
-class MyHomeRoute extends PageRouteInfo<void> {
-  const MyHomeRoute({List<PageRouteInfo>? children})
-      : super(
-          MyHomeRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'MyHomeRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

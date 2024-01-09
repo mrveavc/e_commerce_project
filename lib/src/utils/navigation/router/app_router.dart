@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:e_commerce_project/main.dart';
 import 'package:e_commerce_project/src/ui/layout/main_layout.dart';
 import 'package:e_commerce_project/src/ui/view/pages/cart_page.dart';
 import 'package:e_commerce_project/src/ui/view/pages/category_page.dart';
@@ -24,10 +23,9 @@ class AppRouter extends _$AppRouter {
             guards: [AuthGuard()],
             page: MainLayoutRoute.page,
             children: [
-              AutoRoute(page: LoginRoute.page, initial: true),
+              AutoRoute(page: HomeRoute.page, initial: true),
               AutoRoute(page: SignUpRoute.page),
-              AutoRoute(page: HomeRoute.page),
-              AutoRoute(page: MyHomeRoute.page),
+              AutoRoute(page: LoginRoute.page),
               AutoRoute(page: CartRoute.page),
               AutoRoute(page: FavoriesRoute.page),
               AutoRoute(page: CategoryRoute.page),
