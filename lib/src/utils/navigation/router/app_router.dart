@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:e_commerce_project/src/models/product.dart';
 import 'package:e_commerce_project/src/ui/layout/main_layout.dart';
 import 'package:e_commerce_project/src/ui/view/pages/cart_page.dart';
 import 'package:e_commerce_project/src/ui/view/pages/category_detail_page.dart';
@@ -6,6 +7,8 @@ import 'package:e_commerce_project/src/ui/view/pages/category_page.dart';
 import 'package:e_commerce_project/src/ui/view/pages/favories_page.dart';
 import 'package:e_commerce_project/src/ui/view/pages/home_page.dart';
 import 'package:e_commerce_project/src/ui/view/pages/login_page.dart';
+import 'package:e_commerce_project/src/ui/view/pages/order_page.dart';
+import 'package:e_commerce_project/src/ui/view/pages/product_detail_page.dart';
 import 'package:e_commerce_project/src/ui/view/pages/profile_page.dart';
 import 'package:e_commerce_project/src/ui/view/pages/sign_up_page.dart';
 import 'package:e_commerce_project/src/ui/view/splash_screen/splash_screen.dart';
@@ -31,7 +34,9 @@ class AppRouter extends _$AppRouter {
               AutoRoute(page: FavoriesRoute.page),
               AutoRoute(page: CategoryRoute.page),
               AutoRoute(page: ProfilRoute.page),
-              AutoRoute(page: CategoryDetailRoute.page)
+              AutoRoute(page: CategoryDetailRoute.page),
+              AutoRoute(page: OrderRoute.page),
+              AutoRoute(page: ProductDetailRoute.page)
             ]),
       ];
 }

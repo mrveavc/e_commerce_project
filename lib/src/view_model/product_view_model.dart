@@ -4,20 +4,11 @@ import 'package:flutter/material.dart';
 
 class ProductViewModel with ChangeNotifier {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  // bool? _isChecked = false;
-  // bool? get isChecked => _isChecked;
-
-  // List<bool>? _isChecked = [];
-  // List<bool>? get isChecked => _isChecked;
-
-  // void set isChecked(List<bool>? value) {
-  //   _isChecked = value;
-  //   notifyListeners();
-  // }
 
   List<Product> _products = [];
 
   List<Product> get products => _products;
+
   ProductViewModel() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _getProducts();
@@ -35,6 +26,7 @@ class ProductViewModel with ChangeNotifier {
         documentSnapshot.id,
         documentSnapshot.data(),
       );
+
       Map<String, dynamic> productSize = product.size;
       Map<String, dynamic> productSizeUpdated = {};
       productSizeUpdated["S"] = productSize["S"];
@@ -45,28 +37,4 @@ class ProductViewModel with ChangeNotifier {
     }
     notifyListeners();
   }
-
-  // final String api = "https://api.canerture.com/ecommerce/get_products";
-  // List<Product> _listProduct = [];
-  // List<Product> get listProduct => _listProduct;
-
-  // ProductViewModel() {
-  //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) => _getProducts());
-  // }
-
-  // void _getProducts() async {
-  //   Uri uri = Uri.parse(api);
-  //   http.Response response = await http.get(
-  //     uri,
-  //     headers: {"store": "canerture"},
-  //   );
-
-  //   Map<String, dynamic> responseMap = jsonDecode(response.body);
-  //   List<dynamic> allProduct = responseMap['products'] ?? [];
-
-  //   for (Map<String, dynamic> productMap in allProduct) {
-  //     _listProduct.add(Product.fromMap(productMap));
-  //   }
-  //   notifyListeners();
-  // }
 }

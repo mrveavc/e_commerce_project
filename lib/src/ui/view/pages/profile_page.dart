@@ -71,7 +71,9 @@ class _ProfilPageState extends State<ProfilPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      context.router.push(OrderRoute());
+                    },
                     child: Container(
                       width: 60,
                       height: 64,

@@ -8,13 +8,13 @@ import 'package:e_commerce_project/src/utils/navigation/router/app_router.dart';
 import 'package:e_commerce_project/src/view_model/category_detail_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:injectable/injectable.dart';
 import 'package:provider/provider.dart';
 
 @RoutePage()
 class CategoryDetailPage extends StatelessWidget implements AutoRouteWrapper {
-  CategoryDetailPage({super.key, required this.title}) {
-    print("------>" + title);
-  }
+  CategoryDetailPage({super.key, required this.title});
 
   final String title;
   @override
@@ -37,94 +37,105 @@ class CategoryDetailPage extends StatelessWidget implements AutoRouteWrapper {
   }
 
   Widget _buildCategoryDetail() {
-    return Consumer<CategoryDetailViewModel>(
-      builder: (context, viewModel, child) => ListView.builder(
-        itemCount: viewModel.products.length,
-        itemBuilder: (BuildContext context, int index) {
-          List<Map<String, dynamic>> dataList = [];
-
-          Product product = viewModel.products[index];
-          return ChangeNotifierProvider.value(
-              value: viewModel.products[index],
-              child: Card(
-                child: Column(
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+        child: Consumer<CategoryDetailViewModel>(
+          builder: (context, viewModel, child) => GridView.builder(
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 250,
+                childAspectRatio: 0.55,
+                crossAxisSpacing: 4,
+                mainAxisSpacing: 4),
+            itemCount: viewModel.products.length,
+            itemBuilder: (BuildContext context, int index) {
+              Product product = viewModel.products[index];
+              return Card(
+                elevation: 2,
+                child: Stack(
                   children: [
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Image.network(
-                          viewModel.products[index].image,
-                          width: 50,
+                        Container(
+                          height: 250,
+                          alignment: Alignment.center,
+                          child: Image.network(
+                            product.image,
+                            fit: BoxFit.fill,
+                          ),
                         ),
-                        Text(viewModel.products[index].name),
-                        Text(viewModel.products[index].category),
-                        Text(viewModel.products[index].price.toString()),
-                        Text(viewModel.products[index].color),
-                        Text(viewModel.products[index].rate.toString()),
-                        Row(
-                            children: Map.fromEntries(
-                          viewModel.products[index].size.entries
-                              .where((element) => element.value > 0),
-                        )
-                                .entries
-                                .map((e) => Consumer<Product>(
-                                      builder: (context, product, child) {
-                                        return Row(
-                                          children: [
-                                            Text(e.key),
-                                            Radio(
-                                              value: e.key,
-                                              groupValue: product.selectedSize,
-                                              onChanged: (value) {
-                                                product.selectedSize =
-                                                    value as String;
-                                                cart.selectedSize(value);
-                                                print(value);
-                                              },
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    ))
-                                .toList()),
-                        ElevatedButton(
-                          onPressed: () async {
-                            product.selectedSize == ""
-                                ? showToast(message: "Lütfen Beden Seçiniz.")
-                                : _auth.currentUser == null
-                                    ? context.router.push(LoginRoute())
-                                    : await cart.addCartData(
-                                        name: product.name,
-                                        price: product.price,
-                                        category: product.category,
-                                        image: product.image,
-                                        rate: product.rate,
-                                        color: product.color,
-                                        size: product.size,
-                                        quantityInCart: product.quantityInCart);
-                          },
-                          child: Text("Add Cart"),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 6),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                product.name.length > 26
+                                    ? product.name.substring(0, 26)
+                                    : product.name,
+                              ),
+                              Text(product.category),
+                              Row(
+                                children: [
+                                  RatingBar.builder(
+                                    initialRating: product.rate,
+                                    minRating: 1,
+                                    direction: Axis.horizontal,
+                                    allowHalfRating: true,
+                                    itemCount: 5,
+                                    itemSize: 20.0,
+                                    itemPadding: const EdgeInsets.symmetric(
+                                        horizontal: 4.0),
+                                    itemBuilder: (context, _) => const Icon(
+                                      Icons.star,
+                                      color: Colors.amber,
+                                    ),
+                                    onRatingUpdate: (rating) {
+                                      print(rating);
+                                    },
+                                  ),
+                                ],
+                              ),
+                              Text(product.price.toString())
+                            ],
+                          ),
                         ),
-                        ElevatedButton(
-                            onPressed: () {
-                              _auth.currentUser == null
-                                  ? context.router.push(LoginRoute())
-                                  : fav.addFavData(
-                                      name: product.name,
-                                      price: product.price,
-                                      category: product.category,
-                                      image: product.image,
-                                      rate: product.rate,
-                                      color: product.color,
-                                    );
-                              ;
-                            },
-                            child: Text("Add Fav"))
                       ],
-                    )
+                    ),
+                    Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(40),
+                          onTap: () {
+                            _auth.currentUser == null
+                                ? context.router.push(const LoginRoute())
+                                : fav.addFavData(
+                                    name: product.name,
+                                    price: product.price,
+                                    category: product.category,
+                                    image: product.image,
+                                    rate: product.rate,
+                                    color: product.color,
+                                  );
+                          },
+                          child: const Padding(
+                            padding: EdgeInsets.all(6.0),
+                            child: CircleAvatar(
+                              backgroundColor: Colors.white,
+                              maxRadius: 14,
+                              child: Icon(Icons.favorite_border_outlined,
+                                  size: 20),
+                            ),
+                          ),
+                        ))
                   ],
                 ),
-              ));
-        },
+              );
+            },
+          ),
+        ),
       ),
     );
   }

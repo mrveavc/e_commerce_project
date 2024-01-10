@@ -32,10 +32,12 @@ class CartService with ChangeNotifier {
         .toList();
 
     if (allProducts.isNotEmpty) {
-      _products.clear();
-      for (var map in (allProducts[0] as Map<String, dynamic>)["cart"]) {
-        _products.add(Product.fromCartMap(
-            _auth.currentUser?.uid, (map as Map<String, dynamic>)));
+      if ((allProducts[0] as Map<String, dynamic>)["cart"] != null) {
+        _products.clear();
+        for (var map in (allProducts[0] as Map<String, dynamic>)["cart"]) {
+          _products.add(Product.fromCartMap(
+              _auth.currentUser?.uid, (map as Map<String, dynamic>)));
+        }
       }
     }
 
@@ -48,6 +50,7 @@ class CartService with ChangeNotifier {
     CollectionReference users =
         FirebaseFirestore.instance.collection('usersData');
     size = selectedValue;
+
     if (products.isNotEmpty) {
       for (Product product in products) {
         if (product.name == name && product.size["singleSize"] == size) {

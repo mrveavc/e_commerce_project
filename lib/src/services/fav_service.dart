@@ -5,7 +5,8 @@ class FavService {
   // final authStore = getIt.get<AuthStore>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<void> addFavData({name, category, price, image, rate, color}) {
+  Future<void> addFavData({name, category, price, image, rate, color, isFav}) {
+    // isFav = !isFav;
     CollectionReference users =
         FirebaseFirestore.instance.collection('usersData');
     return users

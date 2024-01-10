@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:e_commerce_project/gen/assets.gen.dart';
-import 'package:e_commerce_project/src/constant/_colors.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -24,6 +23,7 @@ class _MainLayoutPageState extends State<MainLayoutPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: Colors.white,
         centerTitle: true,
         title: Image.asset('assets/images/logo.jpg', width: 110),
 
@@ -86,12 +86,7 @@ class _MainLayoutPageState extends State<MainLayoutPage> {
               icon: SvgPicture.asset(Assets.icons.icUser, height: 20),
               label: "Profile"),
         ],
-        //selectedFontSize: 12,
-        selectedIconTheme: const IconThemeData(
-          color: Colors.amber,
-          //size: 50,
-        ),
-        selectedItemColor: EColor.selectedIconBlack,
+        selectedItemColor: Colors.white,
       ),
     );
   }

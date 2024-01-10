@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_project/src/models/product.dart';
 import 'package:e_commerce_project/src/services/cart_service.dart';
+import 'package:e_commerce_project/src/services/order_service.dart';
 import 'package:e_commerce_project/src/view_model/cart_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ class CartPage extends StatefulWidget implements AutoRouteWrapper {
 }
 
 class _CartPageState extends State<CartPage> {
+  OrderService order = OrderService();
   CartService cart = CartService();
 
   CollectionReference users =
@@ -237,12 +239,16 @@ class _CartPageState extends State<CartPage> {
                 Consumer<CartViewModel>(
                     builder: (context, viewModel, child) =>
                         Text('Sepet Tutar : ${viewModel.totalPrice}')),
-
-                // Observer(
-                //   builder: (context) {
-                //     return Text('Sepet Tutar : ${viewModel.totalPrice}');
-                //   },
-                // ),
+                // ElevatedButton(onPressed: () {
+                //   order.addOrderData( name: name,
+                //                             price: price,
+                //                             category: category,
+                //                             image: image,
+                //                             rate: rate,
+                //                             color: color,
+                //                             size: size,
+                //                             quantityInCart: quantityInCart)
+                // }, child: Text('Ödeme Yap'))
               ],
             );
           } else {
