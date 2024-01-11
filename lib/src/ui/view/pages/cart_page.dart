@@ -265,12 +265,12 @@ class _CartPageState extends State<CartPage> {
                           color: const Color.fromARGB(255, 229, 223, 223))),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: Consumer<CartViewModel>(
-                            builder: (context, viewModel, child) => Column(
+                    child: Consumer<CartViewModel>(
+                      builder: (context, viewModel, child) => Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const Text("Toplam Tutar :"),
@@ -285,25 +285,28 @@ class _CartPageState extends State<CartPage> {
                               ],
                             ),
                           ),
-                        ),
-                        Expanded(
-                          flex: 2,
-                          child: ElevatedButton(
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all(Colors.black)),
-                            onPressed: () {},
-                            child: const Text(
-                              "Sepeti Onayla",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
+                          Expanded(
+                            flex: 2,
+                            child: ElevatedButton(
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all(Colors.black)),
+                              onPressed: () {
+                                context.router.push(PaymentRoute(
+                                    totalPrice: viewModel.totalPrice));
+                              },
+                              child: const Text(
+                                "Sepeti Onayla",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 )

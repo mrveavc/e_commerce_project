@@ -1,11 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce_project/src/ui/widgets/form_container_widget.dart';
-import 'package:e_commerce_project/src/common/toast.dart';
 import 'package:e_commerce_project/src/utils/navigation/router/app_router.dart';
 import 'package:e_commerce_project/src/view_model/login_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 // import 'package:provider/provider.dart';
 
@@ -65,72 +63,8 @@ class _LoginPageState extends State<LoginPage> {
                 height: 50,
               ),
               _buildLoginButton(context),
-              // GestureDetector(
-              //   onTap: () {
-              //     _signIn();
-              //   },
-              //   child: Container(
-              //     width: double.infinity,
-              //     height: 50,
-              //     decoration: BoxDecoration(
-              //       color: Colors.black,
-              //       borderRadius: BorderRadius.circular(20),
-              //     ),
-              //     child: Center(
-              //       child: authStore.isUserLoggedIn
-              //           // _isSigning
-              //           ? const CircularProgressIndicator(
-              //               color: Colors.white,
-              //             )
-              //           : const Text(
-              //               "Login",
-              //               style: TextStyle(
-              //                 fontSize: 18,
-              //                 color: Colors.white,
-              //                 fontWeight: FontWeight.bold,
-              //               ),
-              //             ),
-              //     ),
-              //   ),
-              // ),
               const SizedBox(
                 height: 20,
-              ),
-              GestureDetector(
-                onTap: () {
-                  _signInWithGoogle();
-                },
-                child: Container(
-                  width: double.infinity,
-                  height: 45,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.black, width: 1),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.save, //google icon
-                          color: Colors.black,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          "Sign in with Google",
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
               ),
               const SizedBox(
                 height: 20,
@@ -164,58 +98,49 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _buildLoginButton(BuildContext context) {
-    print("auth : ${_firebaseAuth.currentUser}");
     LoginViewModel viewModel = Provider.of(
       context,
       listen: false,
     );
-    return ElevatedButton(
-      child: Text("Giriş Yap"),
-      onPressed: () {
+    return GestureDetector(
+      onTap: () {
         viewModel.signIn(
           context,
           _emailController.text.trim(),
           _passwordController.text.trim(),
         );
       },
+      child: Container(
+        width: double.infinity,
+        height: 45,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: Colors.black, width: 1),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: const Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.login,
+                color: Colors.black,
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              Text(
+                "Giriş Yap",
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
-  }
-
-  // void _signIn() async {
-  //   String email = _emailController.text;
-  //   String password = _passwordController.text;
-
-  //   User? user = await _auth.signInWithEmailAndPassword(email, password);
-
-  //   if (user != null) {
-  //     showToast(message: "User is successfully signed in");
-  //     context.router.replace(const ProfilRoute());
-  //   } else {
-  //     showToast(message: "some error occured");
-  //   }
-  // }
-
-  _signInWithGoogle() async {
-    final GoogleSignIn _googleSignIn = GoogleSignIn();
-
-    try {
-      final GoogleSignInAccount? googleSignInAccount =
-          await _googleSignIn.signIn();
-
-      if (googleSignInAccount != null) {
-        final GoogleSignInAuthentication googleSignInAuthentication =
-            await googleSignInAccount.authentication;
-
-        final AuthCredential credential = GoogleAuthProvider.credential(
-          idToken: googleSignInAuthentication.idToken,
-          accessToken: googleSignInAuthentication.accessToken,
-        );
-
-        await _firebaseAuth.signInWithCredential(credential);
-        context.router.replace(HomeRoute());
-      }
-    } catch (e) {
-      showToast(message: "some error occured $e");
-    }
   }
 }

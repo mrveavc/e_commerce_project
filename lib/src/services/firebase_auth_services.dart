@@ -21,9 +21,9 @@ class FirebaseAuthService implements IAuthService {
       return credential.user;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
-        showToast(message: 'The email address is already in use.');
+        showToast(message: 'Email adresi zaten kayıtlı.');
       } else {
-        showToast(message: 'An error occurred: ${e.code}');
+        showToast(message: 'Beklenmeyen bir hata oluştu.');
       }
     }
     return null;
@@ -35,15 +35,12 @@ class FirebaseAuthService implements IAuthService {
       UserCredential credential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
 
-      // Kullanıcı login olduktan sonra currentUser ve isUserLoggedIn değişkenleri doldurulacaktır.
-      // _authStore.setCurrentUser(credential.user, true);
-
       return credential.user;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found' || e.code == 'wrong-password') {
-        showToast(message: 'Invalid email or password.');
+        showToast(message: 'Email veya parolanızı lütfen kontrol ediniz.');
       } else {
-        showToast(message: 'An error occurred: ${e.code}');
+        print("");
       }
     }
     return null;

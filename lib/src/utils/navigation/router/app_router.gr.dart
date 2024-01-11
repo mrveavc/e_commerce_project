@@ -70,6 +70,16 @@ abstract class _$AppRouter extends RootStackRouter {
         child: WrappedRoute(child: const OrderPage()),
       );
     },
+    PaymentRoute.name: (routeData) {
+      final args = routeData.argsAs<PaymentRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: PaymentPage(
+          key: args.key,
+          totalPrice: args.totalPrice,
+        ),
+      );
+    },
     ProductDetailRoute.name: (routeData) {
       final args = routeData.argsAs<ProductDetailRouteArgs>();
       return AutoRoutePage<dynamic>(
@@ -254,6 +264,44 @@ class OrderRoute extends PageRouteInfo<void> {
   static const String name = 'OrderRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [PaymentPage]
+class PaymentRoute extends PageRouteInfo<PaymentRouteArgs> {
+  PaymentRoute({
+    Key? key,
+    required double totalPrice,
+    List<PageRouteInfo>? children,
+  }) : super(
+          PaymentRoute.name,
+          args: PaymentRouteArgs(
+            key: key,
+            totalPrice: totalPrice,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'PaymentRoute';
+
+  static const PageInfo<PaymentRouteArgs> page =
+      PageInfo<PaymentRouteArgs>(name);
+}
+
+class PaymentRouteArgs {
+  const PaymentRouteArgs({
+    this.key,
+    required this.totalPrice,
+  });
+
+  final Key? key;
+
+  final double totalPrice;
+
+  @override
+  String toString() {
+    return 'PaymentRouteArgs{key: $key, totalPrice: $totalPrice}';
+  }
 }
 
 /// generated route for

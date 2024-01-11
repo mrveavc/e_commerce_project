@@ -9,52 +9,20 @@ class LoginViewModel with ChangeNotifier {
   final FirebaseAuthService _auth = FirebaseAuthService();
 
   void signIn(BuildContext context, String email, String password) async {
-    // final _auth = Provider.of<FirebaseAuthService>(context);
-
     try {
       User? user = await _auth.signInWithEmailAndPassword(
         email,
         password,
       );
       if (user != null) {
-        showToast(message: "User is successfully signed in");
+        showToast(message: "Giriş Yapıldı");
         context.router.replace(const ProfilRoute());
       } else {
-        showToast(message: "Login user null");
+        showToast(message: "Email veya parolanızı lütfen kontrol ediniz.");
       }
       //  _openMainPage(context);
     } on FirebaseAuthException catch (e) {
       print(e.message);
     }
   }
-
-  // void _openMainPage(BuildContext context) {
-  //   MaterialPageRoute pageRoute = MaterialPageRoute(
-  //     builder: (context) => ChangeNotifierProvider(
-  //       create: (context) => ProductViewModel(),
-  //       child: HomePage(),
-  //     ),
-  //   );
-  //   Navigator.pushReplacement(context, pageRoute);
-  // }
-
-  // void openRegisterPage(BuildContext context) {
-  //   MaterialPageRoute pageRoute = MaterialPageRoute(
-  //     builder: (context) => ChangeNotifierProvider(
-  //       create: (context) => RegisterViewModel(),
-  //       child: RegisterPage(),
-  //     ),
-  //   );
-  //   Navigator.pushReplacement(context, pageRoute);
-  // }
-
-  // void _openMainPage(BuildContext context) {
-  //   MaterialPageRoute pageRoute = MaterialPageRoute(
-  //     builder: (context) => ChangeNotifierProvider(
-  //       create: (context) => MainViewModel(),
-  //       child: MainPage(),
-  //     ),
-  //   );
-  //   Navigator.pushReplacement(context, pageRoute);
-  // }
 }

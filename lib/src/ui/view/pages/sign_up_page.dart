@@ -149,11 +149,10 @@ class _SignUpPageState extends State<SignUpPage> {
       isSigningUp = false;
     });
     if (user != null) {
-      showToast(message: "User is successfully created");
+      showToast(message: "Hesabınız başarılı bir şekilde oluşturuldu.");
       context.router.replace(HomeRoute());
-      // Navigator.pushNamed(context, "/home", arguments: {'username': username});
     } else {
-      showToast(message: "Some error happend");
+      showToast(message: "Beklenmedik bir hata oluştu.");
     }
   }
 }

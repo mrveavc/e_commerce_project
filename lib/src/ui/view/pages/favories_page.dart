@@ -4,6 +4,7 @@ import 'package:e_commerce_project/src/services/fav_service.dart';
 import 'package:e_commerce_project/src/utils/navigation/router/app_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 @RoutePage()
 class FavoriesPage extends StatefulWidget {
@@ -63,9 +64,7 @@ class _FavoriesPageState extends State<FavoriesPage> {
                   width: 250,
                   margin: const EdgeInsets.only(top: 100),
                   child: ElevatedButton(
-                    onPressed: () {
-                      context.router.push(const LoginRoute());
-                    },
+                    onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
                     ),
@@ -86,10 +85,6 @@ class _FavoriesPageState extends State<FavoriesPage> {
             final DocumentSnapshot<dynamic>? document = snapshot.data;
 
             final Map<String, dynamic> documentData = document?.data();
-
-            // if (documentData['fav'] == null) {
-            //   print('No item now');
-            // }
 
             final List<Map<String, dynamic>> favList =
                 documentData['fav'] != null
@@ -115,80 +110,143 @@ class _FavoriesPageState extends State<FavoriesPage> {
                 // final String price = favDetail['price'];
                 // final DateTime date = (favDetail['date'] as Timestamp).toDate();
 
-                return Card(
-                  child: Row(
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.all(16.0),
-                      ),
-                      Expanded(
-                        child: Row(
-                          // crossAxisAlignment: CrossAxisAlignment.start,
+                return Padding(
+                  padding: const EdgeInsets.all(14),
+                  child: Slidable(
+                    key: Key(name),
+                    endActionPane: ActionPane(
+                        motion: const ScrollMotion(),
+                        extentRatio: 0.150,
+                        children: [
+                          SlidableAction(
+                            onPressed: (context) {
+                              print("silme slide gerçekleşti");
+
+                              fav.removeFavData(
+                                name: name,
+                                price: price,
+                                category: category,
+                                image: image,
+                                rate: rate,
+                                color: color,
+                                // size: size,
+                              );
+                            },
+                            backgroundColor: Colors.grey.shade300,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 10),
+                            icon: Icons.delete,
+                            foregroundColor: Colors.black,
+                          ),
+                        ]),
+                    child: Column(
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Expanded(
                               flex: 1,
-                              child: Image(
-                                image: NetworkImage(image),
-                                width: 50,
-                              ),
-                            ),
-                            Expanded(
-                              flex: 5,
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  Image.network(image),
                                   const SizedBox(
-                                    height: 20,
-                                  ),
-                                  Text(
-                                    name.toUpperCase(),
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 13),
-                                  ),
-                                  Text(
-                                    'Category: $category',
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Price: ${price.toStringAsFixed(2)}',
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 4.0,
+                                    height: 8,
                                   ),
                                 ],
                               ),
                             ),
                             Expanded(
-                              flex: 1,
-                              child: IconButton(
-                                icon: const Icon(
-                                  Icons.delete,
-                                  color: Colors.red,
+                              flex: 2,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: SizedBox(
+                                  height: 220,
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            name,
+                                            style: const TextStyle(
+                                                height: 1.2,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          const SizedBox(height: 6),
+                                          Row(
+                                            children: [
+                                              const Text("Renk :",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold)),
+                                              Text(" $color"),
+                                            ],
+                                          ),
+                                          const SizedBox(height: 6),
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 20),
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              flex: 3,
+                                              child: Text(
+                                                '$price',
+                                                style: const TextStyle(
+                                                    color: Colors.grey,
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              flex: 4,
+                                              child: SizedBox(
+                                                height: 35,
+                                                child: ElevatedButton(
+                                                  style: ButtonStyle(
+                                                      backgroundColor:
+                                                          MaterialStateProperty
+                                                              .all(Colors
+                                                                  .black)),
+                                                  onPressed: () {
+                                                    context.router.replace(
+                                                        const CategoryRoute());
+                                                  },
+                                                  child: const Text(
+                                                    "Sepete Ekle",
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 16,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                onPressed: () {
-                                  fav.removeFavData(
-                                    name: name,
-                                    price: price,
-                                    category: category,
-                                    image: image,
-                                    rate: rate,
-                                    color: color,
-                                  );
-                                },
                               ),
                             ),
                           ],
                         ),
-                      ),
-                    ],
+                        const Divider(
+                          color: Colors.black54,
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },
@@ -246,95 +304,5 @@ class _FavoriesPageState extends State<FavoriesPage> {
         }, // builder:
       ),
     );
-
-    //sil
-    // return StreamBuilder(
-    //     stream: users.doc(authStore.currentUSer!.uid).snapshots(),
-    //     builder: (context, snapshot) {
-    //       if (!snapshot.hasData) {
-    //         return Text("Loading");
-    //       }
-    //       var userDocument = snapshot.data;
-    //       return Text(userDocument?[{
-    //         'fav': FieldValue.arrayUnion([0])
-    //       }]);
-    //     });
-
-    // return StreamBuilder<QuerySnapshot>(
-    //   stream: _usersStream,
-    //   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-    //     if (snapshot.hasError) {
-    //       return const Text('Something went wrong');
-    //     }
-
-    //     if (snapshot.connectionState == ConnectionState.waiting) {
-    //       return const Text("Loading");
-    //     }
-
-    //     return ListView(
-    //       children: snapshot.data!.docs.map((DocumentSnapshot document) {
-    //         Map<String, dynamic> data =
-    //             document.data()! as Map<String, dynamic>;
-    //         return ListTile(
-    //           title: Text(data['userEmail']),
-    //           subtitle: Text(data['userUid']),
-    //         );
-    //       }).toList(),
-    //     );
-    //   },
-    // );
-
-    // return Scaffold(
-    //   body: Column(
-    //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-    //     children: [
-    //       const SizedBox(
-    //         height: 150,
-    //       ),
-    //       const Column(
-    //         children: [
-    //           Center(
-    //               child: CircleAvatar(
-    //             radius: 50,
-    //             backgroundColor: Color.fromRGBO(211, 211, 211, 1),
-    //             child: Icon(
-    //               Icons.favorite_outline_outlined,
-    //               color: Color.fromARGB(255, 0, 0, 0),
-    //               size: 50,
-    //             ),
-    //           )),
-    //           SizedBox(
-    //             height: 30,
-    //           ),
-    //           Text(
-    //             'Favorilerine eklenen ürünler buraya kaydedilecek.',
-    //             textAlign: TextAlign.center,
-    //             style: TextStyle(fontSize: 20),
-    //           ),
-    //         ],
-    //       ),
-    //       Container(
-    //         height: 50,
-    //         width: 250,
-    //         margin: const EdgeInsets.only(top: 100),
-    //         child: ElevatedButton(
-    //           onPressed: () {},
-    //           style: ElevatedButton.styleFrom(
-    //             backgroundColor: Colors.black,
-    //           ),
-    //           child: const Text(
-    //             'Alışverişe Başla',
-    //             style: TextStyle(
-    //               fontSize: 18,
-    //               color: Colors.white,
-    //             ),
-    //           ),
-    //         ),
-    //       ),
-
-    //       // users.doc(authStore.currentUSer!.uid).snapshots((QuerySnapshot) => {})
-    //     ],
-    //   ),
-    // );
   }
 }

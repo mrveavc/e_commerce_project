@@ -8,6 +8,7 @@ import 'package:e_commerce_project/src/ui/view/pages/favories_page.dart';
 import 'package:e_commerce_project/src/ui/view/pages/home_page.dart';
 import 'package:e_commerce_project/src/ui/view/pages/login_page.dart';
 import 'package:e_commerce_project/src/ui/view/pages/order_page.dart';
+import 'package:e_commerce_project/src/ui/view/pages/payment_page.dart';
 import 'package:e_commerce_project/src/ui/view/pages/product_detail_page.dart';
 import 'package:e_commerce_project/src/ui/view/pages/profile_page.dart';
 import 'package:e_commerce_project/src/ui/view/pages/sign_up_page.dart';
@@ -36,7 +37,8 @@ class AppRouter extends _$AppRouter {
               AutoRoute(page: ProfilRoute.page),
               AutoRoute(page: CategoryDetailRoute.page),
               AutoRoute(page: OrderRoute.page),
-              AutoRoute(page: ProductDetailRoute.page)
+              AutoRoute(page: ProductDetailRoute.page),
+              AutoRoute(page: PaymentRoute.page)
             ]),
       ];
 }
