@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:e_commerce_project/src/ui/view/pages/profile_page.dart';
 import 'package:e_commerce_project/src/utils/navigation/router/app_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

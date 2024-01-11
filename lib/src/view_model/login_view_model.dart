@@ -20,7 +20,6 @@ class LoginViewModel with ChangeNotifier {
       } else {
         showToast(message: "Email veya parolanızı lütfen kontrol ediniz.");
       }
-      //  _openMainPage(context);
     } on FirebaseAuthException catch (e) {
       print(e.message);
     }

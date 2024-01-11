@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:e_commerce_project/src/common/toast.dart';
 import 'package:e_commerce_project/src/models/product.dart';
 import 'package:e_commerce_project/src/utils/navigation/router/app_router.dart';
 import 'package:e_commerce_project/src/view_model/product_view_model.dart';

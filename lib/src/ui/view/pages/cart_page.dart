@@ -116,7 +116,6 @@ class _CartPageState extends State<CartPage> {
                     itemCount: cartList.length,
                     itemBuilder: (BuildContext context, int index) {
                       final Map<String, dynamic> cartDetail = cartList[index];
-                      // final Map<String, dynamic> favImage = favList[index];
                       final String name = cartDetail['name'];
                       final String category = cartDetail['category'];
                       final String image = cartDetail['image'];
@@ -292,8 +291,8 @@ class _CartPageState extends State<CartPage> {
                                   backgroundColor:
                                       MaterialStateProperty.all(Colors.black)),
                               onPressed: () {
-                                context.router.push(PaymentRoute(
-                                    totalPrice: viewModel.totalPrice));
+                                context.router
+                                    .push(PaymentRoute(viewModel: viewModel));
                               },
                               child: const Text(
                                 "Sepeti Onayla",

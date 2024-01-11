@@ -27,13 +27,6 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Image(
           image: AssetImage('assets/images/logo.jpg'),
         ),
-        // child: Text(
-        //   "Welcome To Flutter Firebase",
-        //   style: TextStyle(
-        //     color: Colors.blue,
-        //     fontWeight: FontWeight.bold,
-        //   ),
-        // ),
       ),
     );
   }

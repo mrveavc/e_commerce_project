@@ -1,8 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce_project/src/constant/_colors.dart';
-import 'package:e_commerce_project/src/utils/navigation/router/app_router.dart';
 import 'package:e_commerce_project/src/view_model/main_layout_view_model.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:e_commerce_project/gen/assets.gen.dart';
@@ -94,61 +92,6 @@ class _MainLayoutPageState extends State<MainLayoutPage> {
           );
         },
       ),
-
-      // bottomNavigationBar: Consumer<MainLayoutViewModel>(
-      //   builder: (context, viewModel, child) {
-      //     return BottomNavigationBar(
-      //       currentIndex: viewModel.selectedIconIndex,
-      //       onTap: (currentIndex) {
-      //         switch (currentIndex) {
-      //           case 0:
-      //             context.router.push(const HomeRoute());
-
-      //             break;
-      //           case 1:
-      //             context.router.push(const CategoryRoute());
-      //             break;
-      //           case 2:
-      //             context.router.push(const FavoriesRoute());
-      //             break;
-      //           case 3:
-      //             context.router.push(const CartRoute());
-      //             break;
-      //           case 4:
-      //             context.router.push(_auth.currentUser != null
-      //                 ? const ProfilRoute()
-      //                 : const LoginRoute());
-      //             // context.router.push(authStore.isUserLoggedIn
-      //             //     ? const ProfilRoute()
-      //             //     : const LoginRoute());
-      //             break;
-      //           default:
-      //         }
-      //       },
-      //       showSelectedLabels: false,
-      //       items: [
-      //         BottomNavigationBarItem(
-      //           icon: SvgPicture.asset(Assets.icons.icHome, height: 20),
-      //           label: "Home",
-      //         ),
-      //         BottomNavigationBarItem(
-      //             icon: SvgPicture.asset(Assets.icons.icMenu, height: 20),
-      //             label: "Category"),
-      //         BottomNavigationBarItem(
-      //             icon: SvgPicture.asset(Assets.icons.icFav, height: 20),
-      //             label: "Favories"),
-      //         BottomNavigationBarItem(
-      //             icon:
-      //                 SvgPicture.asset(Assets.icons.icShoppingBag, height: 20),
-      //             label: "Cart"),
-      //         BottomNavigationBarItem(
-      //             icon: SvgPicture.asset(Assets.icons.icUser, height: 20),
-      //             label: "Profile"),
-      //       ],
-      //       selectedItemColor: Colors.white,
-      //     );
-      //   },
-      // ),
     );
   }
 }

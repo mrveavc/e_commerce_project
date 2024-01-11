@@ -55,9 +55,6 @@ class CartService with ChangeNotifier {
     if (products.isNotEmpty) {
       for (Product product in products) {
         if (product.name == name && product.size["singleSize"] == size) {
-          // int newQuantityInCart = quantityInCart + 1
-          //;
-          print("!!!! quantityInCart: " + product.quantityInCart.toString());
           await users
               .doc(_auth.currentUser?.uid)
               .update({
@@ -170,35 +167,4 @@ class CartService with ChangeNotifier {
         .then((value) => print("Cart remove"))
         .catchError((error) => print("Failed to cart fav: $error"));
   }
-  // Future<void> addCartData({id, title, price, imageOne}) {
-  //   CollectionReference users =
-  //       FirebaseFirestore.instance.collection('usersData');
-  //   return users
-  //       .doc(_auth.currentUser?.uid)
-  //       .update(
-  //         {
-  //           'cart': FieldValue.arrayUnion([
-  //             {'id': id, 'title': title, 'price': price, 'imageOne': imageOne},
-  //           ])
-  //         },
-  //       )
-  //       .then((value) => print("Cart Added"))
-  //       .catchError((error) => print("Failed to add cart: $error"));
-  // }
-
-  // Future<void> removeCartData({id, title, price, imageOne}) {
-  //   CollectionReference users =
-  //       FirebaseFirestore.instance.collection('usersData');
-  //   return users
-  //       .doc(_auth.currentUser?.uid)
-  //       .update(
-  //         {
-  //           'cart': FieldValue.arrayRemove([
-  //             {'id': id, 'title': title, 'price': price, 'imageOne': imageOne},
-  //           ])
-  //         },
-  //       )
-  //       .then((value) => print("Cart remove"))
-  //       .catchError((error) => print("Failed to cart fav: $error"));
-  // }
 }

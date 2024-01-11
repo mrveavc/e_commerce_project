@@ -1,6 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:e_commerce_project/src/common/toast.dart';
 import 'package:e_commerce_project/src/constant/_colors.dart';
 import 'package:e_commerce_project/src/models/product.dart';
 import 'package:e_commerce_project/src/services/cart_service.dart';
@@ -10,7 +8,6 @@ import 'package:e_commerce_project/src/view_model/category_detail_view_model.dar
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:injectable/injectable.dart';
 import 'package:provider/provider.dart';
 
 @RoutePage()

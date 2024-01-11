@@ -92,13 +92,11 @@ class _FavoriesPageState extends State<FavoriesPage> {
                         .map((favDetail) => favDetail as Map<String, dynamic>)
                         .toList()
                     : [];
-            // print("favList : $favList");
 
             return ListView.builder(
               itemCount: favList.length,
               itemBuilder: (BuildContext context, int index) {
                 final Map<String, dynamic> favDetail = favList[index];
-                // final Map<String, dynamic> favImage = favList[index];
 
                 final String name = favDetail['name'];
                 final String category = favDetail['category'];
@@ -106,9 +104,6 @@ class _FavoriesPageState extends State<FavoriesPage> {
                 final double price = favDetail['price'];
                 final double rate = favDetail['rate'];
                 final String color = favDetail['color'];
-
-                // final String price = favDetail['price'];
-                // final DateTime date = (favDetail['date'] as Timestamp).toDate();
 
                 return Padding(
                   padding: const EdgeInsets.all(14),

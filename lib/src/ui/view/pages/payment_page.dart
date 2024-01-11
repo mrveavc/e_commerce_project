@@ -1,11 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce_project/src/common/toast.dart';
+import 'package:e_commerce_project/src/utils/navigation/router/app_router.dart';
+import 'package:e_commerce_project/src/view_model/cart_view_model.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
 class PaymentPage extends StatelessWidget {
-  PaymentPage({super.key, required this.totalPrice});
-  final double totalPrice;
+  PaymentPage({super.key, required this.viewModel});
+  final CartViewModel viewModel;
 
   final TextEditingController _fullNameController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
@@ -17,7 +19,6 @@ class PaymentPage extends StatelessWidget {
   bool? isChecked = true;
   @override
   Widget build(BuildContext context) {
-    print(totalPrice);
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -37,7 +38,7 @@ class PaymentPage extends StatelessWidget {
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                     ),
                     Text(
-                      "${totalPrice.toString()} TL",
+                      "${viewModel.totalPrice.toString()} TL",
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                     ),
@@ -86,7 +87,7 @@ class PaymentPage extends StatelessWidget {
                         controller: _creditCardNumber,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter some text';
+                            return 'Lütfen kart numaranızı giriniz.';
                           }
                           return null;
                         },
@@ -179,21 +180,20 @@ class PaymentPage extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    // validate metoduna bu şekilde erişiyoruz.
-                    if (_formKey.currentState!.validate()) {
+                    if (!_formKey.currentState!.validate()) {
                       showToast(message: "Lütfen gerekli alanları doldurunuz!");
-                      // Scaffold.of(context).showSnackBar(
-                      //     SnackBar(content: Text('Processing Data')));
+                    } else {
+                      context.router.push(OrderRoute());
                     }
                   },
-                  child: const Text(
-                    'Sipariş Ver',
-                    style: TextStyle(color: Colors.white),
-                  ),
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(200, 50),
-                    backgroundColor: Colors.grey,
+                    backgroundColor: Colors.black,
                     shadowColor: Colors.black,
+                  ),
+                  child: const Text(
+                    'Ödeme Yap',
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ],

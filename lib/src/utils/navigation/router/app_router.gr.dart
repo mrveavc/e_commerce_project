@@ -76,7 +76,7 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: PaymentPage(
           key: args.key,
-          totalPrice: args.totalPrice,
+          viewModel: args.viewModel,
         ),
       );
     },
@@ -271,13 +271,13 @@ class OrderRoute extends PageRouteInfo<void> {
 class PaymentRoute extends PageRouteInfo<PaymentRouteArgs> {
   PaymentRoute({
     Key? key,
-    required double totalPrice,
+    required CartViewModel viewModel,
     List<PageRouteInfo>? children,
   }) : super(
           PaymentRoute.name,
           args: PaymentRouteArgs(
             key: key,
-            totalPrice: totalPrice,
+            viewModel: viewModel,
           ),
           initialChildren: children,
         );
@@ -291,16 +291,16 @@ class PaymentRoute extends PageRouteInfo<PaymentRouteArgs> {
 class PaymentRouteArgs {
   const PaymentRouteArgs({
     this.key,
-    required this.totalPrice,
+    required this.viewModel,
   });
 
   final Key? key;
 
-  final double totalPrice;
+  final CartViewModel viewModel;
 
   @override
   String toString() {
-    return 'PaymentRouteArgs{key: $key, totalPrice: $totalPrice}';
+    return 'PaymentRouteArgs{key: $key, viewModel: $viewModel}';
   }
 }
 

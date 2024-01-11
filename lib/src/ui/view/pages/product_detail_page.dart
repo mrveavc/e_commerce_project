@@ -5,7 +5,6 @@ import 'package:e_commerce_project/src/models/product.dart';
 import 'package:e_commerce_project/src/services/cart_service.dart';
 import 'package:e_commerce_project/src/services/fav_service.dart';
 import 'package:e_commerce_project/src/utils/navigation/router/app_router.dart';
-import 'package:e_commerce_project/src/view_model/product_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -19,11 +18,6 @@ class ProductDetailPage extends StatelessWidget {
 
   CartService cart = CartService();
   FavService fav = FavService();
-  @override
-  // Widget wrappedRoute(BuildContext context) {
-  //   return ChangeNotifierProvider(
-  //       create: (_) => ProductViewModel(), child: this);
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +53,7 @@ class ProductDetailPage extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         color: Color.fromARGB(255, 60, 60, 60)),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -90,7 +84,7 @@ class ProductDetailPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -122,7 +116,7 @@ class ProductDetailPage extends StatelessWidget {
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.w600),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 20,
                             ),
                             Row(
@@ -144,7 +138,6 @@ class ProductDetailPage extends StatelessWidget {
                                                     product.selectedSize =
                                                         value as String;
                                                     cart.selectedSize(value);
-                                                    print(value);
                                                   },
                                                 ),
                                               ],

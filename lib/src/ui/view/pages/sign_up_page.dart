@@ -138,7 +138,6 @@ class _SignUpPageState extends State<SignUpPage> {
     username = _usernameController.text;
     email = _emailController.text;
     password = _passwordController.text;
-    // print(username);
 
     User? user = await _auth.signUpWithEmailAndPassword(email, password);
     UserService addUser = UserService();
