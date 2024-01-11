@@ -166,15 +166,15 @@ class PaymentPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                const Row(
+                Row(
                   children: [
-                    CheckboxExample(),
+                    _buildCheckBox(),
                     Text('Kartımı kaydet.'),
                   ],
                 ),
-                const Row(
+                Row(
                   children: [
-                    CheckboxExample(),
+                    _buildCheckBox(),
                     Text('Hüküm ve koşulları kabul ediyorum.'),
                   ],
                 ),
@@ -203,51 +203,66 @@ class PaymentPage extends StatelessWidget {
       ),
     );
   }
-}
 
-class CheckboxExample extends StatefulWidget {
-  const CheckboxExample({super.key});
-
-  @override
-  State<CheckboxExample> createState() => _CheckboxExampleState();
-}
-
-class _CheckboxExampleState extends State<CheckboxExample> {
-  bool isChecked = false;
-
-  @override
-  Widget build(BuildContext context) {
-    Color getColor(Set<MaterialState> states) {
-      const Set<MaterialState> interactiveStates = <MaterialState>{
-        MaterialState.pressed,
-        MaterialState.hovered,
-        MaterialState.focused,
-      };
-      if (states.any(interactiveStates.contains)) {
-        return Colors.blue;
-      }
-      return Colors.black;
+  Color getColor(Set<MaterialState> states) {
+    const Set<MaterialState> interactiveStates = <MaterialState>{
+      MaterialState.pressed,
+      MaterialState.hovered,
+      MaterialState.focused,
+    };
+    if (states.any(interactiveStates.contains)) {
+      return Colors.blue;
     }
+    return Colors.black;
+  }
 
+  Widget _buildCheckBox() {
     return Checkbox(
       checkColor: Colors.white,
       fillColor: MaterialStateProperty.resolveWith(getColor),
       value: isChecked,
       onChanged: (bool? value) {
-        setState(() {
-          isChecked = value!;
-        });
+        // setState(() {
+        //   isChecked = value!;
+        // });
       },
     );
   }
 }
 
-bool validateForm() {
-  var monthYearController;
-  return _isValidFormat(monthYearController.text);
-}
+// class CheckboxExample extends StatefulWidget {
+//   const CheckboxExample({super.key});
 
-bool _isValidFormat(String input) {
-  RegExp regex = RegExp(r'^\d{2}/\d{2}$');
-  return regex.hasMatch(input);
-}
+//   @override
+//   State<CheckboxExample> createState() => _CheckboxExampleState();
+// }
+
+// class _CheckboxExampleState extends State<CheckboxExample> {
+//   bool isChecked = false;
+
+//   @override
+ // Widget build(BuildContext context) {
+    // Color getColor(Set<MaterialState> states) {
+    //   const Set<MaterialState> interactiveStates = <MaterialState>{
+    //     MaterialState.pressed,
+    //     MaterialState.hovered,
+    //     MaterialState.focused,
+    //   };
+    //   if (states.any(interactiveStates.contains)) {
+    //     return Colors.blue;
+    //   }
+    //   return Colors.black;
+    // }
+
+    // return Checkbox(
+    //   checkColor: Colors.white,
+    //   fillColor: MaterialStateProperty.resolveWith(getColor),
+    //   value: isChecked,
+    //   onChanged: (bool? value) {
+    //     setState(() {
+    //       isChecked = value!;
+    //     });
+    //   },
+    // );
+ // }
+//}

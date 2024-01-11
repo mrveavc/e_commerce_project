@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_project/src/models/product.dart';
+import 'package:e_commerce_project/src/services/cart_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -7,7 +8,7 @@ class OrderService with ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   List<Product> _products = [];
   List<Product> get products => _products;
-
+  CartService cart = CartService();
   String? selectedValue = "";
   void selectedSize(String? value) {
     selectedValue = value;

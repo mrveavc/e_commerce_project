@@ -80,7 +80,6 @@ class _FavoriesPageState extends State<FavoriesPage> {
               ],
             );
           }
-
           if (snapshot.hasData) {
             final DocumentSnapshot<dynamic>? document = snapshot.data;
 
@@ -115,8 +114,6 @@ class _FavoriesPageState extends State<FavoriesPage> {
                         children: [
                           SlidableAction(
                             onPressed: (context) {
-                              print("silme slide gerçekleşti");
-
                               fav.removeFavData(
                                 name: name,
                                 price: price,
@@ -124,7 +121,6 @@ class _FavoriesPageState extends State<FavoriesPage> {
                                 image: image,
                                 rate: rate,
                                 color: color,
-                                // size: size,
                               );
                             },
                             backgroundColor: Colors.grey.shade300,
