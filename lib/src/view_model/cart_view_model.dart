@@ -6,8 +6,7 @@ class CartViewModel with ChangeNotifier {
     totalPrice = 0;
 
     for (Map<String, dynamic> cartItem in carts) {
-      // totalPrice += cartItem['price'] * cartItem['quantity'];
-      totalPrice += cartItem['price'];
+      totalPrice += (cartItem['price'] * cartItem['quantityInCart']);
     }
   }
 }

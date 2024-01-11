@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_commerce_project/src/common/toast.dart';
 import 'package:e_commerce_project/src/models/product.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -57,20 +58,26 @@ class CartService with ChangeNotifier {
           // int newQuantityInCart = quantityInCart + 1
           //;
           print("!!!! quantityInCart: " + product.quantityInCart.toString());
-          await users.doc(_auth.currentUser?.uid).update({
-            'cart': FieldValue.arrayRemove([
-              {
-                'name': name,
-                'category': category,
-                'price': price,
-                'image': image,
-                'rate': rate,
-                'color': color,
-                'size': size,
-                'quantityInCart': product.quantityInCart
-              },
-            ])
-          });
+          await users
+              .doc(_auth.currentUser?.uid)
+              .update({
+                'cart': FieldValue.arrayRemove([
+                  {
+                    'name': name,
+                    'category': category,
+                    'price': price,
+                    'image': image,
+                    'rate': rate,
+                    'color': color,
+                    'size': size,
+                    'quantityInCart': product.quantityInCart
+                  },
+                ])
+              })
+              .then((value) => print("Sepete Eklendi"))
+              .catchError((error) => print("Sepete Eklenemedi: $error"));
+          showToast(message: "Sepete Eklendi");
+
           await users
               .doc(_auth.currentUser?.uid)
               .update({
@@ -87,8 +94,9 @@ class CartService with ChangeNotifier {
                   },
                 ])
               })
-              .then((value) => print("Cart Added"))
-              .catchError((error) => print("Failed to add cart: $error"));
+              .then((value) => print("Sepete Eklendi"))
+              .catchError((error) => print("Sepete Eklenemedi: $error"));
+          showToast(message: "Sepete Eklendi");
         } else {
           await users
               .doc(_auth.currentUser?.uid)
@@ -108,8 +116,9 @@ class CartService with ChangeNotifier {
                   ])
                 },
               )
-              .then((value) => print("Cart Added"))
-              .catchError((error) => print("Failed to add cart: $error"));
+              .then((value) => print("Sepete Eklendi"))
+              .catchError((error) => print("Sepete Eklenemedi:: $error"));
+          showToast(message: "Sepete Eklendi");
         }
       }
     } else {
@@ -131,8 +140,8 @@ class CartService with ChangeNotifier {
               ])
             },
           )
-          .then((value) => print("Cart Added"))
-          .catchError((error) => print("Failed to add cart: $error"));
+          .then((value) => print("Sepete Eklendi"))
+          .catchError((error) => print("Sepete Eklenemedi:  $error"));
     }
   }
 

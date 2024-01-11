@@ -212,7 +212,7 @@ class _LoginPageState extends State<LoginPage> {
         );
 
         await _firebaseAuth.signInWithCredential(credential);
-        context.router.replace(const HomeRoute());
+        context.router.replace(HomeRoute());
       }
     } catch (e) {
       showToast(message: "some error occured $e");

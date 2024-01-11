@@ -29,52 +29,67 @@ class HomePage extends StatelessWidget implements AutoRouteWrapper {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Sizin İçin Seçtiklerimiz',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-            const SizedBox(height: 10),
-            _buildProductCard(),
-            const SizedBox(height: 10),
-            const Text(
-              'Erkek ',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-            _buildCategoryCard("Erkek"),
-            const SizedBox(height: 10),
-            const Text(
-              'Kadın ',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-            _buildCategoryCard("Kadın"),
-            const SizedBox(height: 10),
-            const Text(
-              'Çocuk ',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-            _buildCategoryCard("Çocuk"),
-          ],
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 6),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Sizin İçin Seçtiklerimiz',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+              const SizedBox(height: 10),
+              _buildProductCard(),
+              const SizedBox(height: 10),
+              const Text(
+                'Erkek ',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+              _buildCategoryCard(Categories.erkek),
+              const SizedBox(height: 10),
+              const Text(
+                'Kadın ',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+              _buildCategoryCard(Categories.kadin),
+              const SizedBox(height: 10),
+              const Text(
+                'Çocuk ',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+              _buildCategoryCard(Categories.cocuk),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildCategoryCard(String categoryName) {
+  Widget _buildCategoryCard(Categories cat) {
+    String catName = "";
+    switch (cat) {
+      case Categories.kadin:
+        catName = "Kadın";
+        break;
+      case Categories.erkek:
+        catName = "Erkek";
+        break;
+      case Categories.cocuk:
+        catName = "Çocuk";
+        break;
+      default:
+    }
     return Consumer<ProductViewModel>(
       builder: (context, viewModel, child) => Container(
         height: 310,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          itemCount: viewModel.products
-              .where((pro) => pro.category == categoryName)
-              .length,
+          itemCount:
+              viewModel.products.where((pro) => pro.category == catName).length,
           itemBuilder: (BuildContext context, int index) {
             Product categoryProduct = viewModel.products
-                .where((pro) => pro.category == categoryName)
+                .where((pro) => pro.category == catName)
                 .toList()[index];
 
             return ChangeNotifierProvider.value(
@@ -109,9 +124,13 @@ class HomePage extends StatelessWidget implements AutoRouteWrapper {
                                   height: 5,
                                 ),
                                 Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      categoryProduct.price.toString(),
+                                      categoryProduct.price
+                                          .toStringAsFixed(2)
+                                          .toString(),
                                       style: const TextStyle(
                                           fontWeight: FontWeight.bold),
                                     ),
@@ -197,7 +216,7 @@ class HomePage extends StatelessWidget implements AutoRouteWrapper {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  product.price.toString(),
+                                  product.price.toStringAsFixed(2).toString(),
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -239,3 +258,5 @@ class HomePage extends StatelessWidget implements AutoRouteWrapper {
     );
   }
 }
+
+enum Categories { kadin, erkek, cocuk }

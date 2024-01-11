@@ -150,7 +150,7 @@ class _SignUpPageState extends State<SignUpPage> {
     });
     if (user != null) {
       showToast(message: "User is successfully created");
-      context.router.replace(const HomeRoute());
+      context.router.replace(HomeRoute());
       // Navigator.pushNamed(context, "/home", arguments: {'username': username});
     } else {
       showToast(message: "Some error happend");

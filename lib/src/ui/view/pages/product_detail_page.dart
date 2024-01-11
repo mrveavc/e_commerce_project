@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce_project/src/common/toast.dart';
+import 'package:e_commerce_project/src/constant/_colors.dart';
 import 'package:e_commerce_project/src/models/product.dart';
 import 'package:e_commerce_project/src/services/cart_service.dart';
 import 'package:e_commerce_project/src/services/fav_service.dart';
@@ -58,7 +59,7 @@ class ProductDetailPage extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         color: Color.fromARGB(255, 60, 60, 60)),
                   ),
-                  const SizedBox(
+                  SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -68,7 +69,7 @@ class ProductDetailPage extends StatelessWidget {
                         style: const TextStyle(fontSize: 15),
                       ),
                       const SizedBox(
-                        width: 10,
+                        width: 20,
                       ),
                       RatingBar.builder(
                         initialRating: product.rate,
@@ -88,6 +89,9 @@ class ProductDetailPage extends StatelessWidget {
                         },
                       ),
                     ],
+                  ),
+                  SizedBox(
+                    height: 10,
                   ),
                   Row(
                     children: [
@@ -111,43 +115,64 @@ class ProductDetailPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'Beden',
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w600),
-                        ),
-                        const Divider(
-                          color: Colors.grey,
-                          height: 5,
-                        ),
                         Row(
-                            children: Map.fromEntries(
-                          product.size.entries
-                              .where((element) => element.value > 0),
-                        )
-                                .entries
-                                .map((e) => Consumer<Product>(
-                                      builder: (context, product, child) {
-                                        return Row(
-                                          children: [
-                                            Text(e.key),
-                                            Radio(
-                                              value: e.key,
-                                              groupValue: product.selectedSize,
-                                              onChanged: (value) {
-                                                product.selectedSize =
-                                                    value as String;
-                                                cart.selectedSize(value);
-                                                print(value);
-                                              },
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    ))
-                                .toList()),
+                          children: [
+                            const Text(
+                              'Beden',
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w600),
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Row(
+                                children: Map.fromEntries(
+                              product.size.entries
+                                  .where((element) => element.value > 0),
+                            )
+                                    .entries
+                                    .map((e) => Consumer<Product>(
+                                          builder: (context, product, child) {
+                                            return Row(
+                                              children: [
+                                                Text(e.key),
+                                                Radio(
+                                                  value: e.key,
+                                                  groupValue:
+                                                      product.selectedSize,
+                                                  onChanged: (value) {
+                                                    product.selectedSize =
+                                                        value as String;
+                                                    cart.selectedSize(value);
+                                                    print(value);
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        ))
+                                    .toList()),
+                          ],
+                        ),
                       ],
                     ),
+                  ),
+                  const Divider(
+                    height: 2,
+                    color: AppColor.dividerColor,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "${product.price.toStringAsFixed(2).toString()} TL",
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: AppColor.orangeColor),
+                  ),
+                  const SizedBox(
+                    height: 10,
                   ),
                   Container(
                     child: Row(

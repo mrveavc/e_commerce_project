@@ -12,27 +12,45 @@ import 'package:flutter/widgets.dart';
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
-  /// File path: assets/icons/ic_fav.svg
-  String get icFav => 'assets/icons/ic_fav.svg';
+  /// File path: assets/icons/ic_bell_fill.svg
+  String get icBellFill => 'assets/icons/ic_bell_fill.svg';
+
+  /// File path: assets/icons/ic_category.svg
+  String get icCategory => 'assets/icons/ic_category.svg';
+
+  /// File path: assets/icons/ic_favorite.svg
+  String get icFavorite => 'assets/icons/ic_favorite.svg';
+
+  /// File path: assets/icons/ic_favorite_empty.svg
+  String get icFavoriteEmpty => 'assets/icons/ic_favorite_empty.svg';
 
   /// File path: assets/icons/ic_home.svg
   String get icHome => 'assets/icons/ic_home.svg';
 
-  /// File path: assets/icons/ic_menu.svg
-  String get icMenu => 'assets/icons/ic_menu.svg';
+  /// File path: assets/icons/ic_person.svg
+  String get icPerson => 'assets/icons/ic_person.svg';
 
   /// File path: assets/icons/ic_search.svg
   String get icSearch => 'assets/icons/ic_search.svg';
 
-  /// File path: assets/icons/ic_shopping_bag.svg
-  String get icShoppingBag => 'assets/icons/ic_shopping_bag.svg';
+  /// File path: assets/icons/ic_shopping_cart.svg
+  String get icShoppingCart => 'assets/icons/ic_shopping_cart.svg';
 
   /// File path: assets/icons/ic_user.svg
   String get icUser => 'assets/icons/ic_user.svg';
 
   /// List of all assets
-  List<String> get values =>
-      [icFav, icHome, icMenu, icSearch, icShoppingBag, icUser];
+  List<String> get values => [
+        icBellFill,
+        icCategory,
+        icFavorite,
+        icFavoriteEmpty,
+        icHome,
+        icPerson,
+        icSearch,
+        icShoppingCart,
+        icUser
+      ];
 }
 
 class $AssetsImagesGen {

@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_project/src/common/toast.dart';
+import 'package:e_commerce_project/src/constant/_colors.dart';
 import 'package:e_commerce_project/src/models/product.dart';
 import 'package:e_commerce_project/src/services/cart_service.dart';
 import 'package:e_commerce_project/src/services/fav_service.dart';
@@ -44,93 +45,103 @@ class CategoryDetailPage extends StatelessWidget implements AutoRouteWrapper {
           builder: (context, viewModel, child) => GridView.builder(
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                 maxCrossAxisExtent: 250,
-                childAspectRatio: 0.55,
+                childAspectRatio: 0.48,
                 crossAxisSpacing: 4,
                 mainAxisSpacing: 4),
             itemCount: viewModel.products.length,
             itemBuilder: (BuildContext context, int index) {
               Product product = viewModel.products[index];
-              return Card(
-                elevation: 2,
-                child: Stack(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          height: 250,
-                          alignment: Alignment.center,
-                          child: Image.network(
-                            product.image,
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 6),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                product.name.length > 26
-                                    ? product.name.substring(0, 26)
-                                    : product.name,
-                              ),
-                              Text(product.category),
-                              Row(
-                                children: [
-                                  RatingBar.builder(
-                                    initialRating: product.rate,
-                                    minRating: 1,
-                                    direction: Axis.horizontal,
-                                    allowHalfRating: true,
-                                    itemCount: 5,
-                                    itemSize: 20.0,
-                                    itemPadding: const EdgeInsets.symmetric(
-                                        horizontal: 4.0),
-                                    itemBuilder: (context, _) => const Icon(
-                                      Icons.star,
-                                      color: Colors.amber,
-                                    ),
-                                    onRatingUpdate: (rating) {
-                                      print(rating);
-                                    },
-                                  ),
-                                ],
-                              ),
-                              Text(product.price.toString())
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(40),
-                          onTap: () {
-                            _auth.currentUser == null
-                                ? context.router.push(const LoginRoute())
-                                : fav.addFavData(
-                                    name: product.name,
-                                    price: product.price,
-                                    category: product.category,
-                                    image: product.image,
-                                    rate: product.rate,
-                                    color: product.color,
-                                  );
-                          },
-                          child: const Padding(
-                            padding: EdgeInsets.all(6.0),
-                            child: CircleAvatar(
-                              backgroundColor: Colors.white,
-                              maxRadius: 14,
-                              child: Icon(Icons.favorite_border_outlined,
-                                  size: 20),
+              return InkWell(
+                onTap: () {
+                  context.router.push(ProductDetailRoute(product: product));
+                },
+                child: Card(
+                  elevation: 2,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Image.network(
+                        product.image,
+                        fit: BoxFit.fill,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              product.name.length > 26
+                                  ? product.name.substring(0, 24)
+                                  : product.name,
                             ),
-                          ),
-                        ))
-                  ],
+                            Text(product.category),
+                            Row(
+                              children: [
+                                RatingBar.builder(
+                                  initialRating: product.rate,
+                                  minRating: 1,
+                                  direction: Axis.horizontal,
+                                  allowHalfRating: true,
+                                  itemCount: 5,
+                                  itemSize: 20.0,
+                                  itemPadding:
+                                      const EdgeInsets.symmetric(horizontal: 0),
+                                  itemBuilder: (context, _) => const Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
+                                  ),
+                                  onRatingUpdate: (rating) {
+                                    print(rating);
+                                  },
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    product.price.toStringAsFixed(2).toString(),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                        color: AppColor.orangeColor),
+                                  ),
+                                  InkWell(
+                                    borderRadius: BorderRadius.circular(40),
+                                    onTap: () {
+                                      _auth.currentUser == null
+                                          ? context.router
+                                              .push(const LoginRoute())
+                                          : fav.addFavData(
+                                              name: product.name,
+                                              price: product.price,
+                                              category: product.category,
+                                              image: product.image,
+                                              rate: product.rate,
+                                              color: product.color,
+                                            );
+                                    },
+                                    child: const Padding(
+                                      padding: EdgeInsets.all(6.0),
+                                      child: CircleAvatar(
+                                        backgroundColor: Colors.white,
+                                        maxRadius: 14,
+                                        child: Icon(
+                                            Icons.favorite_border_outlined,
+                                            size: 20),
+                                      ),
+                                    ),
+                                  )
+                                ])
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               );
             },

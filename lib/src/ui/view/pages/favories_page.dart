@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_project/src/services/fav_service.dart';
+import 'package:e_commerce_project/src/utils/navigation/router/app_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -62,7 +63,9 @@ class _FavoriesPageState extends State<FavoriesPage> {
                   width: 250,
                   margin: const EdgeInsets.only(top: 100),
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      context.router.push(const LoginRoute());
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
                     ),
@@ -151,7 +154,7 @@ class _FavoriesPageState extends State<FavoriesPage> {
                                     ),
                                   ),
                                   Text(
-                                    'Price: $price',
+                                    'Price: ${price.toStringAsFixed(2)}',
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15,
