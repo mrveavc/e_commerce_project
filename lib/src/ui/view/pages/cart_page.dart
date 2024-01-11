@@ -274,7 +274,7 @@ class _CartPageState extends State<CartPage> {
                               children: [
                                 const Text("Toplam Tutar :"),
                                 Text(
-                                  ' ${viewModel.totalPrice} TL',
+                                  ' ${viewModel.totalPrice.ceilToDouble()} TL',
                                   style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
