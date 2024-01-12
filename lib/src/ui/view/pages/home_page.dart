@@ -38,6 +38,8 @@ class HomePage extends StatelessWidget implements AutoRouteWrapper {
                 'Sizin İçin Seçtiklerimiz',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
+              Image.network(
+                  'https://img-lcwaikiki.mncdn.com/Resource/Images/Banner/MUGGO-120224-R.JPG'),
               const SizedBox(height: 10),
               _buildProductCard(),
               const SizedBox(height: 10),
