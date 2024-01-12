@@ -1,7 +1,6 @@
+import 'package:e_commerce_project/src/common/toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
-
-import '../common/toast.dart';
 
 @module
 abstract class IAuthService {}
