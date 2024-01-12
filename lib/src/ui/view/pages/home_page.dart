@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce_project/src/models/product.dart';
 import 'package:e_commerce_project/src/utils/navigation/router/app_router.dart';
 import 'package:e_commerce_project/src/view_model/product_view_model.dart';
-import 'package:e_commerce_project/src/services/cart_service.dart';
 import 'package:e_commerce_project/src/services/fav_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +22,6 @@ class HomePage extends StatelessWidget implements AutoRouteWrapper {
   @override
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  CartService cart = CartService();
   FavService fav = FavService();
   @override
   Widget build(BuildContext context) {
@@ -38,8 +36,6 @@ class HomePage extends StatelessWidget implements AutoRouteWrapper {
                 'Sizin İçin Seçtiklerimiz',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
-              Image.network(
-                  'https://img-lcwaikiki.mncdn.com/Resource/Images/Banner/MUGGO-120224-R.JPG'),
               const SizedBox(height: 10),
               _buildProductCard(),
               const SizedBox(height: 10),

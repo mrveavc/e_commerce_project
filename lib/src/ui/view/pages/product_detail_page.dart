@@ -2,25 +2,32 @@ import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce_project/src/common/toast.dart';
 import 'package:e_commerce_project/src/constant/_colors.dart';
 import 'package:e_commerce_project/src/models/product.dart';
-import 'package:e_commerce_project/src/services/cart_service.dart';
 import 'package:e_commerce_project/src/services/fav_service.dart';
 import 'package:e_commerce_project/src/utils/navigation/router/app_router.dart';
+import 'package:e_commerce_project/src/view_model/cart_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 
 @RoutePage()
-class ProductDetailPage extends StatelessWidget {
+class ProductDetailPage extends StatelessWidget implements AutoRouteWrapper {
   ProductDetailPage({super.key, required this.product});
   final Product product;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  @override
+  Widget wrappedRoute(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => CartViewModel(),
+      child: this,
+    );
+  }
 
-  CartService cart = CartService();
   FavService fav = FavService();
 
   @override
   Widget build(BuildContext context) {
+    CartViewModel cartViewModel = Provider.of(context, listen: false);
     return ChangeNotifierProvider.value(
         value: product,
         child: SingleChildScrollView(
@@ -137,7 +144,8 @@ class ProductDetailPage extends StatelessWidget {
                                                   onChanged: (value) {
                                                     product.selectedSize =
                                                         value as String;
-                                                    cart.selectedSize(value);
+                                                    cartViewModel
+                                                        .selectedSize(value);
                                                   },
                                                 ),
                                               ],
@@ -214,7 +222,7 @@ class ProductDetailPage extends StatelessWidget {
                                     : _auth.currentUser == null
                                         ? context.router
                                             .push(const LoginRoute())
-                                        : cart.addCartData(
+                                        : cartViewModel.addCartData(
                                             name: product.name,
                                             price: product.price,
                                             category: product.category,

@@ -69,12 +69,15 @@ class Product with ChangeNotifier {
         color = map["color"] ?? "",
         size = map["size"] as Map<String, dynamic>;
 
-  // Map<String, dynamic> toMap() {
-  //   return {
-  //     "name": name,
-  //     "price": price,
-  //     "category": category,
-  //     "image": image,
-  //   };
-  // }
+  Map<String, dynamic> toMap() {
+    return {
+      "name": name,
+      "price": price,
+      "category": category,
+      "image": image,
+      "color": color,
+      "quantityInCart": quantityInCart,
+      "size": size["singleSize"]
+    };
+  }
 }

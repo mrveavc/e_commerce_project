@@ -84,10 +84,11 @@ abstract class _$AppRouter extends RootStackRouter {
       final args = routeData.argsAs<ProductDetailRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: ProductDetailPage(
+        child: WrappedRoute(
+            child: ProductDetailPage(
           key: args.key,
           product: args.product,
-        ),
+        )),
       );
     },
     ProfilRoute.name: (routeData) {

@@ -1,29 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_project/src/models/product.dart';
-import 'package:e_commerce_project/src/services/cart_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class OrderService with ChangeNotifier {
+class OrderViewModel with ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   List<Product> _products = [];
   List<Product> get products => _products;
-  CartService cart = CartService();
+
   String? selectedValue = "";
   void selectedSize(String? value) {
     selectedValue = value;
   }
 
-  OrderService() {
-    WidgetsBinding.instance
-        .addPostFrameCallback((timeStamp) async => await _getAllProducts());
-    // .addPostFrameCallback((timeStamp) async => await addOrderData());
-  }
+  // OrderViewModel() {
+  //   WidgetsBinding.instance.addPostFrameCallback(
+  //       (timeStamp) async => await _getCurrentCartProducts());
+  //   // .addPostFrameCallback((timeStamp) async => await addOrderData());
+  // }
 
   final CollectionReference _collectionRef =
       FirebaseFirestore.instance.collection('usersData');
 
-  Future<void> _getAllProducts() async {
+  Future<void> _getCurrentCartProducts() async {
     QuerySnapshot querySnapshot = await _collectionRef.get();
     final allProducts = querySnapshot.docs
         .where((element) => element.id == _auth.currentUser?.uid)
@@ -42,6 +41,21 @@ class OrderService with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> addCurrentCartItemsToOrder() async {
+    await _getCurrentCartProducts();
+    final CollectionReference _collectionRef =
+        FirebaseFirestore.instance.collection('orders');
+
+    // int index = 0;
+    for (Product pro in products) {
+      await _collectionRef.doc(_auth.currentUser?.uid).set({
+        DateTime.now().millisecondsSinceEpoch.toString():
+            FieldValue.arrayUnion([
+          pro.toMap(),
+        ])
+      });
+    }
+  }
   // Future<void> addOrderData({
   //   name,
   //   category,

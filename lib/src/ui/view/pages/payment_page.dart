@@ -2,11 +2,21 @@ import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce_project/src/common/toast.dart';
 import 'package:e_commerce_project/src/utils/navigation/router/app_router.dart';
 import 'package:e_commerce_project/src/view_model/cart_view_model.dart';
+import 'package:e_commerce_project/src/view_model/order_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 @RoutePage()
-class PaymentPage extends StatelessWidget {
+class PaymentPage extends StatelessWidget implements AutoRouteWrapper {
   PaymentPage({super.key, required this.viewModel});
+  @override
+  Widget wrappedRoute(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => OrderViewModel(),
+      child: this,
+    );
+  }
+
   final CartViewModel viewModel;
 
   final TextEditingController _fullNameController = TextEditingController();
@@ -38,7 +48,7 @@ class PaymentPage extends StatelessWidget {
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                     ),
                     Text(
-                      "${viewModel.totalPrice.toString()} TL",
+                      "${viewModel.totalPrice.toStringAsFixed(2).toString()} TL",
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                     ),
@@ -178,12 +188,19 @@ class PaymentPage extends StatelessWidget {
                 //     Text('Hüküm ve koşulları kabul ediyorum.'),
                 //   ],
                 // ),
+                const SizedBox(
+                  height: 40,
+                ),
                 ElevatedButton(
                   onPressed: () {
                     if (!_formKey.currentState!.validate()) {
                       showToast(message: "Lütfen gerekli alanları doldurunuz!");
                     } else {
                       context.router.push(OrderRoute());
+                      OrderViewModel orderViewModel =
+                          Provider.of<OrderViewModel>(context, listen: false);
+                      orderViewModel.addCurrentCartItemsToOrder();
+                      print("girdi");
                     }
                   },
                   style: ElevatedButton.styleFrom(

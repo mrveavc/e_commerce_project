@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce_project/src/constant/_colors.dart';
 import 'package:e_commerce_project/src/models/product.dart';
-import 'package:e_commerce_project/src/services/cart_service.dart';
 import 'package:e_commerce_project/src/services/fav_service.dart';
 import 'package:e_commerce_project/src/utils/navigation/router/app_router.dart';
 import 'package:e_commerce_project/src/view_model/category_detail_view_model.dart';
@@ -25,7 +24,6 @@ class CategoryDetailPage extends StatelessWidget implements AutoRouteWrapper {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  CartService cart = CartService();
   FavService fav = FavService();
   @override
   Widget build(BuildContext context) {

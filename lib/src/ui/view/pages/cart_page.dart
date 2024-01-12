@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:e_commerce_project/src/services/cart_service.dart';
 import 'package:e_commerce_project/src/utils/navigation/router/app_router.dart';
 import 'package:e_commerce_project/src/view_model/cart_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,8 +23,6 @@ class CartPage extends StatefulWidget implements AutoRouteWrapper {
 }
 
 class _CartPageState extends State<CartPage> {
-  CartService cart = CartService();
-
   CollectionReference users =
       FirebaseFirestore.instance.collection('usersData');
 
@@ -96,7 +93,7 @@ class _CartPageState extends State<CartPage> {
             );
           }
 
-          if (snapshot.hasData) {
+          if (snapshot.hasData && snapshot.data?.data() != null) {
             final DocumentSnapshot<dynamic>? document = snapshot.data;
 
             final Map<String, dynamic> documentData = document?.data();
@@ -137,7 +134,7 @@ class _CartPageState extends State<CartPage> {
                                   onPressed: (context) {
                                     print("silme slide gerçekleşti");
 
-                                    cart.removeCartData(
+                                    cartViewModel.removeCartData(
                                         name: name,
                                         price: price,
                                         category: category,

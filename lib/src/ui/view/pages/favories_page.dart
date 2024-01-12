@@ -80,7 +80,7 @@ class _FavoriesPageState extends State<FavoriesPage> {
               ],
             );
           }
-          if (snapshot.hasData) {
+          if (snapshot.hasData && snapshot.data?.data() != null) {
             final DocumentSnapshot<dynamic>? document = snapshot.data;
 
             final Map<String, dynamic> documentData = document?.data();
