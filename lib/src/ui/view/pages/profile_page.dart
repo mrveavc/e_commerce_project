@@ -67,28 +67,25 @@ class _ProfilPageState extends State<ProfilPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      InkWell(
-                        onTap: () {},
-                        child: SizedBox(
-                          width: 60,
-                          height: 64,
-                          child: InkWell(
-                            onTap: () {
-                              context.router.push(OrderRoute());
-                            },
-                            child: const Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  (Icons.shopping_bag_outlined),
-                                  color: Colors.grey,
-                                ),
-                                Text(
-                                  'Siparişler',
-                                  style: TextStyle(fontSize: 12),
-                                )
-                              ],
-                            ),
+                      SizedBox(
+                        width: 60,
+                        height: 64,
+                        child: InkWell(
+                          onTap: () {
+                            context.router.push(OrderRoute());
+                          },
+                          child: const Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                (Icons.shopping_bag_outlined),
+                                color: Colors.grey,
+                              ),
+                              Text(
+                                'Siparişler',
+                                style: TextStyle(fontSize: 12),
+                              )
+                            ],
                           ),
                         ),
                       ),
@@ -195,7 +192,7 @@ class _ProfilPageState extends State<ProfilPage> {
 
                 GestureDetector(
                   onTap: () {
-                    FirebaseAuth.instance.signOut();
+                    _auth.signOut();
                     context.router.replace(const LoginRoute());
 
                     showToast(message: "Çıkış Yapıldı.");
