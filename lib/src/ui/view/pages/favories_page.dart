@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_commerce_project/src/constant/_colors.dart';
 import 'package:e_commerce_project/src/services/fav_service.dart';
 import 'package:e_commerce_project/src/utils/navigation/router/app_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -106,59 +107,49 @@ class _FavoriesPageState extends State<FavoriesPage> {
 
                 return Padding(
                   padding: const EdgeInsets.all(14),
-                  child: Slidable(
-                    key: Key(name),
-                    endActionPane: ActionPane(
-                        motion: const ScrollMotion(),
-                        extentRatio: 0.150,
-                        children: [
-                          SlidableAction(
-                            onPressed: (context) {
-                              fav.removeFavData(
-                                name: name,
-                                price: price,
-                                category: category,
-                                image: image,
-                                rate: rate,
-                                color: color,
-                              );
-                            },
-                            backgroundColor: Colors.grey.shade300,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 10),
-                            icon: Icons.delete,
-                            foregroundColor: Colors.black,
-                          ),
-                        ]),
-                    child: Column(
-                      children: [
-                        Row(
+                  child: Column(
+                    children: [
+                      Slidable(
+                        key: Key(name),
+                        endActionPane: ActionPane(
+                            motion: const ScrollMotion(),
+                            extentRatio: 0.150,
+                            children: [
+                              SlidableAction(
+                                  onPressed: (context) {
+                                    fav.removeFavData(
+                                      name: name,
+                                      price: price,
+                                      category: category,
+                                      image: image,
+                                      rate: rate,
+                                      color: color,
+                                    );
+                                  },
+                                  backgroundColor: Colors.grey.shade300,
+                                  padding: const EdgeInsets.all(10),
+                                  icon: Icons.delete,
+                                  foregroundColor: AppColor.primaryColor),
+                            ]),
+                        child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Expanded(
                               flex: 1,
-                              child: Column(
-                                children: [
-                                  Image.network(image),
-                                  const SizedBox(
-                                    height: 8,
-                                  ),
-                                ],
-                              ),
+                              child: Image.network(image),
                             ),
                             Expanded(
                               flex: 2,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: SizedBox(
-                                  height: 220,
+                              child: SizedBox(
+                                height: 182,
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 6),
                                   child: Column(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
@@ -181,50 +172,38 @@ class _FavoriesPageState extends State<FavoriesPage> {
                                           const SizedBox(height: 6),
                                         ],
                                       ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 20),
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                              flex: 3,
-                                              child: Text(
-                                                '$price',
-                                                style: const TextStyle(
-                                                    color: Colors.grey,
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 4,
-                                              child: SizedBox(
-                                                height: 35,
-                                                child: ElevatedButton(
-                                                  style: ButtonStyle(
-                                                      backgroundColor:
-                                                          MaterialStateProperty
-                                                              .all(Colors
-                                                                  .black)),
-                                                  onPressed: () {
-                                                    context.router.replace(
-                                                        const CategoryRoute());
-                                                  },
-                                                  child: const Text(
-                                                    "Sepete Ekle",
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 16,
-                                                    ),
-                                                  ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            '$price TL',
+                                            style: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          SizedBox(
+                                            height: 35,
+                                            child: ElevatedButton(
+                                              style: ButtonStyle(
+                                                  backgroundColor:
+                                                      MaterialStateProperty.all(
+                                                          Colors.black)),
+                                              onPressed: () {
+                                                context.router.replace(
+                                                    const CategoryRoute());
+                                              },
+                                              child: const Text(
+                                                "Sepete Ekle",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 14,
                                                 ),
                                               ),
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
@@ -233,11 +212,11 @@ class _FavoriesPageState extends State<FavoriesPage> {
                             ),
                           ],
                         ),
-                        const Divider(
-                          color: Colors.black54,
-                        ),
-                      ],
-                    ),
+                      ),
+                      const Divider(
+                        color: Colors.black54,
+                      ),
+                    ],
                   ),
                 );
               },

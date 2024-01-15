@@ -1,21 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce_project/src/common/toast.dart';
+import 'package:e_commerce_project/src/constant/_colors.dart';
 import 'package:e_commerce_project/src/utils/navigation/router/app_router.dart';
 import 'package:e_commerce_project/src/view_model/cart_view_model.dart';
 import 'package:e_commerce_project/src/view_model/order_view_model.dart';
+import 'package:e_commerce_project/src/view_model/payment_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 @RoutePage()
 class PaymentPage extends StatelessWidget implements AutoRouteWrapper {
   PaymentPage({super.key, required this.viewModel});
-  @override
-  Widget wrappedRoute(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => OrderViewModel(),
-      child: this,
-    );
-  }
 
   final CartViewModel viewModel;
 
@@ -26,38 +21,31 @@ class PaymentPage extends StatelessWidget implements AutoRouteWrapper {
 
   final _formKey = GlobalKey<FormState>();
 
-  bool? isChecked = true;
+  @override
+  Widget wrappedRoute(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => OrderViewModel()),
+        ChangeNotifierProvider(create: (_) => PaymentViewModel())
+      ],
+      child: this,
+    );
+    // return ChangeNotifierProvider(
+    //   create: (_) => OrderViewModel(),
+    //   child: this,
+    // );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 50,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    const Text(
-                      'Toplam Tutar : ',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                    ),
-                    Text(
-                      "${viewModel.totalPrice.toStringAsFixed(2).toString()} TL",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Container(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(14, 14, 14, 20),
+                child: Container(
                   height: 80,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
@@ -67,28 +55,32 @@ class PaymentPage extends StatelessWidget implements AutoRouteWrapper {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(Icons.credit_card),
-                      Text(
-                          'Lütfen kredi veya banka kart bilgilerinizi giriniz.',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                      SizedBox(
-                        height: 20,
-                      ),
+                      Text(' Lütfen kredi/banka kart bilgilerinizi giriniz.',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 15)),
                     ],
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Form(
-                  key: _formKey,
+              ),
+              Form(
+                key: _formKey,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(14, 0, 14, 20),
                   child: Column(
                     children: [
                       TextFormField(
+                        controller: _fullNameController,
                         obscureText: false,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'Kart sahibinin adı soyadı',
                         ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Lütfen kart sahibinin ad ve soyad bilgilerini giriniz.';
+                          }
+                          return null;
+                        },
                       ),
                       const SizedBox(
                         height: 20,
@@ -125,33 +117,15 @@ class PaymentPage extends StatelessWidget implements AutoRouteWrapper {
                               maxLength: 5,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Tarih boş bırakılamaz';
-                                } else if (value.length < 5) {
-                                  return 'Geçerli bir tarih girin';
+                                  return 'Son kullanım tarihini giriniz.';
                                 }
                                 return null;
                               },
                               onChanged: (value) {
-                                if (value.length == 2 &&
+                                if (value.length == 3 &&
                                     !_dateController.text.contains('/')) {
-                                  _dateController.text = value + '/';
-                                  _dateController.selection =
-                                      TextSelection.fromPosition(TextPosition(
-                                          offset: _dateController.text.length));
-                                } else if (value.length == 2 &&
-                                    _dateController.text.contains('/')) {
-                                  _dateController.text = value.substring(0, 1);
-                                  _dateController.selection =
-                                      TextSelection.fromPosition(TextPosition(
-                                          offset: _dateController.text.length));
-                                } else if (value.length == 3 &&
-                                    !_dateController.text.contains('/')) {
-                                  _dateController.text = value.substring(0, 2) +
-                                      '/' +
-                                      value.substring(2);
-                                  _dateController.selection =
-                                      TextSelection.fromPosition(TextPosition(
-                                          offset: _dateController.text.length));
+                                  _dateController.text =
+                                      '${value.substring(0, 2)}/${value.substring(2)}';
                                 }
                               },
                             ),
@@ -163,7 +137,7 @@ class PaymentPage extends StatelessWidget implements AutoRouteWrapper {
                                   controller: _cvvController,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'CVV Boş bırakılamaz';
+                                      return 'CVV numarasını giriniz.';
                                     } else {
                                       return null;
                                     }
@@ -176,61 +150,122 @@ class PaymentPage extends StatelessWidget implements AutoRouteWrapper {
                     ],
                   ),
                 ),
-                // Row(
-                //   children: [
-                //     _buildCheckBox(),
-                //     Text('Kartımı kaydet.'),
-                //   ],
-                // ),
-                // Row(
-                //   children: [
-                //     _buildCheckBox(),
-                //     Text('Hüküm ve koşulları kabul ediyorum.'),
-                //   ],
-                // ),
-                const SizedBox(
-                  height: 40,
+              ),
+              Consumer<PaymentViewModel>(
+                builder: (context, payViewModel, child) {
+                  return Column(
+                    children: [
+                      Row(
+                        children: [
+                          Checkbox(
+                            checkColor: AppColor.whiteColor,
+                            fillColor: const MaterialStatePropertyAll(
+                                AppColor.primaryColor),
+                            value: payViewModel.isCheckedSaveMyCreditCard,
+                            onChanged: (value) {
+                              payViewModel.isCheckedSaveMyCreditCard = value;
+                            },
+                          ),
+                          const Text('Kartımı kaydet.'),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Checkbox(
+                            checkColor: AppColor.whiteColor,
+                            fillColor: const MaterialStatePropertyAll(
+                                AppColor.primaryColor),
+                            value: payViewModel.isCheckedTermsOfUse,
+                            onChanged: (value) {
+                              payViewModel.isCheckedTermsOfUse = value;
+                            },
+                          ),
+                          Text(
+                            'Kullanım koşullarını kabul ediyorum.',
+                            style: payViewModel.termsOfUseStyle,
+                          ),
+                        ],
+                      ),
+                    ],
+                  );
+                },
+              ),
+              const SizedBox(
+                height: 40,
+              ),
+              Container(
+                height: 60,
+                decoration: const BoxDecoration(
+                  border: Border.symmetric(
+                      horizontal: BorderSide(color: Color(0xFFE5DFDF))),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    if (!_formKey.currentState!.validate()) {
-                      showToast(message: "Lütfen gerekli alanları doldurunuz!");
-                    } else {
-                      context.router.push(OrderRoute());
-                      OrderViewModel orderViewModel =
-                          Provider.of<OrderViewModel>(context, listen: false);
-                      orderViewModel.addCurrentCartItemsToOrder();
-                      print("girdi");
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(200, 50),
-                    backgroundColor: Colors.black,
-                    shadowColor: Colors.black,
-                  ),
-                  child: const Text(
-                    'Ödeme Yap',
-                    style: TextStyle(color: Colors.white),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 14),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text("Toplam Tutar"),
+                            Text(
+                              '${viewModel.totalPrice.ceilToDouble()} TL',
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            var payViewModel = Provider.of<PaymentViewModel>(
+                                context,
+                                listen: false);
+                            payViewModel.pay(
+                                _formKey.currentState!.validate(), context);
+                            // if (!_formKey.currentState!.validate()) {
+                            //   if()
+                            //   showToast(
+                            //       message:
+                            //           "Lütfen gerekli alanları doldurunuz!");
+                            // } else {
+                            //   context.router.push(const OrderRoute());
+                            //   OrderViewModel orderViewModel =
+                            //       Provider.of<OrderViewModel>(context,
+                            //           listen: false);
+                            //   orderViewModel.addCurrentCartItemsToOrder();
+                            //   print("girdi");
+                            // }
+                          },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.black,
+                              shadowColor: Colors.black),
+                          child: const Text(
+                            'Ödeme Yap',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
     );
-  }
-
-  Color getColor(Set<MaterialState> states) {
-    const Set<MaterialState> interactiveStates = <MaterialState>{
-      MaterialState.pressed,
-      MaterialState.hovered,
-      MaterialState.focused,
-    };
-    if (states.any(interactiveStates.contains)) {
-      return Colors.blue;
-    }
-    return Colors.black;
   }
 
   // Widget _buildCheckBox() {
@@ -245,4 +280,49 @@ class PaymentPage extends StatelessWidget implements AutoRouteWrapper {
   //     },
   //   );
   // }
+
+  // Color getColor(Set<MaterialState> states) {
+  //   const Set<MaterialState> interactiveStates = <MaterialState>{
+  //     MaterialState.pressed,
+  //     MaterialState.hovered,
+  //     MaterialState.focused,
+  //   };
+  //   if (states.any(interactiveStates.contains)) {
+  //     return Colors.blue;
+  //   }
+  //   return Colors.black;
+  // }
 }
+
+// class CheckboxFormField extends FormField<bool> {
+//   CheckboxFormField(
+//       {super.key,
+//       Widget? title,
+//       FormFieldSetter<bool>? onSaved,
+//       FormFieldValidator<bool>? validator,
+//       bool initialValue = false,
+//       bool autovalidate = false})
+//       : super(
+//             onSaved: onSaved,
+//             validator: validator,
+//             initialValue: initialValue,
+//             builder: (FormFieldState<bool> state) {
+//               return CheckboxListTile(
+//                 dense: state.hasError,
+//                 title: title,
+//                 value: state.value,
+//                 onChanged: state.didChange,
+//                 subtitle: state.hasError
+//                     ? Builder(
+//                         builder: (BuildContext context) => Text(
+//                           state.errorText ?? "",
+//                           style: TextStyle(
+//                               color: Theme.of(context).colorScheme.error),
+//                         ),
+//                       )
+//                     : null,
+//                 controlAffinity: ListTileControlAffinity.leading,
+//               );
+//             });
+// }
+

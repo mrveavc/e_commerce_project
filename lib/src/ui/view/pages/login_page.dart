@@ -25,9 +25,8 @@ class LoginPage extends StatefulWidget implements AutoRouteWrapper {
 class _LoginPageState extends State<LoginPage> {
   // final authStore = getIt.get<AuthStore>();
   // final FirebaseAuthService _auth = FirebaseAuthService();
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             children: [
               const Text(
-                "Login",
+                "Giriş",
                 style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
               ),
               const SizedBox(
@@ -55,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               FormContainerWidget(
                 controller: _passwordController,
-                hintText: "Password",
+                hintText: "Şifre",
                 isPasswordField: true,
               ),
               const SizedBox(
@@ -71,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("Don't have an account?"),
+                  const Text("Hâla hesabın yok mu?"),
                   const SizedBox(
                     width: 5,
                   ),
@@ -80,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                       context.router.replace(const SignUpRoute());
                     },
                     child: const Text(
-                      "Sign Up",
+                      "Kayıt Ol!",
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,

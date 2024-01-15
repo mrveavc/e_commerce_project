@@ -1,169 +1,75 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce_project/src/models/product.dart';
+import 'package:e_commerce_project/src/view_model/cart_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class OrderViewModel with ChangeNotifier {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  List<Product> _products = [];
-  List<Product> get products => _products;
+  final List<Map<String, dynamic>> _orders = [];
 
-  String? selectedValue = "";
-  void selectedSize(String? value) {
-    selectedValue = value;
+  List<Map<String, dynamic>> get orders => _orders;
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  var cartViewModel = CartViewModel();
+
+  OrderViewModel() {
+    WidgetsBinding.instance
+        .addPostFrameCallback((timeStamp) async => await getAllOrders());
+    // .addPostFrameCallback((timeStamp) async => await addOrderData());
   }
 
-  // OrderViewModel() {
-  //   WidgetsBinding.instance.addPostFrameCallback(
-  //       (timeStamp) async => await _getCurrentCartProducts());
-  //   // .addPostFrameCallback((timeStamp) async => await addOrderData());
-  // }
-
-  final CollectionReference _collectionRef =
+  final CollectionReference collectionRef =
       FirebaseFirestore.instance.collection('usersData');
 
-  Future<void> _getCurrentCartProducts() async {
-    QuerySnapshot querySnapshot = await _collectionRef.get();
-    final allProducts = querySnapshot.docs
-        .where((element) => element.id == _auth.currentUser?.uid)
-        .map((doc) => doc.data())
-        .toList();
+  Future<void> moveCurrentCartItemsToOrder() async {
+    var products = await cartViewModel.getAllProductsInCart();
 
-    if (allProducts.isNotEmpty) {
-      if ((allProducts[0] as Map<String, dynamic>)["cart"] != null) {
-        _products.clear();
-        for (var map in (allProducts[0] as Map<String, dynamic>)["cart"]) {
-          _products.add(Product.fromCartMap(
-              _auth.currentUser?.uid, (map as Map<String, dynamic>)));
-        }
-      }
+    String uniqueKey = UniqueKey().toString();
+
+    List<dynamic> cartItems = [];
+
+    for (Product pro in products) {
+      Map<String, dynamic> proMap = pro.toMap();
+      cartItems.add(proMap);
+      cartViewModel.removeProductFromCart(pro);
     }
+
+    await collectionRef
+        .doc(_auth.currentUser?.uid)
+        .collection("orders")
+        .doc(uniqueKey)
+        .set({
+      "orderDate": DateTime.now().toString(),
+      "products": FieldValue.arrayUnion(cartItems)
+    });
+  }
+
+  Future<void> getAllOrders() async {
+    _orders.clear();
+
+    var qs = await collectionRef
+        .doc(_auth.currentUser?.uid)
+        .collection("orders")
+        .get();
+
+    var orders = qs.docs.map((doc) => doc.data()).toList();
+
+    List<Product> products = [];
+
+    for (var _order in orders) {
+      for (var _product in _order["products"]) {
+        products.add(Product.fromCartMap(null, _product));
+      }
+
+      _orders.add({
+        "orderDate": _order["orderDate"],
+        "products": products.map((e) => e).toList()
+      });
+
+      products.clear();
+    }
+
     notifyListeners();
   }
-
-  Future<void> addCurrentCartItemsToOrder() async {
-    await _getCurrentCartProducts();
-    final CollectionReference _collectionRef =
-        FirebaseFirestore.instance.collection('orders');
-
-    // int index = 0;
-    for (Product pro in products) {
-      await _collectionRef.doc(_auth.currentUser?.uid).set({
-        DateTime.now().millisecondsSinceEpoch.toString():
-            FieldValue.arrayUnion([
-          pro.toMap(),
-        ])
-      });
-    }
-  }
-  // Future<void> addOrderData({
-  //   name,
-  //   category,
-  //   price,
-  //   image,
-  //   rate,
-  //   color,
-  //   isFav,
-  //   size,
-  //   quantityInCart,
-  // }) async {
-  //   CollectionReference users =
-  //       FirebaseFirestore.instance.collection('usersData');
-  //   DocumentReference userDocRef = users.doc(_auth.currentUser?.uid);
-  //   CollectionReference ordersCollection = userDocRef.collection('order');
-  //   return ordersCollection.doc('order1').update(
-  //     {
-  //       'name': name,
-  //       'category': category,
-  //       'price': price,
-  //       'image': image,
-  //       'color': color,
-  //       'rate': rate,
-  //     },
-  //     // {
-  //     //   'order': FieldValue.arrayUnion([
-  //     //     {
-  //     //       'name': name,
-  //     //       'category': category,
-  //     //       'price': price,
-  //     //       'image': image,
-  //     //       'color': color,
-  //     //       'rate': rate,
-  //     //     }
-  //     //   ])
-  //     // },
-  //   );
-  // }
 }
-
-
-
-
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:e_commerce_project/src/models/product.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:flutter/material.dart';
-
-// class OrderService with ChangeNotifier {
-//   final FirebaseAuth _auth = FirebaseAuth.instance;
-//   List<Product> _products = [];
-//   List<Product> get products => _products;
-
-//   String? selectedValue = "";
-//   void selectedSize(String? value) {
-//     selectedValue = value;
-//   }
-
-//   OrderService() {
-//     WidgetsBinding.instance
-//         .addPostFrameCallback((timeStamp) async => await _getAllProducts());
-//     // .addPostFrameCallback((timeStamp) async => await addOrderData());
-//   }
-
-//   final CollectionReference _collectionRef =
-//       FirebaseFirestore.instance.collection('usersData');
-
-//   Future<void> _getAllProducts() async {
-//     QuerySnapshot querySnapshot = await _collectionRef.get();
-//     final allProducts = querySnapshot.docs
-//         .where((element) => element.id == _auth.currentUser?.uid)
-//         .map((doc) => doc.data())
-//         .toList();
-
-//     if (allProducts.isNotEmpty) {
-//       if ((allProducts[0] as Map<String, dynamic>)["cart"] != null) {
-//         _products.clear();
-//         for (var map in (allProducts[0] as Map<String, dynamic>)["cart"]) {
-//           _products.add(Product.fromCartMap(
-//               _auth.currentUser?.uid, (map as Map<String, dynamic>)));
-//         }
-//       }
-//     }
-//     notifyListeners();
-//   }
-
-//   Future<void> addOrderData({
-//     name,
-//     category,
-//     price,
-//     image,
-//     rate,
-//     color,
-//     isFav,
-//     size,
-//     quantityInCart,
-//   }) async {
-//     CollectionReference users =
-//         FirebaseFirestore.instance.collection('usersData');
-//     DocumentReference userDocRef = users.doc(_auth.currentUser?.uid);
-//     CollectionReference ordersCollection = userDocRef.collection('a');
-//     return ordersCollection.doc('order1').update({
-//       'name': name,
-//       'category': category,
-//       'price': price,
-//       'image': image,
-//       'color': color,
-//       'rate': rate,
-//     });
-//   }
-// }

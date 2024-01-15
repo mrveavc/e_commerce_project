@@ -56,31 +56,67 @@ class $AssetsIconsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
-  /// File path: assets/images/aksesuar.jpg
-  AssetGenImage get aksesuar =>
-      const AssetGenImage('assets/images/aksesuar.jpg');
-
   /// File path: assets/images/avatar.jpg
   AssetGenImage get avatar => const AssetGenImage('assets/images/avatar.jpg');
 
-  /// File path: assets/images/cocuk-giyim.webp
+  /// File path: assets/images/cocuk-giyim.jpg
   AssetGenImage get cocukGiyim =>
-      const AssetGenImage('assets/images/cocuk-giyim.webp');
+      const AssetGenImage('assets/images/cocuk-giyim.jpg');
 
-  /// File path: assets/images/erkek-giyim.webp
+  /// File path: assets/images/erkek-giyim.jpg
   AssetGenImage get erkekGiyim =>
-      const AssetGenImage('assets/images/erkek-giyim.webp');
+      const AssetGenImage('assets/images/erkek-giyim.jpg');
 
   /// File path: assets/images/kadin-giyim.jpg
   AssetGenImage get kadinGiyim =>
       const AssetGenImage('assets/images/kadin-giyim.jpg');
 
+  /// File path: assets/images/kasva-30-indiirm.png
+  AssetGenImage get kasva30Indiirm =>
+      const AssetGenImage('assets/images/kasva-30-indiirm.png');
+
+  /// File path: assets/images/kasva-50-indirim.png
+  AssetGenImage get kasva50Indirim =>
+      const AssetGenImage('assets/images/kasva-50-indirim.png');
+
+  /// File path: assets/images/kasva-slider-foto-1.jpeg
+  AssetGenImage get kasvaSliderFoto1 =>
+      const AssetGenImage('assets/images/kasva-slider-foto-1.jpeg');
+
+  /// File path: assets/images/kasva-slider-foto-2.png
+  AssetGenImage get kasvaSliderFoto2 =>
+      const AssetGenImage('assets/images/kasva-slider-foto-2.png');
+
+  /// File path: assets/images/kasva-slider-foto3.jpg
+  AssetGenImage get kasvaSliderFoto3 =>
+      const AssetGenImage('assets/images/kasva-slider-foto3.jpg');
+
+  /// File path: assets/images/kasva-slider-foto4.jpg
+  AssetGenImage get kasvaSliderFoto4 =>
+      const AssetGenImage('assets/images/kasva-slider-foto4.jpg');
+
+  /// File path: assets/images/kasva-yeni-yil-mesaji.png
+  AssetGenImage get kasvaYeniYilMesaji =>
+      const AssetGenImage('assets/images/kasva-yeni-yil-mesaji.png');
+
   /// File path: assets/images/logo.jpg
   AssetGenImage get logo => const AssetGenImage('assets/images/logo.jpg');
 
   /// List of all assets
-  List<AssetGenImage> get values =>
-      [aksesuar, avatar, cocukGiyim, erkekGiyim, kadinGiyim, logo];
+  List<AssetGenImage> get values => [
+        avatar,
+        cocukGiyim,
+        erkekGiyim,
+        kadinGiyim,
+        kasva30Indiirm,
+        kasva50Indirim,
+        kasvaSliderFoto1,
+        kasvaSliderFoto2,
+        kasvaSliderFoto3,
+        kasvaSliderFoto4,
+        kasvaYeniYilMesaji,
+        logo
+      ];
 }
 
 class Assets {

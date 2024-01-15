@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:e_commerce_project/gen/assets.gen.dart';
 import 'package:e_commerce_project/src/models/product.dart';
 import 'package:e_commerce_project/src/utils/navigation/router/app_router.dart';
 import 'package:e_commerce_project/src/view_model/product_view_model.dart';
@@ -32,6 +33,7 @@ class HomePage extends StatelessWidget implements AutoRouteWrapper {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              _buildTopImage(),
               const Text(
                 'Sizin İçin Seçtiklerimiz',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
@@ -39,12 +41,14 @@ class HomePage extends StatelessWidget implements AutoRouteWrapper {
               const SizedBox(height: 10),
               _buildProductCard(),
               const SizedBox(height: 10),
+              _build2Image(),
               const Text(
                 'Erkek ',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
               _buildCategoryCard(Categories.erkek),
               const SizedBox(height: 10),
+              _buildImageSlider(),
               const Text(
                 'Kadın ',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
@@ -250,6 +254,77 @@ class HomePage extends StatelessWidget implements AutoRouteWrapper {
               ),
             );
           },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildImageSlider() {
+    List<String> imagePaths = [
+      Assets.images.kasvaSliderFoto1.path,
+      Assets.images.kasvaSliderFoto2.path,
+      Assets.images.kasvaSliderFoto3.path,
+      Assets.images.kasvaSliderFoto4.path,
+    ];
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 10, bottom: 10),
+      child: SizedBox(
+        height: 200,
+        width: double.infinity,
+        child: PageView.builder(
+          itemCount: imagePaths.length,
+          itemBuilder: (BuildContext context, int index) {
+            return SizedBox(
+              // width: 100,
+              child: Image.asset(
+                imagePaths[index % 4],
+                fit: BoxFit.contain,
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Padding _build2Image() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 10, bottom: 10),
+      child: Row(
+        children: [
+          Expanded(
+            child: SizedBox(
+              height: 300,
+              child: Image.asset(
+                Assets.images.kasva50Indirim.path,
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
+          Expanded(
+            child: SizedBox(
+              height: 300,
+              child: Image.asset(
+                Assets.images.kasva30Indiirm.path,
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Padding _buildTopImage() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: SizedBox(
+        width: double.infinity,
+        height: 400,
+        child: Image.asset(
+          Assets.images.kasvaYeniYilMesaji.path,
+          fit: BoxFit.contain,
         ),
       ),
     );

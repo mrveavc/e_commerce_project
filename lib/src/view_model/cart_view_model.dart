@@ -14,12 +14,10 @@ class CartViewModel with ChangeNotifier {
     }
   }
 
-  FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
   // final authStore = getIt.get<AuthStore>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  List<Product> _products = [];
-  List<Product> get products => _products;
+  final List<Product> _allProductsInCart = [];
+  List<Product> get products => _allProductsInCart;
 
   String? selectedValue = "";
   void selectedSize(String? value) {
@@ -27,14 +25,34 @@ class CartViewModel with ChangeNotifier {
   }
 
   CartViewModel() {
-    WidgetsBinding.instance
-        .addPostFrameCallback((timeStamp) async => await _getAllProducts());
+    WidgetsBinding.instance.addPostFrameCallback(
+        (timeStamp) async => await getAllProductsInCart());
   }
 
   final CollectionReference _collectionRef =
       FirebaseFirestore.instance.collection('usersData');
 
-  Future<void> _getAllProducts() async {
+  // Future<void> _getAllProducts() async {
+  //   QuerySnapshot querySnapshot = await _collectionRef.get();
+  //   final allProducts = querySnapshot.docs
+  //       .where((element) => element.id == _auth.currentUser?.uid)
+  //       .map((doc) => doc.data())
+  //       .toList();
+
+  //   if (allProducts.isNotEmpty) {
+  //     if ((allProducts[0] as Map<String, dynamic>)["cart"] != null) {
+  //       _products.clear();
+  //       for (var map in (allProducts[0] as Map<String, dynamic>)["cart"]) {
+  //         _products.add(Product.fromCartMap(
+  //             _auth.currentUser?.uid, (map as Map<String, dynamic>)));
+  //       }
+  //     }
+  //   }
+
+  //   notifyListeners();
+  // }
+
+  Future<List<Product>> getAllProductsInCart() async {
     QuerySnapshot querySnapshot = await _collectionRef.get();
     final allProducts = querySnapshot.docs
         .where((element) => element.id == _auth.currentUser?.uid)
@@ -43,20 +61,24 @@ class CartViewModel with ChangeNotifier {
 
     if (allProducts.isNotEmpty) {
       if ((allProducts[0] as Map<String, dynamic>)["cart"] != null) {
-        _products.clear();
+        _allProductsInCart.clear();
         for (var map in (allProducts[0] as Map<String, dynamic>)["cart"]) {
-          _products.add(Product.fromCartMap(
+          _allProductsInCart.add(Product.fromCartMap(
               _auth.currentUser?.uid, (map as Map<String, dynamic>)));
         }
+
+        return _allProductsInCart;
       }
     }
 
     notifyListeners();
+
+    return [];
   }
 
-  Future<void> addCartData(
+  Future<void> addProductToCart(
       {name, category, price, image, rate, color, size, quantityInCart}) async {
-    await _getAllProducts();
+    await getAllProductsInCart();
     CollectionReference users =
         FirebaseFirestore.instance.collection('usersData');
     size = selectedValue;
@@ -75,7 +97,8 @@ class CartViewModel with ChangeNotifier {
                     'image': image,
                     'rate': rate,
                     'color': color,
-                    'size': size,
+                    //'size': size,
+                    'size': {"singleSize": size},
                     'quantityInCart': product.quantityInCart
                   },
                 ])
@@ -95,7 +118,8 @@ class CartViewModel with ChangeNotifier {
                     'image': image,
                     'rate': rate,
                     'color': color,
-                    'size': size,
+                    //'size': size,
+                    'size': {"singleSize": size},
                     'quantityInCart': product.quantityInCart + 1
                   },
                 ])
@@ -103,6 +127,9 @@ class CartViewModel with ChangeNotifier {
               .then((value) => print("Sepete Eklendi"))
               .catchError((error) => print("Sepete Eklenemedi: $error"));
           showToast(message: "Sepete Eklendi");
+
+          // yeni ekledim
+          return;
         } else {
           await users
               .doc(_auth.currentUser?.uid)
@@ -116,7 +143,8 @@ class CartViewModel with ChangeNotifier {
                       'image': image,
                       'rate': rate,
                       'color': color,
-                      'size': size,
+                      //'size': size,
+                      'size': {"singleSize": size},
                       'quantityInCart': quantityInCart
                     },
                   ])
@@ -140,7 +168,8 @@ class CartViewModel with ChangeNotifier {
                   'image': image,
                   'rate': rate,
                   'color': color,
-                  'size': size,
+                  //'size': size,
+                  'size': {"singleSize": size},
                   'quantityInCart': quantityInCart
                 },
               ])
@@ -151,8 +180,7 @@ class CartViewModel with ChangeNotifier {
     }
   }
 
-  Future<void> removeCartData(
-      {name, category, price, image, rate, color, size, quantityInCart}) {
+  Future<void> removeProductFromCart(Product product) {
     CollectionReference users =
         FirebaseFirestore.instance.collection('usersData');
     return users
@@ -161,14 +189,14 @@ class CartViewModel with ChangeNotifier {
           {
             'cart': FieldValue.arrayRemove([
               {
-                'name': name,
-                'category': category,
-                'price': price,
-                'image': image,
-                'rate': rate,
-                'color': color,
-                'size': size,
-                'quantityInCart': quantityInCart
+                'name': product.name,
+                'category': product.category,
+                'price': product.price,
+                'image': product.image,
+                'rate': product.rate,
+                'color': product.color,
+                'size': product.size,
+                'quantityInCart': product.quantityInCart
               },
             ])
           },

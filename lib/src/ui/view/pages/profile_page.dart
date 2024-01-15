@@ -240,7 +240,7 @@ class _ProfilPageState extends State<ProfilPage> {
                     child: const Padding(
                       padding: EdgeInsets.all(6.0),
                       child: Text(
-                        'Aralık 2023 tarihinden Beri Üye',
+                        'Aralık 2023 tarihinden beri üye',
                         textAlign: TextAlign.center,
                         selectionColor: Colors.grey,
                       ),

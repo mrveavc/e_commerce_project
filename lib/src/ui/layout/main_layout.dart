@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce_project/src/constant/_colors.dart';
+import 'package:e_commerce_project/src/utils/navigation/router/app_router.dart';
 import 'package:e_commerce_project/src/view_model/main_layout_view_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:e_commerce_project/gen/assets.gen.dart';
@@ -24,6 +26,7 @@ class MainLayoutPage extends StatefulWidget implements AutoRouteWrapper {
 
 class _MainLayoutPageState extends State<MainLayoutPage> {
   // final authStore = getIt.get<AuthStore>();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -31,15 +34,24 @@ class _MainLayoutPageState extends State<MainLayoutPage> {
       appBar: AppBar(
         surfaceTintColor: Colors.white,
         centerTitle: true,
-        title: Image.asset('assets/images/logo.jpg', width: 110),
+        title: Image.asset(Assets.images.logo.path, width: 110),
 
-        actions: const [
-          Icon(Icons.search),
-          SizedBox(
+        actions: [
+          const Icon(Icons.search),
+          const SizedBox(
             width: 10,
           ),
-          Icon(Icons.person_2_outlined),
-          SizedBox(
+          IconButton(
+            icon: const Icon(Icons.person_outline),
+            onPressed: () {
+              if (_auth.currentUser != null) {
+                context.router.push(const ProfilRoute());
+              } else {
+                context.router.push(const LoginRoute());
+              }
+            },
+          ),
+          const SizedBox(
             width: 10,
           ),
         ],
@@ -61,23 +73,23 @@ class _MainLayoutPageState extends State<MainLayoutPage> {
               _buildBottomNavigationBarItem(
                   isActive: viewModel.selectedIconIndex == 0,
                   assetName: Assets.icons.icHome,
-                  labelText: "Home"),
+                  labelText: "Anasayfa"),
               _buildBottomNavigationBarItem(
                   isActive: viewModel.selectedIconIndex == 1,
                   assetName: Assets.icons.icCategory,
-                  labelText: "Categories"),
+                  labelText: "Kategoriler"),
               _buildBottomNavigationBarItem(
                   isActive: viewModel.selectedIconIndex == 2,
                   assetName: Assets.icons.icFavorite,
-                  labelText: "Favorites"),
+                  labelText: "Favorilerim"),
               _buildBottomNavigationBarItem(
                   isActive: viewModel.selectedIconIndex == 3,
                   assetName: Assets.icons.icShoppingCart,
-                  labelText: "Cart"),
+                  labelText: "Sepetim"),
               _buildBottomNavigationBarItem(
                   isActive: viewModel.selectedIconIndex == 4,
                   assetName: Assets.icons.icPerson,
-                  labelText: "My Account"),
+                  labelText: "Hesabım"),
             ],
 
             // Icon'lar seçilirken default olarak padding almasını engellemek için;

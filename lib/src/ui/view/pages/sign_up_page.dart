@@ -19,9 +19,9 @@ class _SignUpPageState extends State<SignUpPage> {
   String password = "";
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  TextEditingController _usernameController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   bool isSigningUp = false;
 
@@ -44,7 +44,7 @@ class _SignUpPageState extends State<SignUpPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  "Sign Up",
+                  "Yeni Hesap",
                   style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
@@ -52,7 +52,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 FormContainerWidget(
                   controller: _usernameController,
-                  hintText: "Username",
+                  hintText: "Kullanıcı Adı",
                   isPasswordField: false,
                 ),
                 const SizedBox(
@@ -68,7 +68,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 FormContainerWidget(
                   controller: _passwordController,
-                  hintText: "Password",
+                  hintText: "Şifre",
                   isPasswordField: true,
                 ),
                 const SizedBox(
@@ -91,7 +91,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 color: Colors.white,
                               )
                             : const Text(
-                                "Sign Up",
+                                "Kayıt Ol",
                                 style: TextStyle(
                                     fontSize: 18,
                                     color: Colors.white,
@@ -105,7 +105,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Already have an account?"),
+                    const Text("Zaten hesabın var mı?"),
                     const SizedBox(
                       width: 5,
                     ),
@@ -114,7 +114,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           context.router.replace(const LoginRoute());
                         },
                         child: const Text(
-                          "Login",
+                          "Giriş Yap!",
                           style: TextStyle(
                               color: Colors.black, fontWeight: FontWeight.bold),
                         ))

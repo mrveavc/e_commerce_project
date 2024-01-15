@@ -222,7 +222,7 @@ class ProductDetailPage extends StatelessWidget implements AutoRouteWrapper {
                                     : _auth.currentUser == null
                                         ? context.router
                                             .push(const LoginRoute())
-                                        : cartViewModel.addCartData(
+                                        : cartViewModel.addProductToCart(
                                             name: product.name,
                                             price: product.price,
                                             category: product.category,

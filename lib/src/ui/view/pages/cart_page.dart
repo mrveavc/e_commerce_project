@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_commerce_project/src/models/product.dart';
 import 'package:e_commerce_project/src/utils/navigation/router/app_router.dart';
 import 'package:e_commerce_project/src/view_model/cart_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -112,62 +113,45 @@ class _CartPageState extends State<CartPage> {
                   child: ListView.builder(
                     itemCount: cartList.length,
                     itemBuilder: (BuildContext context, int index) {
-                      final Map<String, dynamic> cartDetail = cartList[index];
-                      final String name = cartDetail['name'];
-                      final String category = cartDetail['category'];
-                      final String image = cartDetail['image'];
-                      final double price = cartDetail['price'];
-                      final double rate = cartDetail['rate'];
-                      final String color = cartDetail['color'];
-                      final String size = cartDetail['size'];
-                      final int? quantityInCart = cartDetail['quantityInCart'];
+                      Product product =
+                          Product.fromCartMap(null, cartList[index]);
 
                       return Padding(
                         padding: const EdgeInsets.all(14),
-                        child: Slidable(
-                          key: Key(name),
-                          endActionPane: ActionPane(
-                              motion: const ScrollMotion(),
-                              extentRatio: 0.150,
-                              children: [
-                                SlidableAction(
-                                  onPressed: (context) {
-                                    print("silme slide gerçekleşti");
-
-                                    cartViewModel.removeCartData(
-                                        name: name,
-                                        price: price,
-                                        category: category,
-                                        image: image,
-                                        rate: rate,
-                                        color: color,
-                                        size: size,
-                                        quantityInCart: quantityInCart);
-                                  },
-                                  backgroundColor: Colors.grey.shade300,
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 10),
-                                  icon: Icons.delete,
-                                  foregroundColor: Colors.black,
-                                ),
-                              ]),
-                          child: Column(
-                            children: [
-                              Row(
+                        child: Column(
+                          children: [
+                            Slidable(
+                              key: Key(product.name),
+                              endActionPane: ActionPane(
+                                  motion: const ScrollMotion(),
+                                  extentRatio: 0.150,
+                                  children: [
+                                    SlidableAction(
+                                      onPressed: (context) {
+                                        cartViewModel
+                                            .removeProductFromCart(product);
+                                      },
+                                      backgroundColor: Colors.grey.shade300,
+                                      padding: const EdgeInsets.all(10),
+                                      icon: Icons.delete,
+                                      foregroundColor: Colors.black,
+                                    ),
+                                  ]),
+                              child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Expanded(
                                     flex: 1,
                                     child: Column(
                                       children: [
-                                        Image.network(image),
+                                        Image.network(product.image),
                                         const SizedBox(
                                           height: 8,
                                         ),
                                         Row(
                                           children: [
                                             Text(
-                                              "$quantityInCart Adet ",
+                                              "${product.quantityInCart} Adet ",
                                               style: const TextStyle(
                                                   fontWeight: FontWeight.bold),
                                             ),
@@ -181,7 +165,8 @@ class _CartPageState extends State<CartPage> {
                                   Expanded(
                                     flex: 2,
                                     child: Padding(
-                                      padding: const EdgeInsets.only(left: 10),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 6),
                                       child: SizedBox(
                                         height: 220,
                                         child: Column(
@@ -195,7 +180,7 @@ class _CartPageState extends State<CartPage> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  name,
+                                                  product.name,
                                                   style: const TextStyle(
                                                       height: 1.2,
                                                       fontWeight:
@@ -209,7 +194,8 @@ class _CartPageState extends State<CartPage> {
                                                             fontWeight:
                                                                 FontWeight
                                                                     .bold)),
-                                                    Text(" $size"),
+                                                    Text(
+                                                        " ${product.size["singleSize"]}"),
                                                   ],
                                                 ),
                                                 const SizedBox(height: 6),
@@ -220,7 +206,7 @@ class _CartPageState extends State<CartPage> {
                                                             fontWeight:
                                                                 FontWeight
                                                                     .bold)),
-                                                    Text(" $color"),
+                                                    Text(" ${product.color}"),
                                                   ],
                                                 ),
                                               ],
@@ -230,7 +216,7 @@ class _CartPageState extends State<CartPage> {
                                                   MainAxisAlignment.end,
                                               children: [
                                                 Text(
-                                                  price.toString(),
+                                                  "${product.price} TL",
                                                   style: const TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold),
@@ -244,32 +230,33 @@ class _CartPageState extends State<CartPage> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(width: 8),
-                              const Divider(
-                                color: Colors.black54,
-                              ),
-                            ],
-                          ),
+                            ),
+                            const SizedBox(width: 8),
+                            const Divider(
+                              color: Colors.black54,
+                            ),
+                          ],
                         ),
                       );
                     },
                   ),
                 ),
                 Container(
+                  height: 60,
                   decoration: BoxDecoration(
-                      border: Border.all(
-                          color: const Color.fromARGB(255, 229, 223, 223))),
+                      border: Border.all(color: const Color(0xFFE5DFDF))),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Consumer<CartViewModel>(
                       builder: (context, viewModel, child) => Row(
                         children: [
                           Expanded(
-                            flex: 1,
+                            flex: 2,
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text("Toplam Tutar :"),
+                                const Text("Toplam Tutar"),
                                 Text(
                                   ' ${viewModel.totalPrice.ceilToDouble()} TL',
                                   style: const TextStyle(
@@ -282,7 +269,7 @@ class _CartPageState extends State<CartPage> {
                             ),
                           ),
                           Expanded(
-                            flex: 2,
+                            flex: 3,
                             child: ElevatedButton(
                               style: ButtonStyle(
                                   backgroundColor:

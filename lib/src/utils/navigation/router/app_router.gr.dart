@@ -74,10 +74,11 @@ abstract class _$AppRouter extends RootStackRouter {
       final args = routeData.argsAs<PaymentRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: PaymentPage(
+        child: WrappedRoute(
+            child: PaymentPage(
           key: args.key,
           viewModel: args.viewModel,
-        ),
+        )),
       );
     },
     ProductDetailRoute.name: (routeData) {

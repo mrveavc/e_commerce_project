@@ -50,7 +50,8 @@ class Product with ChangeNotifier {
         rate = double.tryParse((map["rate"] ?? 0.0).toString()) ?? 0.0,
         color = map["color"] ?? "",
         //_selectedSize = map["size"] ?? "",
-        size = {"singleSize": map["size"] ?? ""},
+        //size = {"singleSize": map["size"] ?? ""},
+        size = map["size"] ?? {},
         //size = map["size"] ?? "",
         quantityInCart =
             int.tryParse((map["quantityInCart"] ?? 0).toString()) ?? 0;
@@ -77,7 +78,7 @@ class Product with ChangeNotifier {
       "image": image,
       "color": color,
       "quantityInCart": quantityInCart,
-      "size": size["singleSize"]
+      "size": size
     };
   }
 }

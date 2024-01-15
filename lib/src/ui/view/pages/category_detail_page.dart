@@ -99,7 +99,7 @@ class CategoryDetailPage extends StatelessWidget implements AutoRouteWrapper {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    product.price.toStringAsFixed(2).toString(),
+                                    "${product.price.toStringAsFixed(2)} TL",
                                     style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 14,

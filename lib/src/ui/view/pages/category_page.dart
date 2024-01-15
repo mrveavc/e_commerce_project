@@ -6,6 +6,45 @@ import 'package:flutter/material.dart';
 class CategoryPage extends StatelessWidget {
   const CategoryPage({Key? key}) : super(key: key);
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Kategoriler',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 48),
+          Expanded(
+            child: GridView.count(
+              crossAxisCount: 1,
+              childAspectRatio: 1.4,
+              children: [
+                buildCategoryBox(
+                    'Erkek', 'assets/images/erkek-giyim.jpg', context),
+                buildCategoryBox(
+                    'Kadın', 'assets/images/kadin-giyim.jpg', context),
+                buildCategoryBox(
+                    'Çocuk', 'assets/images/cocuk-giyim.jpg', context),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget buildCategoryBox(
       String title, String imagePath, BuildContext context) {
     return InkWell(
@@ -42,45 +81,6 @@ class CategoryPage extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Kategoriler',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 48),
-          Expanded(
-            child: GridView.count(
-              crossAxisCount: 1,
-              childAspectRatio: 2,
-              children: [
-                buildCategoryBox(
-                    'Erkek', 'assets/images/erkek-giyim.webp', context),
-                buildCategoryBox(
-                    'Kadın', 'assets/images/kadin-giyim.jpg', context),
-                buildCategoryBox(
-                    'Çocuk', 'assets/images/cocuk-giyim.webp', context),
-              ],
-            ),
-          ),
-        ],
       ),
     );
   }
