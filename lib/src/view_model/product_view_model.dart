@@ -17,9 +17,7 @@ class ProductViewModel with ChangeNotifier {
   void _getProducts() async {
     QuerySnapshot<Map<String, dynamic>> snapshot =
         await _firestore.collection("products").get();
-    // await _firestore.collection("products").doc("efgef").update({
-    //         "stock": FieldValue.increment(-1);
-    //       });
+
     for (QueryDocumentSnapshot<Map<String, dynamic>> documentSnapshot
         in snapshot.docs) {
       Product product = Product.fromMap(

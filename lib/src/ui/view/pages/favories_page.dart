@@ -21,7 +21,6 @@ class _FavoriesPageState extends State<FavoriesPage> {
 
   CollectionReference users =
       FirebaseFirestore.instance.collection('usersData');
-  // final authStore = getIt.get<AuthStore>();
 
   @override
   Widget build(BuildContext context) {
@@ -271,7 +270,7 @@ class _FavoriesPageState extends State<FavoriesPage> {
               ],
             );
           }
-        }, // builder:
+        },
       ),
     );
   }

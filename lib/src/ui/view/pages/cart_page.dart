@@ -36,7 +36,6 @@ class _CartPageState extends State<CartPage> {
     return Container(
       color: Colors.white,
       child: StreamBuilder<DocumentSnapshot>(
-        // stream: users.doc(authStore.currentUSer?.uid).snapshots(),
         stream: users.doc(_auth.currentUser?.uid).snapshots(),
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
@@ -345,7 +344,7 @@ class _CartPageState extends State<CartPage> {
               ],
             );
           }
-        }, // builder:
+        },
       ),
     );
   }

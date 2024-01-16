@@ -8,10 +8,7 @@ class AppColor {
   static const orangeColor = Color(0xFFF27B19);
   static const selectedIconColor = Color.fromARGB(255, 0, 0, 0);
   static const unSelectedIconColor = Color.fromARGB(255, 161, 161, 161);
-  //static const unSelectedIconColor = Color.fromARGB(255, 154, 133, 153);
-  // static const unSelectedIconColor = Color.  fromARGB(255, 164, 100, 100);
   static const dividerColor = Color.fromARGB(255, 173, 170, 170);
-
   static const unSelectedTextColor = Color(0xFF969696);
   static const backGroundColor = Color(0xFFFAFAFA);
 }

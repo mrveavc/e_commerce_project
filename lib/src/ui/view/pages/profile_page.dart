@@ -32,9 +32,6 @@ class _ProfilPageState extends State<ProfilPage> {
                     radius: 50,
                   ),
                 ),
-                // const SizedBox(
-                //   height: 10,
-                // ),
                 Text(
                   _auth.currentUser?.email ?? 'Avatar',
                   style: const TextStyle(fontWeight: FontWeight.w600),
@@ -173,7 +170,6 @@ class _ProfilPageState extends State<ProfilPage> {
                     ],
                   ),
                 ),
-
                 ListView(
                   shrinkWrap: true,
                   children: const [
@@ -189,7 +185,6 @@ class _ProfilPageState extends State<ProfilPage> {
                     )
                   ],
                 ),
-
                 GestureDetector(
                   onTap: () {
                     _auth.signOut();
@@ -205,7 +200,6 @@ class _ProfilPageState extends State<ProfilPage> {
                       child: Container(
                         width: double.infinity,
                         height: 45,
-                        // width: 200,
                         decoration: BoxDecoration(
                             color: Colors.white,
                             border: Border.all(color: Colors.black, width: 1),

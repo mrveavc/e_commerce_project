@@ -276,7 +276,6 @@ class HomePage extends StatelessWidget implements AutoRouteWrapper {
           itemCount: imagePaths.length,
           itemBuilder: (BuildContext context, int index) {
             return SizedBox(
-              // width: 100,
               child: Image.asset(
                 imagePaths[index % 4],
                 fit: BoxFit.contain,

@@ -30,10 +30,6 @@ class PaymentPage extends StatelessWidget implements AutoRouteWrapper {
       ],
       child: this,
     );
-    // return ChangeNotifierProvider(
-    //   create: (_) => OrderViewModel(),
-    //   child: this,
-    // );
   }
 
   @override
@@ -231,19 +227,6 @@ class PaymentPage extends StatelessWidget implements AutoRouteWrapper {
                                 listen: false);
                             payViewModel.pay(
                                 _formKey.currentState!.validate(), context);
-                            // if (!_formKey.currentState!.validate()) {
-                            //   if()
-                            //   showToast(
-                            //       message:
-                            //           "Lütfen gerekli alanları doldurunuz!");
-                            // } else {
-                            //   context.router.push(const OrderRoute());
-                            //   OrderViewModel orderViewModel =
-                            //       Provider.of<OrderViewModel>(context,
-                            //           listen: false);
-                            //   orderViewModel.addCurrentCartItemsToOrder();
-                            //   print("girdi");
-                            // }
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.black,
@@ -267,62 +250,4 @@ class PaymentPage extends StatelessWidget implements AutoRouteWrapper {
       ),
     );
   }
-
-  // Widget _buildCheckBox() {
-  //   return Checkbox(
-  //     checkColor: Colors.white,
-  //     fillColor: MaterialStateProperty.resolveWith(getColor),
-  //     value: isChecked,
-  //     onChanged: (bool? value) {
-  //       // setState(() {
-  //       //   isChecked = value!;
-  //       // });
-  //     },
-  //   );
-  // }
-
-  // Color getColor(Set<MaterialState> states) {
-  //   const Set<MaterialState> interactiveStates = <MaterialState>{
-  //     MaterialState.pressed,
-  //     MaterialState.hovered,
-  //     MaterialState.focused,
-  //   };
-  //   if (states.any(interactiveStates.contains)) {
-  //     return Colors.blue;
-  //   }
-  //   return Colors.black;
-  // }
 }
-
-// class CheckboxFormField extends FormField<bool> {
-//   CheckboxFormField(
-//       {super.key,
-//       Widget? title,
-//       FormFieldSetter<bool>? onSaved,
-//       FormFieldValidator<bool>? validator,
-//       bool initialValue = false,
-//       bool autovalidate = false})
-//       : super(
-//             onSaved: onSaved,
-//             validator: validator,
-//             initialValue: initialValue,
-//             builder: (FormFieldState<bool> state) {
-//               return CheckboxListTile(
-//                 dense: state.hasError,
-//                 title: title,
-//                 value: state.value,
-//                 onChanged: state.didChange,
-//                 subtitle: state.hasError
-//                     ? Builder(
-//                         builder: (BuildContext context) => Text(
-//                           state.errorText ?? "",
-//                           style: TextStyle(
-//                               color: Theme.of(context).colorScheme.error),
-//                         ),
-//                       )
-//                     : null,
-//                 controlAffinity: ListTileControlAffinity.leading,
-//               );
-//             });
-// }
-

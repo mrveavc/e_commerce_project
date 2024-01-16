@@ -25,7 +25,6 @@ class MainLayoutPage extends StatefulWidget implements AutoRouteWrapper {
 }
 
 class _MainLayoutPageState extends State<MainLayoutPage> {
-  // final authStore = getIt.get<AuthStore>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
@@ -35,7 +34,6 @@ class _MainLayoutPageState extends State<MainLayoutPage> {
         surfaceTintColor: Colors.white,
         centerTitle: true,
         title: Image.asset(Assets.images.logo.path, width: 110),
-
         actions: [
           const Icon(Icons.search),
           const SizedBox(
@@ -55,20 +53,17 @@ class _MainLayoutPageState extends State<MainLayoutPage> {
             width: 10,
           ),
         ],
-        // title: const Text("KASVA"),
       ),
       body: const AutoRouter(),
       bottomNavigationBar: Consumer<MainLayoutViewModel>(
         builder: (context, viewModel, child) {
           return BottomNavigationBar(
             currentIndex: viewModel.selectedIconIndex,
-
             onTap: (currentIndex) {
               viewModel.selectedIconIndex = currentIndex;
 
               viewModel.navigateToSelectedPage(currentIndex, context);
             },
-
             items: [
               _buildBottomNavigationBarItem(
                   isActive: viewModel.selectedIconIndex == 0,
@@ -91,11 +86,8 @@ class _MainLayoutPageState extends State<MainLayoutPage> {
                   assetName: Assets.icons.icPerson,
                   labelText: "Hesabım"),
             ],
-
-            // Icon'lar seçilirken default olarak padding almasını engellemek için;
             type: BottomNavigationBarType.fixed,
             backgroundColor: AppColor.whiteColor,
-
             unselectedFontSize: 12,
             selectedFontSize: 12,
             selectedItemColor: AppColor.selectedIconColor,

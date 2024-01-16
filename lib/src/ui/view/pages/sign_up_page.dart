@@ -139,9 +139,6 @@ class _SignUpPageState extends State<SignUpPage> {
 
     UserCredential user = await _auth.createUserWithEmailAndPassword(
         email: email, password: password);
-    // UserService addUser = UserService();
-
-    // await addUser.addUserData(currentUser: user, userEmail: user?.email);
 
     setState(() {
       isSigningUp = false;

@@ -16,7 +16,6 @@ class OrderViewModel with ChangeNotifier {
   OrderViewModel() {
     WidgetsBinding.instance
         .addPostFrameCallback((timeStamp) async => await getAllOrders());
-    // .addPostFrameCallback((timeStamp) async => await addOrderData());
   }
 
   final CollectionReference collectionRef =

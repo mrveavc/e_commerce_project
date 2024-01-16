@@ -14,7 +14,6 @@ class CartViewModel with ChangeNotifier {
     }
   }
 
-  // final authStore = getIt.get<AuthStore>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final List<Product> _allProductsInCart = [];
   List<Product> get products => _allProductsInCart;
@@ -31,26 +30,6 @@ class CartViewModel with ChangeNotifier {
 
   final CollectionReference _collectionRef =
       FirebaseFirestore.instance.collection('usersData');
-
-  // Future<void> _getAllProducts() async {
-  //   QuerySnapshot querySnapshot = await _collectionRef.get();
-  //   final allProducts = querySnapshot.docs
-  //       .where((element) => element.id == _auth.currentUser?.uid)
-  //       .map((doc) => doc.data())
-  //       .toList();
-
-  //   if (allProducts.isNotEmpty) {
-  //     if ((allProducts[0] as Map<String, dynamic>)["cart"] != null) {
-  //       _products.clear();
-  //       for (var map in (allProducts[0] as Map<String, dynamic>)["cart"]) {
-  //         _products.add(Product.fromCartMap(
-  //             _auth.currentUser?.uid, (map as Map<String, dynamic>)));
-  //       }
-  //     }
-  //   }
-
-  //   notifyListeners();
-  // }
 
   Future<List<Product>> getAllProductsInCart() async {
     QuerySnapshot querySnapshot = await _collectionRef.get();
@@ -97,7 +76,6 @@ class CartViewModel with ChangeNotifier {
                     'image': image,
                     'rate': rate,
                     'color': color,
-                    //'size': size,
                     'size': {"singleSize": size},
                     'quantityInCart': product.quantityInCart
                   },
@@ -118,7 +96,6 @@ class CartViewModel with ChangeNotifier {
                     'image': image,
                     'rate': rate,
                     'color': color,
-                    //'size': size,
                     'size': {"singleSize": size},
                     'quantityInCart': product.quantityInCart + 1
                   },
@@ -128,7 +105,6 @@ class CartViewModel with ChangeNotifier {
               .catchError((error) => print("Sepete Eklenemedi: $error"));
           showToast(message: "Sepete Eklendi");
 
-          // yeni ekledim
           return;
         } else {
           await users
@@ -143,7 +119,6 @@ class CartViewModel with ChangeNotifier {
                       'image': image,
                       'rate': rate,
                       'color': color,
-                      //'size': size,
                       'size': {"singleSize": size},
                       'quantityInCart': quantityInCart
                     },
@@ -168,7 +143,6 @@ class CartViewModel with ChangeNotifier {
                   'image': image,
                   'rate': rate,
                   'color': color,
-                  //'size': size,
                   'size': {"singleSize": size},
                   'quantityInCart': quantityInCart
                 },
